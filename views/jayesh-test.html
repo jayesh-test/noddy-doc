@@ -1,0 +1,42 @@
+
+<html><head><title>Jayesh Sapkale : Nodler : noddy-app</title> <meta http-equiv="content-type" content="text/html; charset=utf-8"/> <meta property="og:title" content="jayesh sapkale"/> <meta name="description" content="jayesh sapkale,web developer,And college drop out."/> <meta name="keywords" content="jayesh sapkale,web developer , nodler"/> <meta name="google-site-verification" content="gct6Obad0VumwFzF2j_jn1b6__beHQW3qE8U703zYXU"/>
+<link rel="shortcut icon" type="image/png" href="/images/favicon.png"/>
+</head>
+
+<body>
+
+<h3>Author:Jayesh Sapkale; this page is about memory consumption of an app deployed on heroku system</h3>
+
+<h4>Total Memory</h4>
+<p>Total memory in bytes : <%-total_memory%></p>
+<p>Total memory in KB : <%-total_memory/1024%></p>
+<p>Total memory in MB : <%-total_memory/1024/1024%></p>
+<p>Total memory in GB : <%-total_memory/1024/1024/1024%></p>
+
+
+
+<h4>Free Memory</h4>
+<p>Free memory in bytes : <%-freemem%></p>
+<p>Free memory in KB : <%-freemem/1024%></p>
+<p>Free memory in MB : <%-freemem/1024/1024%></p>
+<p>Free memory in GB : <%-freemem/1024/1024/1024%></p>
+
+
+
+
+<h4>CPU load avg</h4>
+<p><%=inspect(cpuavg)%></p>
+
+
+<h4>System uptime </h4>
+<p><%=inspect(uptime)%> Seconds</p>
+
+
+<h4>CPU</h4>
+<pre>Total cpu(s):<%-_CPU_.length%></pre>
+<pre><%=inspect(_CPU_)%></pre>
+
+</body>
+
+</body>
+</html>

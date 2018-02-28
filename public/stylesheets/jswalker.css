@@ -1,0 +1,77 @@
+
+@font-face {font-family: 'my-font'; font-style: normal; font-weight: normal; src:url("font/font-1.woff2") format("woff2"); }
+
+body{font-family: "my-font"; top: 0; left: 0; margin: 0; float: left; background-color: #304879; width: 100%; }
+
+#wrapper{height:auto; }
+
+#content{margin: 0 auto; max-width: 960px; }
+
+#inner-content {padding: 48px 30px; margin-bottom: 60px; margin-top:60px; }
+
+.jswalker-block{position: relative; width: 100%; margin:0 0 30px 0; padding:10px; box-sizing:border-box; color:white; }
+.jswalker-block h2{color: white; border-bottom: 3px solid white; width: auto; float: left; }
+.jswalker-block .jswalker-info{position: relative; width: 100%;clear: both; height: auto;}
+.jswalker-info li{line-height: 25px;}    
+.mvc-image{    position: relative; width: 100%; height: 400px; text-align: center;}
+.mvc-image img{    width: 100%; height: 100%;}
+
+.jswalker-inner-info{    padding: 0 14px; box-sizing: border-box;}
+
+.important-info{color:yellow;}    
+
+.jswalker-coding-block{padding: 16px; background: #333; color: white; width: 90%; padding: 10; margin: 10px;}
+.jswalker-coding-block li{    letter-spacing: 1px;line-height:20px;}
+
+.jOrgChart .line {
+  height                : 20px;
+  width                 : 4px;
+}
+
+.jOrgChart .down {
+  background-color 		: white;	
+  margin 				: 0px auto;
+}
+
+.jOrgChart .top {
+  border-top          : 3px solid white;
+}
+
+.jOrgChart .left {
+  border-right          : 2px solid white;
+}
+
+.jOrgChart .right {
+  border-left           : 2px solid white;
+}
+
+/* node cell */
+.jOrgChart td {
+  text-align            : center;
+  vertical-align        : top;
+  padding               : 0;
+}
+
+/* The node */
+.jOrgChart .node {
+      background-color: white;
+    display: inline-block;
+    width: auto;
+        color: #333;
+    height: auto;
+    z-index: 10;
+    margin: 0 2px;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+/* jQuery drag 'n drop */
+
+.drag-active {
+  border-style			: dotted !important;
+}
+
+.drop-hover {
+  border-style			: solid !important;
+  border-color 			: #E05E00 !important;
+}
