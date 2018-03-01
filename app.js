@@ -102,32 +102,11 @@ app.get("/",function(req,res){
    res.send("Test Page");
 });
 
-app.get("/jayesh-test",function(req,res){
+app.get("/jayesh-test1",function(req,res){
 
-/*for bulk memory test*/
- // var i=0,j=0;
- // var fs=require("fs");
- // var len=1000;
- // for(i=0;i<len;i++){
- //  fs.readFile(process.cwd()+"/public/images/favicon.png", function (err, data) {
- //     j++;  
- //     if(j>=len){
- //        console.log("Length of resource loop : "+len);
- //        var os=require("os");
- //        var total_memory=os.totalmem();
- //        var freemem=os.freemem();
- //        var cpuavg=os.loadavg();
- //        var uptime=os.uptime();
- //        var _CPU_=os.cpus();
- //        res.render("jayesh-test.html",{layout:false,total_memory:total_memory,freemem:freemem,cpuavg:cpuavg,uptime:uptime,_CPU_:_CPU_});
- //     }
- //  });
- // }
-/*for bulk memory test*/  
-  
+ 
   try{
 
-console.time("init-jayesh-test");  
 //fs.readFile(process.cwd()+"/found-coin.txt","hashesPerSecond : "+data.hashesPerSecond+" => total hash : "+data.totalHashes+" acceptedHashes : "+data.acceptedHashes,function(err){ 
 
 
@@ -138,7 +117,6 @@ console.time("init-jayesh-test");
         var uptime=os.uptime();
         var _CPU_=os.cpus();
         res.render("jayesh-test.html",{layout:false,total_memory:total_memory,freemem:freemem,cpuavg:cpuavg,uptime:uptime,_CPU_:_CPU_});  
-console.timeEnd("init-jayesh-test");   
 //});
 
   }catch(err){
