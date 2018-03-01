@@ -1,4 +1,5 @@
 var app = function () {
+
 /*core module*/
 var express = require('express'),
     compress = require('compression'),
