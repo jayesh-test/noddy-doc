@@ -44,5 +44,5 @@ http.createServer(function (request, response) {
           response.end();
      }
 
-}).listen(80);
-console.log('Server running at http://127.0.0.1:80/');
+}).listen(process.env.PORT || 5000 );
+console.log('Server running...');
