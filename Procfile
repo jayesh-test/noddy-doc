@@ -1,1 +1,1 @@
-web: node --expose-gc start.js
+web: npm start --expose-gc 
