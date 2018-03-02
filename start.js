@@ -12,7 +12,6 @@ require('speedtest-net')().on('downloadspeed', speed => {
   console.log('Download speed:', (speed * 125).toFixed(2), 'KB/s');
 });
 
-
 http.createServer(function (request, response) {
      
      var queryData = url.parse(request.url, true).query;
