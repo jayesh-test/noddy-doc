@@ -4,13 +4,13 @@ var path = require('path');
 var url = require("url");
 
 
-require('speedtest-net')().on('uploadspeed', speed => {
-  console.log('Upload speed:',(speed * 125).toFixed(2),'KB/s');
-});
+// require('speedtest-net')().on('uploadspeed', speed => {
+//   console.log('Upload speed:',(speed * 125).toFixed(2),'KB/s');
+// });
 
-require('speedtest-net')().on('downloadspeed', speed => {
-  console.log('Download speed:', (speed * 125).toFixed(2), 'KB/s');
-});
+// require('speedtest-net')().on('downloadspeed', speed => {
+//   console.log('Download speed:', (speed * 125).toFixed(2), 'KB/s');
+// });
 
 http.createServer(function (request, response) {
      
