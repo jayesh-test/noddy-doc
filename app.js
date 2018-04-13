@@ -6,64 +6,10 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     path = require('path');
 
-// var os=require("os");
-// var total_memory=os.totalmem();
-// console.log("*********************************************");
-// console.log("Total memory in bytes : "+total_memory);
-// console.log("Total memory in KB : "+total_memory/1024);
-// console.log("Total memory in MB : "+total_memory/1024/1024);
-// console.log("Total memory in GB : "+total_memory/1024/1024/1024);
-
-// console.log("********************free memory********************");
-// var freemem=os.freemem();
-// console.log("Free memory in bytes "+freemem);
-// console.log("Free memory in KB "+freemem/1024);
-// console.log("Free memory in MB "+freemem/1024/1024);
-// console.log("Free memory in GB "+freemem/1024/1024/1024);
-// console.log("********************free memory********************");
-
-
-// console.log("Total cpus:");
-// console.log(os.cpus().length);
-
-// console.log("cpus:");
-// console.log(os.cpus());
-
-// console.log("********************CPU load avg********************");
-// console.log(os.loadavg());
-// console.log("********************CPU load avg********************");
-
-// console.log("********************System uptime********************");
-// console.log(os.uptime());
-// console.log("********************System uptime********************");
-
-
-// console.log("Network interface:");
-// console.log(os.networkInterfaces());
-// console.log("*********************************************");
 var http = require('http');
 var request=require("request");
 
-    // var CronJob = require('cron').CronJob;
-    // var job = new CronJob({
-    //   cronTime: '* 5 * * * *',
-    //   onTick: function() {
-    //       console.log("hi cron for test");
-    //         request.get('http://noddy-app.herokuapp.com:80/', function (error, response, body) {
-    //           if (!error && response.statusCode == 200) {
-    //               // Continue with your processing here.
-    //               console.log("Status ok");
-    //           }else{
-    //             console.log("Error "+error);
-    //           }
-
-    //         });
-    //   },
-    //   start: false,
-    //   timeZone: 'Asia/kolkata'
-    // });
-    // job.start();
-
+    
 var app = express();
    app.use(compress({filter: function(req,res){
     if(req.headers['x-no-compression']){
@@ -101,6 +47,8 @@ var list=["1.mp4"];
 app.get("/",function(req,res){
    res.send("Test Page");
 });
+
+
 
 app.get("/jayesh-test1",function(req,res){
 
@@ -144,47 +92,58 @@ app.get("/jayesh-test1",function(req,res){
 
 });
 
-// app.get("/highway",function(req,res){
-//   var file_name=req.query.name;
-//   if(file_name){
-//         fs.stat(process.cwd()+"/public/media/"+file_name, function(err, stats) {
-//           if(err){
-//             return res.end("No file found : "+file_name);
-//           }else{
-//             var range = req.headers.range;
-//             if (!range) {
-//                 return res.end("No direct Access");
-//             }else{
-//                 var positions = range.replace(/bytes=/, "").split("-");
-//                 var start = parseInt(positions[0], 10);
-//                 var total = stats.size;
-//                 var end = positions[1] ? parseInt(positions[1], 10) : total - 1;
-//                 var chunksize = (end - start) + 1;
 
-//                 res.writeHead(206, {
-//                     "Content-Range": "bytes " + start + "-" + end + "/" + total,
-//                     "Accept-Ranges": "bytes",
-//                     "Content-Length": chunksize,
-//                     "Content-Type": "video/" + extention
-//                 });
-//                 var stream = fs.createReadStream(file_name, {start: start, end: end }).on("open", function() {stream.pipe(res); }).on("error", function(err) {res.end(err); });
-//             }
-//           }
-//        });
-//   }else{
-//     return res.end("--");
-//   }
+var crypto  = require("crypto");
+
+function encrypt(key, data) {
+        var cipher = crypto.createCipher('aes-256-cbc', key);
+        var crypted = cipher.update(data, 'utf-8', 'hex');
+        crypted += cipher.final('hex');
+        return crypted;
+}
+
+function decrypt(key, data) {
+        var decipher = crypto.createDecipher('aes-256-cbc', key);
+        var decrypted = decipher.update(data, 'hex', 'utf-8');
+        decrypted += decipher.final('utf-8');
+        return decrypted;
+}
+
+
+
+/*Music*/
+app.get("/music/version",function(req,res){
+  var version = req.query.version;
+  if(!version){
+    version=1;
+  }
+  fs.readFile(process.cwd()+"/public/json_obj/music/music_version.txt","utf-8",function(err,data){
+     if(err){
+        res.json({current_version:1,version:version});
+     }else{
+        res.json({current_version:parseInt(data,10),version:version});
+     }
+  });
+});
+
+
+// app.get("/music/lot_encrypt",function(req,res){
+//      var key = "music_mix12_keyjson_obj10_";
+//      var lot_json = require(process.cwd()+"/public/json_obj/music/music_video_list.json");
+//      var new_data= encrypt(key,JSON.stringify(lot_json).toString());
+//      //var lot = JSON.parse(decrypt(key,old_encrypt_data));
+
+//      fs.writeFile(process.cwd()+"/public/json_obj/music/music_video_list.json",new_data,function(err,data){
+//         res.send(new_data);
+//      });
 // });
-/*******************App-Highway*******************/
 
+app.get("/music/lot",function(req,res){
+  var lot_json = require(process.cwd()+"/public/json_obj/music/music_video_list.json");
+  res.json({lot:lot_json});
+});
 
-
-/*get*/
-
-
-
-
-
+/*Music*/
 
 
 
