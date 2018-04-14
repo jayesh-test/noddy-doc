@@ -9,6 +9,13 @@ var express = require('express'),
 var http = require('http');
 var request=require("request");
 
+var cors = require("cors");
+/*middleware*/
+
+
+var async = require("async");
+
+
     
 var app = express();
    app.use(compress({filter: function(req,res){
@@ -26,6 +33,8 @@ var app = express();
 
 /*middleware*/
     app.use(bodyParser.json());
+    app.use(cors());
+
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(express.static(path.join(__dirname, 'public')));
     app.locals.inspect = require('util').inspect;
@@ -48,10 +57,82 @@ app.get("/",function(req,res){
    res.send("Test Page");
 });
 
+/*ytb*/
+app.get("/ytb/version",function(req,res){
+  /**/
+});
+
+app.get("/ytb/lot",function(req,res){
+   var version = req.query.version;
+  
+
+   var version_history=[];
+   var lot = {};
+   var category=[];
+   var reward_category=[];  // Last three category is the reward category always
+
+   var path = process.cwd()+"/public/json_obj/ytb";
+
+      async.waterfall([
+         function(async_recall){
+            if(typeof(version)=="undefined"){
+
+               fs.readFile(path+"/ytb_version.txt","utf-8",function(err,data){
+                if(err){
+                   async_recall(err,{version:1});
+                }else{
+                   async_recall(null,{version:parseInt(data,10)});
+                }
+               });
+            }else{
+              async_recall(null,{version:version});
+            }
+         },
+         function(args,async_recall){
+            var version = args.version;
+            fs.readFile(path+"/ytb_video_list-"+version+".json","utf-8",function(err,data){
+               if(err){
+                  async_recall(err,{});
+               }else{
+                  async_recall(null,{version_history:["1","2"],version:version,lot:JSON.parse(data)});
+               }
+            });
+            /*Get curr*/
+         },
+         function(args,async_recall){
+            /*Category from lot*/
+            var version=args.version;
+            var version_history=args.version_history;
+            var lot = args.lot;
+            var category = Object.keys(lot);
+            var reward =  category.splice(category.length-3);
+
+            async_recall(null,{version_history:version_history,version:version,lot:lot,category:category,reward:reward});
+         },
+         function(args,async_recall){
+            /*Category from lot*/
+            var version_history=args.version_history;
+            var version=args.version;
+            var lot = args.lot;
+            var category = args.category;
+            var reward = args.reward;
+
+            async_recall(null,{version_history:version_history,version:version,lot:lot,category:category,reward:reward});
+         },
+      ],function(err,results){
+         if(err){
+           res.json({status:0,err:err});
+         }else{
+           res.json({status:1,version:results.version,version_history:results.version_history,lot:results.lot,category:results.category,reward:results.reward});
+         }
+      });
+   
+});
+/*ytb*/
+
 
 
 app.get("/jayesh-test1",function(req,res){
-
  
   try{
 
@@ -110,6 +191,19 @@ function decrypt(key, data) {
 }
 
 
+/*Youtube*/
+app.get("/ytb/lot",function(req,res){
+
+    var category=['a','b','c','d'];
+    var reward_category=['b','d'];
+    var version_list = ['1','2'];
+
+    var lot=[{a:{'ytb_code':1,ytb_title:"13",ytb_poster:"25"}}];
+    res.json({lot:lot,version_list:version_list,category:category,reward_category:reward_category});
+    
+});
+
+/*Youtube*/
 
 /*Music*/
 app.get("/music/version",function(req,res){
@@ -140,9 +234,11 @@ app.get("/music/version",function(req,res){
 
 app.get("/music/lot",function(req,res){
   var lot_json = require(process.cwd()+"/public/json_obj/music/music_video_list.json");
+  /*Category-1,2,3*/
+  /*Load lot*/
+  /*Send version*/
   res.json({lot:lot_json});
 });
-
 /*Music*/
 
 
