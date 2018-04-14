@@ -64,8 +64,6 @@ app.get("/ytb/version",function(req,res){
 
 app.get("/ytb/lot",function(req,res){
    var version = req.query.version;
-  
-
    var version_history=[];
    var lot = {};
    var category=[];
