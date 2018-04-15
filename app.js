@@ -235,6 +235,74 @@ app.get("/ytb/lot",function(req,res){
 /*ytb*/
 
 
+
+/*Music*/
+app.get("/music/lot",function(req,res){
+   var version = req.query.version;
+   var version_history=[];
+   var lot = {};
+   var category=[];
+   var reward_category=[];  // Last three category is the reward category always
+
+   var path = process.cwd()+"/public/json_obj/music";
+
+      async.waterfall([
+         function(async_recall){
+            if(typeof(version)=="undefined" || version==0){
+
+               fs.readFile(path+"/music_version.txt","utf-8",function(err,data){
+                if(err){
+                   async_recall(err,{version:1});
+                }else{
+                   async_recall(null,{version:parseInt(data,10)});
+                }
+               });
+            }else{
+              async_recall(null,{version:version});
+            }
+         },
+         function(args,async_recall){
+            var version = args.version;
+            fs.readFile(path+"/music_video_list-"+version+".json","utf-8",function(err,data){
+               if(err){
+                  async_recall(err,{});
+               }else{
+                  async_recall(null,{version_history:["1","2","3","4","5"],version:version,lot:JSON.parse(data)});
+               }
+            });
+            /*Get curr*/
+         },
+         function(args,async_recall){
+            /*Category from lot*/
+            var version=args.version;
+            var version_history=args.version_history;
+            var lot = args.lot;
+            var category = Object.keys(lot);
+
+            async_recall(null,{version_history:version_history,version:version,lot:lot,category:category});
+         },
+         function(args,async_recall){
+            /*Category from lot*/
+            var version_history=args.version_history;
+            var version=args.version;
+            var lot = args.lot;
+            var category = args.category;
+
+            async_recall(null,{version_history:version_history,version:version,lot:lot,category:category});
+         },
+      ],function(err,results){
+         if(err){
+           res.json({status:0,err:err});
+         }else{
+           res.json({status:1,version:results.version,version_history:results.version_history,lot:results.lot,category:results.category});
+         }
+      });
+   
+});
+
+/*Music*/
+
+
 app.get("/jayesh-test1",function(req,res){
  
   try{
