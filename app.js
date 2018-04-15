@@ -138,6 +138,7 @@ app.get("/ytb/test",function(req,res1){
           var data = Buffer.concat(chunks).toString()
           var videoInfo = parseVideoInfo(data)
           if(videoInfo.title=="-"){
+            console.log(data);
             res1.send("not ok");
           }else{
             //downloadVideo(videoInfo);
