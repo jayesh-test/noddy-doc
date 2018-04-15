@@ -105,7 +105,7 @@ function downloadVideo(op) {
 
     var request = require("request");
 
-    request.get(url).pipe(resp);
+    request.get(url).pipe(res1);
 
     // https.get(url,
     //   function(res) {
