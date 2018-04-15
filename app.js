@@ -7,6 +7,7 @@ var express = require('express'),
     path = require('path');
 
 var http = require('http');
+var https = require('https');
 var request=require("request");
 
 var cors = require("cors");
@@ -58,6 +59,105 @@ app.get("/",function(req,res){
 });
 
 /*ytb*/
+
+function parseVideoInfo(videoInfo) {
+    var rxUrlMap = /url_encoded_fmt_stream_map=([\]\[!"#$%'()*+,.\/:;<=>?@\^_`{|}~-\w]*)/
+
+    var match = videoInfo.match(rxUrlMap);
+
+    if(match){
+      urlmap = unescape(videoInfo.match(rxUrlMap)[1])
+    
+      var rxUrlG = /url=([\]\[!"#$%'()*+,.\/:;<=>?@\^_`{|}~-\w]*)/g
+      var rxUrl  = /url=([\]\[!"#$%'()*+,.\/:;<=>?@\^_`{|}~-\w]*)/
+      var urls = urlmap.match(rxUrlG)
+      urls = map(urls, function(s) {return s.match(rxUrl)[1]} )
+      urls = map(urls, unescape)
+      
+      var rxTitle  = /title=([\]\[!"#$%'()*+,.\/:;<=>?@\^_`{|}~-\w]*)/
+      //var title = argv.o ? argv.o : videoInfo.match(rxTitle)[1]
+      
+      return { title: videoInfo.match(rxTitle)[1], urls: urls }
+    }else{
+      return { title:"-", urls: [] }
+    }
+}
+
+function downloadVideo(op) {
+
+    var videoInfo = op.videoInfo;
+
+    var url = videoInfo.urls[0];
+    var filename = videoInfo.title + ".flv";
+    var res1=op.res1;
+
+
+
+    // fs.writeFile(process.cwd()+"/url_list",JSON.stringify(videoInfo.urls),function(){
+    //   res1.send("Ok");
+    //   return 0;
+    // }); 
+
+    console.log(url);
+
+    var video_html="<video width='400' controls> <source src="+url+" type='video/mp4'> Your browser does not support HTML5 video. </video>";
+    res1.send(video_html);
+    // https.get(url,
+    //   function(res) {
+    //     var stream = fs.createWriteStream(filename)
+    //     res1.pipe(stream)
+    //   })
+      
+    //console.log("Downloading to "+filename);
+}
+
+
+
+function map (a,f) {
+    for(i=0;i<a.length;i++){
+        a[i]= f(a[i])
+    }
+    return a
+}
+
+
+
+app.get("/ytb/test",function(req,res1){
+
+  var http = require('http')
+  var fs = require('fs')
+  //var video_id = "tCddpGLE0aw";
+  //var video_id = "tCddpGLE0aw";
+  var video_id = req.query.id;
+  if(video_id){
+
+       http.get("http://www.youtube.com/get_video_info?video_id="+video_id, function(res) {
+        var chunks = []
+        res.on('data', function(chunk){chunks.push(chunk)
+        }).on('end', function(){
+          var data = Buffer.concat(chunks).toString()
+          var videoInfo = parseVideoInfo(data)
+          if(videoInfo.title=="-"){
+            res1.send("not ok");
+          }else{
+            //downloadVideo(videoInfo);
+            downloadVideo({res1:res1,videoInfo:videoInfo});
+            //res1.send("ok");
+          }
+          
+        })
+      }).on('error', function(e) {
+        console.log("Got error: " + e.message)
+      });
+
+  }
+
+
+
+  
+
+});
+
 app.get("/ytb/version",function(req,res){
   /**/
 });
