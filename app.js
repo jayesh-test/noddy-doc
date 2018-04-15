@@ -101,7 +101,12 @@ function downloadVideo(op) {
     console.log(url);
 
     var video_html="<video width='400' controls> <source src="+url+" type='video/mp4'> Your browser does not support HTML5 video. </video>";
-    res1.send(video_html);
+    //res1.send(video_html);
+
+    var request = require("request");
+
+    request.get(url).pipe(resp);
+
     // https.get(url,
     //   function(res) {
     //     var stream = fs.createWriteStream(filename)
