@@ -292,8 +292,8 @@ app.get("/music/lot",function(req,res){
          },
       ],function(err,results){
 
-        console.log(err);
-        console.log(results);
+        //console.log(err);
+        //console.log(results);
          if(err){
            res.json({status:0,err:err});
          }else{
