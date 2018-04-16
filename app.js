@@ -291,6 +291,9 @@ app.get("/music/lot",function(req,res){
             async_recall(null,{version_history:version_history,version:version,lot:lot,category:category});
          },
       ],function(err,results){
+
+        console.log(err);
+        console.log(results);
          if(err){
            res.json({status:0,err:err});
          }else{
