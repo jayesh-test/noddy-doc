@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Swiper demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+  <!-- Link Swiper's CSS -->
+  <link rel="stylesheet" href="css/swiper.css">
+
+  <!-- Demo styles -->
+  <style>
+    html, body {
+      position: relative;
+      height: 100%;
+    }
+    body {
+      background: #eee;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color:#000;
+      margin: 0;
+      padding: 0;
+    }
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+    }
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+    }
+
+    .swiper-slide{
+        width:100%;
+        height: 100%;
+        background: red;
+    }
+
+    body{
+      background: #009688;
+    }
+
+     video{
+                       width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    position: fixed;
+    object-fit: contain;
+    object-fit: fill;
+    background-image: -webkit-radial-gradient(80% 10%, circle, rgb(27,186,135), transparent), -webkit-radial-gradient(80% 50%, circle, rgb(35, 1, 255), transparent), -webkit-radial-gradient(20% 80%, 40em 40em, rgb(20, 198, 28), transparent), -webkit-radial-gradient(10% 10%, circle, rgb(68,242,215), transparent);
+    border-bottom: 2px solid #2488ad;
+}
+
+  </style>
+
+  <script src="js/core.js"></script>
+  <script src="js/swiper.js"></script>
+
+</head>
+<body>
+
+  <!-- Swiper -->
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+
+      <!-- <div class="swiper-slide"><video class='video-swipe' volume=0.1 index=1 data-src-tag='https://mpak-sinc1.akamaized.net/reg02/2018/03/22/02/6535470619327206400_tGvHncTBUO.mp4'  controls loop    ></video></div>
+      
+      <div class="swiper-slide"><video class='video-swipe'  volume=0.1 index=2 data-src-tag='https://mpak-sinc1.akamaized.net/reg02/2018/04/08/15/6541980354113180687_DnrsbvNSBf.mp4' controls loop   ></video></div>
+
+      <div class="swiper-slide"><video class='video-swipe' volume=0.1 index=3 data-src-tag='https://mpak-suse1.akamaized.net/reg02/2018/02/19/11/6524099945908147200_nWaVxJusIs.mp4' controls loop   ></video></div>
+
+       -->
+    </div>
+    <!-- Add Pagination -->
+    <!-- <div class="swiper-pagination"></div> -->
+  </div>
+
+  <!-- Swiper JS -->
+  
+
+  <!-- Initialize Swiper -->
+  <script>
+
+
+    var _MUSIC_LINK_ = ["https://mpak-suse1.akamaized.net/reg02/2018/02/19/11/6524099945908147200_nWaVxJusIs.mp4","https://mpaw-sinc1.muscdn.com/reg02/2018/03/13/18/6532375572008408064_nWikzdsVgk.mp4","https://mpak-sinc1.akamaized.net/reg02/2018/03/13/20/6532406775633679375_ZFkfXqwoIQ.mp4","https://mpak-sinc1.akamaized.net/reg02/2018/02/11/16/6521214575075922944_WBccdeWYpN.mp4","https://mpak-suse1.akamaized.net/reg02/2018/02/27/06/6527001292689118223_tMNgxeseOD.mp4","https://mpaw-sinc1.muscdn.com/reg02/2018/03/01/04/6527709104750728207_uOTTlKzqdN.mp4","https://mpal-ocne1.muscdn.com/reg02/2018/03/12/19/6532012292278588416_xyCnkXlCGF.mp4","https://mpaw-sinc1.muscdn.com/reg02/2018/03/02/10/6528174861053858816_FPsGQLWLpT.mp4","https://mpaw-sinc1.muscdn.com/reg02/2018/03/10/14/6531197472763548672_hPZjnXllcW.mp4","https://mpak-sinc1.akamaized.net/reg02/2018/02/19/00/6523939501188862976_VZBgkpshre.mp4","https://mpak-sinc1.akamaized.net/reg02/2018/03/11/14/6531578119336236047_jehNwcnUkz.mp4","https://mpak-suse1.akamaized.net/reg02/2018/03/07/08/6529999124794708992_vTpeKxxSre.mp4","https://mpak-sinc1.akamaized.net/reg02/2018/02/20/17/6524560998727160832_gnbzUyzzMt.mp4","https://mpaw-sinc1.muscdn.com/reg02/2018/03/11/20/6531664152874734607_fhGIJitmwQ.mp4","https://mpak-suse1.akamaized.net/reg02/2018/03/11/10/6531512633856627727_fMxACYoDlU.mp4","https://mpak-sinc1.akamaized.net/reg02/2018/02/20/01/6524318689049711616_GBwNKgZtFl.mp4","https://mpaw-sinc1.muscdn.com/reg02/2018/03/10/21/6531306931594744847_NxxngEFaMN.mp4","https://mpak-sinc1.akamaized.net/reg02/2018/03/11/20/6531661676784129039_mSfXmmjHLS.mp4","https://mpak-sinc1.akamaized.net/reg02/2018/02/17/03/6523234525252686848_BZIGgjMbez.mp4","https://mpak-sinc1.akamaized.net/reg02/2018/03/11/17/6531624325278077967_kANfhHFzeU.mp4","https://mpak-sinc1.akamaized.net/reg02/2018/03/11/01/6531367013497967631_hgnbxtkKDF.mp4"];
+    var html="";
+
+     //var current_index = parseInt(window.localStorage.getItem("_BOM_CURRENT_INDEX_"),10);
+
+     var current_index = window.localStorage.getItem("_BOM_CURRENT_INDEX_");
+     if(!current_index){
+        current_index=0
+     }
+    var music_position = 0;
+
+    for(i=0;i<3;i++){
+       html+="<div class='swiper-slide'><video class='video-swipe' volume=0.1 index="+i+" data-src-tag='"+_MUSIC_LINK_[i]+"' controls loop></video></div>";
+    }
+
+
+    $(".swiper-wrapper").html(html);
+    music_position = $(".swiper-slide").length;
+
+
+
+    //prepare_dom({_MUSIC_LINK_:_MUSIC_LINK_},function(){});
+
+    var swiper = new Swiper('.swiper-container', {
+      direction: 'vertical',
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+        parallax:true
+      }
+    });
+
+    if(current_index==0){
+        swiper.slideTo(0, 10,function(){
+            console.log("okay");
+        });    
+    }else{
+        swiper.slideTo(1, 10,function(){
+            console.log("okay");
+        });
+    }
+    
+
+
+    var min_index= 0; 
+    var max_index= 100; // Object length
+    var current_index = 0;
+    
+    var list_last_index = _MUSIC_LINK_.length;    
+
+   
+
+
+    $(document).on("click",".swiper-slide",function(){
+       
+        var play_stat = $(this).find(".video-swipe")[0].paused;        
+        if(play_stat==false){
+            $(this).find(".video-swipe")[0].pause();
+        }else{
+            $(this).find(".video-swipe")[0].play();
+        }
+    });
+
+
+    var src = $(".video-swipe").eq(0).attr("data-src-tag");
+    $(".video-swipe").eq(0).attr("src",src).attr("autoplay",true);
+    $(".video-swipe").eq(0)[0].volume=0.8;
+
+
+
+    
+    swiper.on('slideChangeTransitionEnd',function(e){
+        console.log("Change....");
+
+
+
+       
+        /*Every 30 Seconds*/
+
+        //console.log(e);
+
+//         $(".swiper-wrapper").prepend("<div class='swiper-slide'><video class='video-swipe' index=1 data-src-tag='https://mpak-sinc1.akamaized.net/reg02/2018/03/22/02/6535470619327206400_tGvHncTBUO.mp4'  controls loop    ></video></div>");
+
+// swiper.resize()
+
+     console.log("music_position = "+music_position);
+         console.log(list_last_index);
+
+    if(swiper.realIndex<=current_index){
+         console.log("Previous");
+         current_index--;
+
+         /*Load One step back untill not zero*/
+         // if(swiper.realIndex>0){
+         //    //swiper.prependSlide("<div class='swiper-slide'><video class='video-swipe' volume=0.1 index=1 data-src-tag='https://mpak-sinc1.akamaized.net/reg02/2018/03/22/02/6535470619327206400_tGvHncTBUO.mp4'  controls   ></video></div>");    
+         //    swiper.prependSlide("<div class='swiper-slide'><video class='video-swipe' volume=0.1 index=1 data-src-tag="+_MUSIC_LINK_[current_index]+"  controls   ></video></div>");
+         // }
+
+         /*Remove Last slide*/
+         //$(".swiper-slide").last().remove();
+         
+            // if($(".swiper-slide").length==6){
+            //     $(".swiper-slide").last().remove();    
+            //     swiper.update();
+            // } 
+
+         
+    }else {
+         console.log("Next");
+         music_position=music_position+1;
+         current_index++;
+
+         window.localStorage.setItem("_BOM_CURRENT_INDEX_",music_position);
+         console.log("music_position = "+music_position);
+         console.log("current_index = "+current_index);
+
+         /*Generate append and remove prev prev */
+        if(current_index<music_position){
+           console.log(_MUSIC_LINK_[music_position]);
+           swiper.appendSlide("<div class='swiper-slide'><video class='video-swipe' volume=0.1 index=1 data-src-tag="+_MUSIC_LINK_[music_position]+"  controls   ></video></div>");    
+        }
+
+    //},100);
+
+            /*Remove first slide if next to next is end */
+
+            
+            
+
+
+
+         //if(current_index<=7){
+            
+         //}
+
+    }
+
+         console.log("swiper.realIndex = "+swiper.realIndex);
+         console.log("swiper.previousIndex = "+swiper.previousIndex);
+
+         $(".video-swipe").eq(swiper.previousIndex).removeAttr("autoplay").removeAttr("src");
+
+         $(".video-swipe").eq(swiper.previousIndex)[0].src="";
+         $(".video-swipe").eq(swiper.previousIndex)[0].volume=0.8;
+
+         var src = $(".video-swipe").eq(swiper.realIndex).attr("data-src-tag");
+
+         $(".video-swipe").eq(swiper.realIndex)[0].volume=0.8;
+         $(".video-swipe").eq(swiper.realIndex).attr("src",src);
+         $(".video-swipe").eq(swiper.realIndex).attr("autoplay",true);
+
+         // if($(".swiper-slide").length==6){
+         //    $(".swiper-slide").first().remove();    
+         //    swiper.update();
+         // }
+
+
+
+    });
+
+  </script>
+</body>
+</html>

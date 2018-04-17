@@ -26,8 +26,10 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
         <link rel="stylesheet" type="text/css" href="css/common.css"> 
         <link rel="stylesheet" type="text/css" href="css/spectre.css">
+        <link rel="stylesheet" type="text/css" href="css/swiper.css">
         <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>Collection of Youtube</title>
+        
+        <title>Handpicked Videos</title>
     </head>
     <body>
           
@@ -133,14 +135,14 @@
 			        	<div class="header-panel">
 
 			                  <div class="left-header-chunk">
-			                    <div class="header-chunk active-header-chunk" tag='collection'>Youtube Collection</div>
+			                    <!-- <div class="header-chunk active-header-chunk" tag='collection'>Home</div> -->
 			                    <!-- <div class="header-chunk" tag='pixy'><i class='fa fa-camera'></i></div> -->
                           <!-- <div class="header-chunk" tag='pixy' id='reward-ad-btn'>Reward</i></div>
                           <div class="header-chunk" tag='pixy' id='inter-ad-btn'>Interstitia</i></div> -->
 
 			                  </div>
 			                  <div class="right-header-chunk" >
-			                    <div class="header-chunk" tag='info'><i class='fa fa-info'></i></div>
+			                    <div class="header-chunk" tag='info'><i class='fa fa-history'></i></div>
 			                  </div>
 			                  
 			            </div>
@@ -148,7 +150,10 @@
                   <div class="page-chunk hide-panel" page-index=2 tag='info'>
                        
 
-                      <div class="version-block-list">
+                      <div class="version-block-list ">
+
+
+                         <!-- <p>Working on version history.</p> -->
                          <div class="version-chunk" href='#confirm-dialog' tag=1>Collection-1</div>
                          <div class="version-chunk" href='#confirm-dialog' tag=2>Collection-2</div>
                          <div class="version-chunk" href='#confirm-dialog' tag=3>Collection-3</div>
@@ -173,141 +178,23 @@
                         <i class='fa fa-spin fa-spinner'></i>
                   </div>
 
+
 			            <div class="page-chunk hide-panel" page-index=2 tag='collection'>
 
-                    <div class="list-ytb-videos">
-                        <div class="video-chunk">
-                          <span class='video-thumbnail'>
-                            <img src='https://i.ytimg.com/vi/hFRud-VX49E/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLAvK5euGNIZ-mxzGJgw4Jt0VsxVuw' />
-                          </span>
-                          <span class='video-title'>BEST OF THE MONTH JANUARY 2018 | THUGLIFE CLIPS by Thuglife Clips 2 months ago 8 minutes, 56 seconds 1,550,183 views</span>
-                        </div> 
+                    <div class="swiper-container">
+                      <div class="swiper-wrapper">
 
-                        <div class="video-chunk">
-                          <span class='video-thumbnail'>
-                            <img src='https://i.ytimg.com/vi/hFRud-VX49E/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLAvK5euGNIZ-mxzGJgw4Jt0VsxVuw' />
-                          </span>
-                          <span class='video-title'>BEST OF THE MONTH JANUARY 2018 | THUGLIFE CLIPS by Thuglife Clips 2 months ago 8 minutes, 56 seconds 1,550,183 views</span>
-                        </div> 
+                            <!-- <div class='swiper-slide'><video   poster='img/poster.jpg' class='video-swipe' volume=0.1  data-src-tag='https://mpak-suse1.akamaized.net/reg02/2018/02/19/11/6524099945908147200_nWaVxJusIs.mp4'  loop></video></div>
 
-                        <div class="video-chunk">
-                          <span class='video-thumbnail'>
-                            <img src='https://i.ytimg.com/vi/hFRud-VX49E/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLAvK5euGNIZ-mxzGJgw4Jt0VsxVuw' />
-                          </span>
-                          <span class='video-title'>BEST OF THE MONTH JANUARY 2018 | THUGLIFE CLIPS by Thuglife Clips 2 months ago 8 minutes, 56 seconds 1,550,183 views</span>
-                        </div> 
-
-                        <div class="video-chunk">
-                          <span class='video-thumbnail'>
-                            <img src='https://i.ytimg.com/vi/hFRud-VX49E/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLAvK5euGNIZ-mxzGJgw4Jt0VsxVuw' />
-                          </span>
-                          <span class='video-title'>BEST OF THE MONTH JANUARY 2018 | THUGLIFE CLIPS by Thuglife Clips 2 months ago 8 minutes, 56 seconds 1,550,183 views</span>
-                        </div> 
-
-                        <div class="video-chunk">
-                          <span class='video-thumbnail'>
-                            <img src='https://i.ytimg.com/vi/hFRud-VX49E/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLAvK5euGNIZ-mxzGJgw4Jt0VsxVuw' />
-                          </span>
-                          <span class='video-title'>BEST OF THE MONTH JANUARY 2018 | THUGLIFE CLIPS by Thuglife Clips 2 months ago 8 minutes, 56 seconds 1,550,183 views</span>
-                        </div> 
+                            <div class='swiper-slide'><video  poster='img/poster.jpg' class='video-swipe' volume=0.1  data-src-tag='https://mpak-suse1.akamaized.net/reg02/2018/02/19/11/6524099945908147200_nWaVxJusIs.mp4'  loop></video></div>
 
 
-                        <div class="video-chunk">
-                          <span class='video-thumbnail'>
-                            <img src='https://i.ytimg.com/vi/hFRud-VX49E/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLAvK5euGNIZ-mxzGJgw4Jt0VsxVuw' />
-                          </span>
-                          <span class='video-title'>BEST OF THE MONTH JANUARY 2018 | THUGLIFE CLIPS by Thuglife Clips 2 months ago 8 minutes, 56 seconds 1,550,183 views</span>
-                        </div> 
+                               <div class='swiper-slide'><video  poster='img/poster.jpg' class='video-swipe' volume=0.1  data-src-tag='https://mpaw-sinc1.muscdn.com/reg02/2018/03/13/18/6532375572008408064_nWikzdsVgk.mp4'  loop></video></div>
+ -->
 
+                      </div>
+                    </div>                  
 
-                        <div class="video-chunk">
-                          <span class='video-thumbnail'>
-                            <img src='https://i.ytimg.com/vi/hFRud-VX49E/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLAvK5euGNIZ-mxzGJgw4Jt0VsxVuw' />
-                          </span>
-                          <span class='video-title'>BEST OF THE MONTH JANUARY 2018 | THUGLIFE CLIPS by Thuglife Clips 2 months ago 8 minutes, 56 seconds 1,550,183 views</span>
-                        </div> 
-
-
-                        <div class="video-chunk">
-                          <span class='video-thumbnail'>
-                            <img src='https://i.ytimg.com/vi/hFRud-VX49E/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLAvK5euGNIZ-mxzGJgw4Jt0VsxVuw' />
-                          </span>
-                          <span class='video-title'>BEST OF THE MONTH JANUARY 2018 | THUGLIFE CLIPS by Thuglife Clips 2 months ago 8 minutes, 56 seconds 1,550,183 views</span>
-                        </div> 
-
-
-                        <div class="video-chunk">
-                          <span class='video-thumbnail'>
-                            <img src='https://i.ytimg.com/vi/hFRud-VX49E/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLAvK5euGNIZ-mxzGJgw4Jt0VsxVuw' />
-                          </span>
-                          <span class='video-title'>BEST OF THE MONTH JANUARY 2018 | THUGLIFE CLIPS by Thuglife Clips 2 months ago 8 minutes, 56 seconds 1,550,183 views</span>
-                        </div> 
-
-
-                        <div class="video-chunk">
-                          <span class='video-thumbnail'>
-                            <img src='https://i.ytimg.com/vi/hFRud-VX49E/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLAvK5euGNIZ-mxzGJgw4Jt0VsxVuw' />
-                          </span>
-                          <span class='video-title'>BEST OF THE MONTH JANUARY 2018 | THUGLIFE CLIPS by Thuglife Clips 2 months ago 8 minutes, 56 seconds 1,550,183 views</span>
-                        </div> 
-
-
-                        <div class="video-chunk">
-                          <span class='video-thumbnail'>
-                            <img src='https://i.ytimg.com/vi/hFRud-VX49E/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLAvK5euGNIZ-mxzGJgw4Jt0VsxVuw' />
-                          </span>
-                          <span class='video-title'>BEST OF THE MONTH JANUARY 2018 | THUGLIFE CLIPS by Thuglife Clips 2 months ago 8 minutes, 56 seconds 1,550,183 views</span>
-                        </div> 
-                    </div>
-
-                    <div class='picture-footer-block'>
-                            <div class='pic-foot-block'>
-                              <!-- <span class='pic-confirm-btn'>Confirm</span>
-                              <span class='pic-recapture-btn'>Re-Capture</span> -->
-                              <span class='pic-filter-btn'>Category</span>
-                            </div>
-
-                            <div class='pic-foot-filter hide-block'>
-                                
-
-
-                                  <div class="content-block">
-                                    <!-- <img src='img/test.jpg' /> -->
-                                    <span class='category-block active-category' category='funny'> <span class='category-chunk'>Funny</span> </span>
-                                    <span class='category-block'  category='advertisement'> <span class='category-chunk' >Advertisement</span> </span>
-                                    
-                                    <span class='category-block' category='animation_short_movies'> <span class='category-chunk' >Animation-short-movie</span> </span>
-                                    <span class='category-block' category='best_of_comedy_circus'> <span class='category-chunk' >Best-of-comedy-circus</span> </span>
-
-                                    <span class='category-block' category='best_of_kapil_sharma'> <span class='category-chunk' >Best-of-kapilsharma</span> </span>
-                                    <span class='category-block' category='comedy'> <span class='category-chunk' >Comedy</span> </span>
-                                    <span class='category-block' category='emotional'> <span class='category-chunk' >Emotional</span> </span>
-                                    <span class='category-block' category='experiment'> <span class='category-chunk' >Experiment</span> </span>
-
-
-                                    <span class='category-block' category='indian_prank'> <span class='category-chunk' >Indian Prank</span> </span>
-                                    <span class='category-block' category='movie_comedy'> <span class='category-chunk' >Movie Comedy</span> </span>
-
-                                    <span class='category-block' category='prank'> <span class='category-chunk' >Prank</span> </span>
-                                    <span class='category-block' category='short_story'> <span class='category-chunk' >Short Story</span> </span>
-
-                                    <span class='category-block' category='mixed'> <span class='category-chunk' >Mixed</span> </span>
-
-                                    <span class='category-block locked-category-chunk' category='snl'> <span class='category-chunk '  >Unlock</span> </span>
-                                    <span class='category-block locked-category-chunk'  category='snl'> <span class='category-chunk ' >Unlock</span> </span>
-                                    <span class='category-block locked-category-chunk'  category='snl'> <span class='category-chunk ' >Unlock</span> </span>
-                                    
-                                    
-
-
-
-                                  
-                                  </div>
-
-
-
-                            </div>
-                          </div>
 
 			             </div>
 
@@ -327,12 +214,10 @@
 
       <script type="text/javascript" src="cordova.js"></script>	
       <script type="text/javascript" src="js/core.js"></script>
-      <script type="text/javascript" src="js/js-time.js"></script>
-      <script type="text/javascript" src="js/moment.js"></script>
+      <script type="text/javascript" src="js/swiper.js"></script>
+      <script type="text/javascript" src="js/core.js"></script>
       
 
-	   <script type="text/javascript" src="js/filterous.js"></script>
-     <script type="text/javascript" src="js/filterousEffects.js"></script>
 
       <script type="text/javascript" src="js/index.js"></script>
 
