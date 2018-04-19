@@ -86,26 +86,26 @@ function parseVideoInfo(videoInfo) {
 function downloadVideo(op) {
 
     var videoInfo = op.videoInfo;
+    //console.log(videoInfo);
 
     var url = videoInfo.urls[0];
     var filename = videoInfo.title + ".flv";
     var res1=op.res1;
 
-
-
-    // fs.writeFile(process.cwd()+"/url_list",JSON.stringify(videoInfo.urls),function(){
-    //   res1.send("Ok");
-    //   return 0;
-    // }); 
+    fs.writeFile(process.cwd()+"/url_list",JSON.stringify(videoInfo.urls),function(){
+      //res1.send("Ok");
+      //return 0;
+    });
 
     console.log(url);
 
     var video_html="<video width='400' controls> <source src="+url+" type='video/mp4'> Your browser does not support HTML5 video. </video>";
-    //res1.send(video_html);
 
-    var request = require("request");
+    res1.send(video_html);
+    
 
-    request.get(url).pipe(res1);
+    //var request = require("request");
+    //request.get(url).pipe(res1);
 
     // https.get(url,
     //   function(res) {
@@ -127,26 +127,129 @@ function map (a,f) {
 
 
 
-app.get("/ytb/test",function(req,res1){
+
+
+app.get("/ytb/scrape1",function(req,res1){
+
+  var http = require('https')
+  var fs = require('fs')
+
+  https.get("https://pickvideo.net/download?video=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DQ1TXk7ZdiQE",function(res) {
+        var chunks = []
+        res.on('data', function(chunk){chunks.push(chunk)
+        }).on('end', function(){
+
+
+
+          var data = Buffer.concat(chunks).toString()
+          fs.writeFile(process.cwd()+"/pick_video.html",data,function(){
+      //res1.send("Ok");
+      //return 0;
+    }); 
+
+          res1.send(data);
+
+          //console.log(data);
+
+          
+        })
+      }).on('error', function(e) {
+        console.log("Got error: " + e.message)
+      });
+
+
+  
+});
+
+// app.get("/ytb/scrape",function(req,res1){
+
+//   var http = require('http')
+//   var fs = require('fs')
+//   //var video_id = "tCddpGLE0aw";
+//   //var video_id = "tCddpGLE0aw";
+//   var video_id = req.query.id;
+//   if(video_id){
+
+//       var fs = require('fs');
+// var youtubedl = require('youtube-dl');
+// var video = youtubedl('http://www.youtube.com/watch?v='+video_id,
+//   // Optional arguments passed to youtube-dl.
+//   ['--format=18'],
+//   // Additional options can be given for calling `child_process.execFile()`.
+//   { cwd: __dirname });
+
+// // Will be called when the download starts.
+// video.on('info', function(info) {
+//   console.log('Download started');
+//   console.log('filename: ' + info.filename);
+//   console.log('size: ' + info.size);
+// });
+
+// video.pipe(fs.createWriteStream('myvideo.mp4'));
+
+//       //  http.get("http://www.youtube.com/get_video_info?message_from_node_dot_jayesh_at_gmail_dot_com=you_got_me&video_id="+video_id, function(res) {
+//       //   var chunks = []
+//       //   res.on('data', function(chunk){chunks.push(chunk)
+//       //   }).on('end', function(){
+//       //     var data = Buffer.concat(chunks).toString()
+//            var videoInfo = parseVideoInfo(data)
+//       //     if(videoInfo.title=="-"){
+//       //       console.log(data);
+//       //       //res1.send("not ok");
+//       //       res1.send({video_id:video_id,videoInfo:[]});
+//       //     }else{
+//       //       //downloadVideo({videoInfo:videoInfo});
+
+//       //       /*Send this urls to user*/
+//       //       //res1.send({video_id:video_id,videoInfo:videoInfo});
+
+//       //       downloadVideo({res1:res1,videoInfo:videoInfo});
+//       //       //res1.send("ok");
+//       //     }
+          
+//       //   })
+//       // }).on('error', function(e) {
+//       //   console.log("Got error: " + e.message)
+//       // });
+
+//   }
+
+
+
+  
+
+// });
+
+
+app.get("/ytb/scrape",function(req,res1){
 
   var http = require('http')
   var fs = require('fs')
   //var video_id = "tCddpGLE0aw";
   //var video_id = "tCddpGLE0aw";
   var video_id = req.query.id;
+
   if(video_id){
 
+
        http.get("http://www.youtube.com/get_video_info?video_id="+video_id, function(res) {
-        var chunks = []
+          var chunks = [];
         res.on('data', function(chunk){chunks.push(chunk)
+
         }).on('end', function(){
           var data = Buffer.concat(chunks).toString()
-          var videoInfo = parseVideoInfo(data)
+           var videoInfo = parseVideoInfo(data)
           if(videoInfo.title=="-"){
             console.log(data);
-            res1.send("not ok");
+            //res1.send("not ok");
+            res1.send({video_id:video_id,videoInfo:[]});
           }else{
-            //downloadVideo(videoInfo);
+            //downloadVideo({videoInfo:videoInfo});
+
+            /*Send this urls to user*/
+            //res1.send({video_id:video_id,videoInfo:videoInfo});
+            var videoInfo = parseVideoInfo(data)
+
             downloadVideo({res1:res1,videoInfo:videoInfo});
             //res1.send("ok");
           }
@@ -164,9 +267,7 @@ app.get("/ytb/test",function(req,res1){
 
 });
 
-app.get("/ytb/version",function(req,res){
-  /**/
-});
+
 
 app.get("/ytb/lot",function(req,res){
    var version = req.query.version;
