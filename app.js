@@ -428,6 +428,8 @@ app.get("/ytb/scrape",function(req,res1){
                     for(i in doc[0].url){
                       format[i]={link:doc[0].url[i]};
                     }
+
+                    /*Generate links here*/
                     res1.send({status:1,response:{format:format}});
               }else{
                   console.log("First user to pull expire url");
