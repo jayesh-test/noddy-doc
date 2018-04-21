@@ -161,64 +161,115 @@ app.get("/ytb/scrape1",function(req,res1){
   
 });
 
-// app.get("/ytb/scrape",function(req,res1){
+app.get("/ytb/test_mongo",function(req,res1){
 
-//   var http = require('http')
-//   var fs = require('fs')
-//   //var video_id = "tCddpGLE0aw";
-//   //var video_id = "tCddpGLE0aw";
-//   var video_id = req.query.id;
-//   if(video_id){
+  /*Working*/
+   var MongoClient = require('mongodb').MongoClient;
 
-//       var fs = require('fs');
-// var youtubedl = require('youtube-dl');
-// var video = youtubedl('http://www.youtube.com/watch?v='+video_id,
-//   // Optional arguments passed to youtube-dl.
-//   ['--format=18'],
-//   // Additional options can be given for calling `child_process.execFile()`.
-//   { cwd: __dirname });
+  // var db = null;
+  // MongoClient.connect('mongodb://ytb_user_mlab149:ytb_mlab_pwd12@ds247439.mlab.com:47439/ytb_test', function(err,database) {
+  //          if(err){
+  //             res1.send(err);
+  //          }else{
+  //           console.log(err);
+  //           //console.log(database);
+  //           var db1 = database.db('ytb_test');
 
-// // Will be called when the download starts.
-// video.on('info', function(info) {
-//   console.log('Download started');
-//   console.log('filename: ' + info.filename);
-//   console.log('size: ' + info.size);
-// });
+  //            db1.collection('ytb').insert({url:[1,2]},function(err,doc) {
+  //               if(err){
+  //              res1.send(err);
+  //           }else{
 
-// video.pipe(fs.createWriteStream('myvideo.mp4'));
+  //                 db1.collection('ytb').find({}).toArray(function(err,doc) {
+  //                 if(err){
+  //                    res1.send(err);
+  //                 }else{
+  //                   res1.send(JSON.stringify(doc));
+  //                 }
+  //                });
 
-//       //  http.get("http://www.youtube.com/get_video_info?message_from_node_dot_jayesh_at_gmail_dot_com=you_got_me&video_id="+video_id, function(res) {
-//       //   var chunks = []
-//       //   res.on('data', function(chunk){chunks.push(chunk)
-//       //   }).on('end', function(){
-//       //     var data = Buffer.concat(chunks).toString()
-//            var videoInfo = parseVideoInfo(data)
-//       //     if(videoInfo.title=="-"){
-//       //       console.log(data);
-//       //       //res1.send("not ok");
-//       //       res1.send({video_id:video_id,videoInfo:[]});
-//       //     }else{
-//       //       //downloadVideo({videoInfo:videoInfo});
-
-//       //       /*Send this urls to user*/
-//       //       //res1.send({video_id:video_id,videoInfo:videoInfo});
-
-//       //       downloadVideo({res1:res1,videoInfo:videoInfo});
-//       //       //res1.send("ok");
-//       //     }
-          
-//       //   })
-//       // }).on('error', function(e) {
-//       //   console.log("Got error: " + e.message)
-//       // });
-
-//   }
+                    
+  //           }
+  //          });
 
 
 
-  
 
-// });
+  //         }
+  // });
+
+
+
+// db.ytb.update(
+//    {"ytb_code":1},
+//    {"ytb_code":1,test:"1243"},
+//    {
+//      upsert: true     
+//    }
+// )
+
+// MongoClient.connect('mongodb://ytb_user_mlab149:ytb_mlab_pwd12@ds247439.mlab.com:47439/ytb_test', function(err,database) {
+//            if(err){
+//               res1.send(err);
+//            }else{
+//             var db1 = database.db('ytb_test');
+//            db1.collection('ytb').insert({url:[1,2]},function(err,doc) {
+//                 if(err){
+//                res1.send(err);
+//             }else{
+
+//                   db1.collection('ytb').find({}).toArray(function(err,doc) {
+//                   if(err){
+//                      res1.send(err);
+//                   }else{
+//                     res1.send(JSON.stringify(doc));
+//                   }
+//                  });
+
+                    
+//             }
+//            });
+
+
+//           }
+//   });
+
+});
+
+app.get("/ytb/scrape",function(req,res1){
+
+  var https = require('https');
+  var fs = require('fs')
+  //var video_id = "tCddpGLE0aw";
+  //var video_id = "tCddpGLE0aw";
+  var video_id = req.query.id;
+  if(video_id){
+       https.get("https://pickvideo.net/download?video="+video_id,function(res) {
+          var chunks = [];
+          res.on('data', function(chunk){
+              chunks.push(chunk);
+          }).on('end', function(){
+
+              var data = Buffer.concat(chunks).toString();
+              //console.log(data);
+              var cheerio = require('cheerio');
+              var $ = cheerio.load(data);
+              var format = {};
+              var dom = $(".downloadsTable").first().find("tr td:first-child");
+                  dom.each(function(i,val){
+                     format[$(val).html()]={link:$(val).next().next().next().find("a").attr("href"),size:$(val).next().next().html(),format:$(val).next().html()}
+                  });
+
+              /*Search for dom*/
+              //res1.send(data);
+              res1.json({response:format});
+              /*Searh dom for 720p*/
+          });
+       });
+
+   }
+
+});
 
 
 app.get("/ytb/scrape",function(req,res1){
@@ -299,7 +350,27 @@ app.get("/ytb/lot",function(req,res){
                if(err){
                   async_recall(err,{});
                }else{
-                  async_recall(null,{version_history:["1","2"],version:version,lot:JSON.parse(data)});
+
+                  /*Read how many version-file present*/
+                  var dir = process.cwd()+"/public/json_obj/ytb";
+                  var file_list=[];
+
+                  fs.readdir( dir, function(err, list) {
+                    if(err){
+                      async_recall(null,{version_history:[],version:version,lot:JSON.parse(data)});
+                    }else{
+                      var regex = new RegExp("ytb_video_list");
+                      list.forEach( function(item) {
+                        if( regex.test(item) ){ 
+                            //console.log(item);
+                            item =  item.substring(item.indexOf("-")+1,item.indexOf("."));
+                            file_list.push(item);
+                        }
+                      }); 
+                      async_recall(null,{version_history:file_list,version:version,lot:JSON.parse(data)});
+                    }
+                });
+                  //async_recall(null,{version_history:["1","2"],version:version,lot:JSON.parse(data)});
                }
             });
             /*Get curr*/
