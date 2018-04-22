@@ -581,7 +581,7 @@ app.get("/ytb/lot",function(req,res){
                     if(err){
                       async_recall(null,{version_history:[],version:version,lot:JSON.parse(data)});
                     }else{
-                      var regex = new RegExp("ytb_video_list");
+                      var regex = new RegExp("ytb_video_list-");
                       list.forEach( function(item) {
                         if( regex.test(item) ){ 
                             //console.log(item);
@@ -662,7 +662,29 @@ app.get("/music/lot",function(req,res){
                if(err){
                   async_recall(err,{});
                }else{
-                  async_recall(null,{version_history:["1","2","3","4","5"],version:version,lot:JSON.parse(data)});
+
+                  var dir = process.cwd()+"/public/json_obj/music";
+                  var file_list=[];
+
+                  fs.readdir( dir, function(err, list) {
+                    if(err){
+                      async_recall(null,{version_history:[],version:version,lot:JSON.parse(data)});
+                    }else{
+
+                      var regex = new RegExp("music_video_list-");
+                      list.forEach( function(item) {
+                        if( regex.test(item) ){ 
+                            //console.log(item);
+                            item =  item.substring(item.indexOf("-")+1,item.indexOf("."));
+                            file_list.push(item);
+                        }
+                      });
+                      //async_recall(null,{version_history:file_list,version:version,lot:JSON.parse(data)});
+                      async_recall(null,{version_history:file_list,version:version,lot:JSON.parse(data)});
+                    }
+                });
+
+                  
                }
             });
             /*Get curr*/
