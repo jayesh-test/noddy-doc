@@ -401,6 +401,23 @@ MongoClient.connect('mongodb://ytb_user_mlab149:ytb_mlab_pwd12@ds247439.mlab.com
 //    }
 // )
 
+app.get("/ytb/check_version",function(req,res1){
+    /*Check which*/
+
+    var fs = require('fs')
+    var version = req.query.version;
+
+    fs.readFile(path+"/ytb_version.txt","utf-8",function(err,data){
+                if(err){
+                   res1.send({status:1,current_version:1,version:1});
+                }else{
+                   var current_version = parseInt(data,10);
+                   res1.send({status:1,current_version:current_version,version:version});                                                       
+                }
+    });
+
+});
+
 app.get("/ytb/scrape",function(req,res1){
 
   var https = require('https');
@@ -451,7 +468,7 @@ app.get("/ytb/scrape",function(req,res1){
                     }
 
                     /*Push into mongodb*/
-                    mongo_database.collection('ytb').update({"ytb_code":video_id},{"ytb_code":video_id,url:links_url,expire:parseInt(expire_time,10)},{upsert: true },function(err,doc){
+                    mongo_database.collection('ytb').update({"ytb_code":video_id},{"ytb_code":video_id,add_date:Date.now(),url:links_url,expire:parseInt(expire_time,10)},{upsert: true },function(err,doc){
                        if(err){
                          console.log("Fail to push into mongodb");
                          console.log(err);
