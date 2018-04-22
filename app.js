@@ -602,8 +602,10 @@ app.get("/ytb/lot",function(req,res){
          },
       ],function(err,results){
          if(err){
+          console.log(err);
            res.json({status:0,err:err});
          }else{
+          console.log(results);
            res.json({status:1,version:results.version,version_history:results.version_history,lot:results.lot,category:results.category,reward:results.reward});
          }
       });
