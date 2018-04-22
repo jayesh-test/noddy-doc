@@ -411,7 +411,7 @@ app.get("/ytb/scrape",function(req,res1){
   if(video_id){
       
       /*No:Scrape fresh and push into mongodb*/
-      mongo_database.collection('ytb').find({ytb_code:video_id,expire:{$gte:expire_time}}).toArray(function(err,doc){
+      mongo_database.collection('ytb').find({ytb_code:video_id,expire:{$gt:expire_time}}).toArray(function(err,doc){
          if(err){
             scrape_from_youtube(video_id,function(format_obj){
                 console.log(format_obj);
@@ -605,7 +605,6 @@ app.get("/ytb/lot",function(req,res){
           console.log(err);
            res.json({status:0,err:err});
          }else{
-          console.log(results);
            res.json({status:1,version:results.version,version_history:results.version_history,lot:results.lot,category:results.category,reward:results.reward});
          }
       });
