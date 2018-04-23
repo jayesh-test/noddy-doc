@@ -407,6 +407,7 @@ app.get("/ytb/check_version",function(req,res1){
     var fs = require('fs')
     var version = req.query.version;
 
+    var path = process.cwd()+"/public/json_obj/ytb";
     fs.readFile(path+"/ytb_version.txt","utf-8",function(err,data){
                 if(err){
                    res1.send({status:1,current_version:1,version:0});
