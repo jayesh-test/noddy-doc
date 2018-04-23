@@ -409,7 +409,7 @@ app.get("/ytb/check_version",function(req,res1){
 
     fs.readFile(path+"/ytb_version.txt","utf-8",function(err,data){
                 if(err){
-                   res1.send({status:1,current_version:1,version:1});
+                   res1.send({status:1,current_version:1,version:0});
                 }else{
                    var current_version = parseInt(data,10);
                    res1.send({status:1,current_version:current_version,version:version});                                                       
