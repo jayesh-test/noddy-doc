@@ -58,6 +58,42 @@ app.get("/",function(req,res){
    res.send("Test Page");
 });
 
+
+/******************DATE-CHAT********************/
+// var date_men=[];
+// var date_women=[];
+
+// app.get("/date_chat/register",function(req,res){
+//    /**/
+// });
+
+// app.get("/date_chat/pairing",function(req,res){
+//    /**/
+// });
+
+// app.get("/date_chat/message",function(req,res){
+//    /**/
+// });
+
+// app.get("/date_chat/media",function(req,res){
+//    /**/
+// });
+
+// app.get("/date_chat/media",function(req,res){
+// });
+
+// app.get("/date_chat/spot_match",function(req,res){
+//     /*If you match */
+// });
+
+/******************DATE-CHAT********************/
+
+
+
+
+
+
+
 /*ytb*/
 
 function parseVideoInfo(videoInfo) {
