@@ -717,10 +717,10 @@ app.get("/ytb/lot",function(req,res){
 
       async.waterfall([
          function(async_recall){
-            if(typeof(version)=="undefined"){
+            if(typeof(version)=="undefined" || version==0){
 
                async_recall(null,{version:1});
-               
+
                // fs.readFile(path+"/ytb_version.txt","utf-8",function(err,data){
                //  if(err){
                //     async_recall(err,{version:1});
