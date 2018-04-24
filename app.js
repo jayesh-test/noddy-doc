@@ -187,7 +187,7 @@ var fs = require('fs');
 
                /*360p*/
                var p360 = $(".downbuttonstyle[data-itag='18']").attr("href");
-               console.log(p360);
+               //console.log(p360);
 
                if(p360){
                   format['360p']={expire:0,link:p360,format:"mp4"};                  
@@ -573,7 +573,7 @@ app.get("/ytb/scrape",function(req,res1){
       mongo_database.collection('ytb').find({ytb_code:video_id,expire:{$gt:expire_time}}).toArray(function(err,doc){
          if(err){
             scrape_from_youtube(video_id,function(format_obj){
-                console.log(format_obj);
+                //console.log(format_obj);
                 res1.send("Scrape and push");
             });
          }else{
@@ -591,10 +591,10 @@ app.get("/ytb/scrape",function(req,res1){
                     /*Generate links here*/
                     res1.send({status:1,response:{format:format}});
               }else{
-                  console.log("First user to pull expire url");
+                  //console.log("First user to pull expire url");
                   scrape_from_youtube(video_id,function(format_obj){
 
-                    console.log(format_obj);
+                    //console.log(format_obj);
                     //var expire_time = format_obj.format[Object.keys(format_obj.format)[0]].link;
 
                     var expire_link_timstamp_regex=/expire=\d{10}/gmi;
