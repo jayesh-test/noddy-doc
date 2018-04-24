@@ -717,15 +717,17 @@ app.get("/ytb/lot",function(req,res){
 
       async.waterfall([
          function(async_recall){
-            if(typeof(version)=="undefined" || version==0){
+            if(typeof(version)=="undefined"){
 
-               fs.readFile(path+"/ytb_version.txt","utf-8",function(err,data){
-                if(err){
-                   async_recall(err,{version:1});
-                }else{
-                   async_recall(null,{version:parseInt(data,10)});
-                }
-               });
+               async_recall(null,{version:1});
+               
+               // fs.readFile(path+"/ytb_version.txt","utf-8",function(err,data){
+               //  if(err){
+               //     async_recall(err,{version:1});
+               //  }else{
+               //     async_recall(null,{version:parseInt(data,10)});
+               //  }
+               // });
             }else{
               async_recall(null,{version:version});
             }
