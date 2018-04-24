@@ -538,10 +538,31 @@ app.get("/ytb/check_version",function(req,res1){
     var path = process.cwd()+"/public/json_obj/ytb";
     fs.readFile(path+"/ytb_version.txt","utf-8",function(err,data){
                 if(err){
-                   res1.send({status:1,current_version:1,version:0});
+                   res1.send({status:1,current_version:1,version:0,version_history:[]});
                 }else{
-                   var current_version = parseInt(data,10);
-                   res1.send({status:1,current_version:current_version,version:version});                                                       
+
+                   /*Read version counts*/
+                   var dir = process.cwd()+"/public/json_obj/ytb";
+                  var file_list=[];
+
+                  fs.readdir( dir, function(err, list) {
+                    if(err){
+                      async_recall(null,{version_history:[],version:version,lot:JSON.parse(data)});
+                    }else{
+                      var regex = new RegExp("ytb_video_list-");
+                      list.forEach( function(item) {
+                        if( regex.test(item) ){ 
+                            //console.log(item);
+                            item =  item.substring(item.indexOf("-")+1,item.indexOf("."));
+                            file_list.push(item);
+                        }
+                      });
+                      var current_version = parseInt(data,10);
+                      res1.send({status:1,current_version:current_version,version:version,version_history:file_list});                                                       
+                    }
+                });
+
+                   
                 }
     });
 
