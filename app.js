@@ -161,14 +161,12 @@ function map (a,f) {
     return a
 }
 
-
-
 function scrape_from_youtube(video_id,callback) {
 
 var http = require('https');
 var fs = require('fs');
-
-  https.get("https://pickvideo.net/download?video="+video_id,function(res) {
+  
+  https.get("https://video.genyoutube.net/"+video_id,function(res) {
     var chunks = [];
     res.on('data', function(chunk){
       chunks.push(chunk);
@@ -176,32 +174,63 @@ var fs = require('fs');
 
 
               var data = Buffer.concat(chunks).toString();
+
+
+              // fs.writeFile(process.cwd()+"/test.html",data,function(err,data){
+              //   //res1.send(data);
+              //   callback(data);
+              // });
               
-              var cheerio = require('cheerio');
-              var $ = cheerio.load(data);
-              var format = {};
-              var dom = $(".downloadsTable").first().find("tr td:first-child");
-              //var expire_link_timstamp_regex=/(?<=expire=)(.*)\d{10}/gmi;
-              //var expire_link_timstamp_regex=/expire=\d{10}/gmi;
+               var cheerio = require('cheerio');
+               var $ = cheerio.load(data);
+               var format = {};
+
+               /*360p*/
+               var p360 = $(".downbuttonstyle[data-itag='18']").attr("href");
+               console.log(p360);
+
+               if(p360){
+                  format['360p']={expire:0,link:p360,format:"mp4"};                  
+               }
+
+              
 
 
-                  dom.each(function(i,val){
 
-                     //var expire_timestamp_val = $(val).next().next().next().find("a").attr("href");
+               var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
+               console.log(p720);
 
-                      //console.log(expire_timestamp[0]);
+               if(p720){
+                  format['720p']={expire:0,link:p720,format:"mp4"};
+               }
 
-                      format[$(val).html()]={link:$(val).next().next().next().find("a").attr("href"),size:$(val).next().next().html(),format:$(val).next().html()} 
+               callback({format:format});
 
 
-                     // if(expire_timestamp[0]){
-                     //  expire_timestamp=expire_timestamp[0].split("=")[1];
-                     //  format[$(val).html()]={expire:expire_timestamp[0],link:$(val).next().next().next().find("a").attr("href"),size:$(val).next().next().html(),format:$(val).next().html()}
-                     // }else{
-                     //  format[$(val).html()]={expire:0,link:$(val).next().next().next().find("a").attr("href"),size:$(val).next().next().html(),format:$(val).next().html()} 
-                     // }
+
+               //var dom = $(".downloadsTable").first().find("tr td:first-child");
+
+              // //var expire_link_timstamp_regex=/(?<=expire=)(.*)\d{10}/gmi;
+              // //var expire_link_timstamp_regex=/expire=\d{10}/gmi;
+
+
+              //     dom.each(function(i,val){
+
+              //        //var expire_timestamp_val = $(val).next().next().next().find("a").attr("href");
+
+              //         //console.log(expire_timestamp[0]);
+
+              //         format[$(val).html()]={link:$(val).next().next().next().find("a").attr("href"),size:$(val).next().next().html(),format:$(val).next().html()} 
+
+
+              //        // if(expire_timestamp[0]){
+              //        //  expire_timestamp=expire_timestamp[0].split("=")[1];
+              //        //  format[$(val).html()]={expire:expire_timestamp[0],link:$(val).next().next().next().find("a").attr("href"),size:$(val).next().next().html(),format:$(val).next().html()}
+              //        // }else{
+              //        //  format[$(val).html()]={expire:0,link:$(val).next().next().next().find("a").attr("href"),size:$(val).next().next().html(),format:$(val).next().html()} 
+              //        // }
                      
-                  });
+              //     });
 
                     // var expire_timestamp = expire_link_timstamp_regex.exec(format[Object.keys(format)[0]].link);
                     // console.log(expire_timestamp);
@@ -209,7 +238,7 @@ var fs = require('fs');
 
 
                   //console.log(data);
-                  callback({format:format});
+                  //callback({format:format});
                   /*Send*/
 
               /*Search for dom*/
@@ -221,6 +250,69 @@ var fs = require('fs');
 
 
 };
+
+
+
+
+
+// function scrape_from_youtube(video_id,callback) {
+
+// var http = require('https');
+// var fs = require('fs');
+
+//   https.get("https://pickvideo.net/download?video="+video_id,function(res) {
+//     var chunks = [];
+//     res.on('data', function(chunk){
+//       chunks.push(chunk);
+//     }).on('end', function(){
+
+
+//               var data = Buffer.concat(chunks).toString();
+              
+//               var cheerio = require('cheerio');
+//               var $ = cheerio.load(data);
+//               var format = {};
+//               var dom = $(".downloadsTable").first().find("tr td:first-child");
+//               //var expire_link_timstamp_regex=/(?<=expire=)(.*)\d{10}/gmi;
+//               //var expire_link_timstamp_regex=/expire=\d{10}/gmi;
+
+
+//                   dom.each(function(i,val){
+
+//                      //var expire_timestamp_val = $(val).next().next().next().find("a").attr("href");
+
+//                       //console.log(expire_timestamp[0]);
+
+//                       format[$(val).html()]={link:$(val).next().next().next().find("a").attr("href"),size:$(val).next().next().html(),format:$(val).next().html()} 
+
+
+//                      // if(expire_timestamp[0]){
+//                      //  expire_timestamp=expire_timestamp[0].split("=")[1];
+//                      //  format[$(val).html()]={expire:expire_timestamp[0],link:$(val).next().next().next().find("a").attr("href"),size:$(val).next().next().html(),format:$(val).next().html()}
+//                      // }else{
+//                      //  format[$(val).html()]={expire:0,link:$(val).next().next().next().find("a").attr("href"),size:$(val).next().next().html(),format:$(val).next().html()} 
+//                      // }
+                     
+//                   });
+
+//                     // var expire_timestamp = expire_link_timstamp_regex.exec(format[Object.keys(format)[0]].link);
+//                     // console.log(expire_timestamp);
+//                     // console.log(format[Object.keys(format)[0]].link);
+
+
+//                   //console.log(data);
+//                   callback({format:format});
+//                   /*Send*/
+
+//               /*Search for dom*/
+//               //res1.send(data);
+//               //res1.json({response:format});
+//               /*Searh dom for 720p*/
+//           });
+//        });
+
+
+// };
 
 
 
@@ -455,6 +547,19 @@ app.get("/ytb/check_version",function(req,res1){
 
 });
 
+
+// app.get("/ytb/scrape_dummy",function(req,res1){
+
+//   var video_id = req.query.id;
+//   scrape_from_youtube(video_id,function(format_obj){
+//      //console.log(format_obj);
+//      //res1.send(JSON.stringify(format_obj));
+//      res1.send(format_obj);
+//   });
+
+
+// });
+
 app.get("/ytb/scrape",function(req,res1){
 
   var https = require('https');
@@ -488,7 +593,8 @@ app.get("/ytb/scrape",function(req,res1){
               }else{
                   console.log("First user to pull expire url");
                   scrape_from_youtube(video_id,function(format_obj){
-                    //console.log(format_obj);
+
+                    console.log(format_obj);
                     //var expire_time = format_obj.format[Object.keys(format_obj.format)[0]].link;
 
                     var expire_link_timstamp_regex=/expire=\d{10}/gmi;
