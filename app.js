@@ -187,16 +187,13 @@ var fs = require('fs');
 
                /*360p*/
                var p360 = $(".downbuttonstyle[data-itag='18']").attr("href");
-               //console.log(p360);
+               console.log(p360);
 
                if(p360){
                   format['360p']={expire:0,link:p360,format:"mp4"};                  
                }
 
               
-
-
-
                var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
                console.log(p720);
 
