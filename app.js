@@ -615,7 +615,7 @@ app.get("/ytb/scrape",function(req,res1){
                   //console.log("First user to pull expire url");
                   scrape_from_youtube(video_id,function(format_obj){
 
-                    //console.log(format_obj);
+                    console.log(format_obj);
                     //var expire_time = format_obj.format[Object.keys(format_obj.format)[0]].link;
 
                     var expire_link_timstamp_regex=/expire=\d{10}/gmi;
