@@ -796,15 +796,28 @@ app.get("/ytb/scrape",function(req,res1){
 
               if(doc.length>0){
                   /*Someone already push new epire date just use it*/
-                    console.log("use first document");
                     //res1.send(JSON.stringify(doc));
-                    var format={};
-                    for(i in doc[0].url){
-                      format[i]={link:doc[0].url[i]};
+                     var format={};
+                     for(i in doc[0].url){
+                       format[i]={link:doc[0].url[i]};
+                     }
+
+                    var expire_link_timstamp_regex=/expire=\d{10}/gmi;
+                    var expire_timestamp = expire_link_timstamp_regex.exec(format_obj.format[Object.keys(format_obj.format)[0]].link);
+                    var expire_time=expire_timestamp[0].toString().split("=")[1];
+
+                    var links_url = {};
+                    //console.log("expire_time = "+expire_time);
+
+                    for(i in format){
+                        links_url[i]=format[i].link;
                     }
 
+
                     /*Generate links here*/
-                    res1.send({status:1,response:{format:format}});
+                    //res1.send({status:1,response:{format:format}});
+                    console.log("use first document");                    
+                    res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time});
               }else{
                   //console.log("First user to pull expire url");
 
