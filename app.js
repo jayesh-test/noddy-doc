@@ -803,7 +803,7 @@ app.get("/ytb/scrape",function(req,res1){
                      }
 
                     var expire_link_timstamp_regex=/expire=\d{10}/gmi;
-                    var expire_timestamp = expire_link_timstamp_regex.exec(format_obj.format[Object.keys(format_obj.format)[0]].link);
+                    var expire_timestamp = expire_link_timstamp_regex.exec(format[Object.keys(format)[0]].link);
                     var expire_time=expire_timestamp[0].toString().split("=")[1];
 
                     var links_url = {};
