@@ -473,6 +473,8 @@ app.get("/ytb/test_mongo",function(req,res1){
 
 });
 
+var auto_mongo_init=0;
+
 
 /*Mongo*/
  var MongoClient = require('mongodb').MongoClient;
@@ -484,7 +486,13 @@ MongoClient.connect('mongodb://ytb_user_mlab149:ytb_mlab_pwd12@ds247439.mlab.com
   }else{
       console.log("Remote Mongodb connect...");
       mongo_database = database.db('ytb_test');
-      auto_mongo();
+      if(auto_mongo_init==0){
+        auto_mongo_init=1;
+        auto_mongo();
+
+      }
+
+      //
 
   }
 });
