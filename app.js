@@ -59,6 +59,7 @@ app.get("/",function(req,res){
 });
 
 
+
 /******************DATE-CHAT********************/
 // var date_men=[];
 // var date_women=[];
@@ -187,7 +188,7 @@ var fs = require('fs');
 
                /*360p*/
                var p360 = $(".downbuttonstyle[data-itag='18']").attr("href");
-               console.log(p360);
+               //console.log(p360);
 
                if(p360){
                   format['360p']={expire:0,link:p360,format:"mp4"};                  
@@ -195,7 +196,7 @@ var fs = require('fs');
 
               
                var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
-               console.log(p720);
+               //console.log(p720);
 
                if(p720){
                   format['720p']={expire:0,link:p720,format:"mp4"};
@@ -472,17 +473,167 @@ app.get("/ytb/test_mongo",function(req,res1){
 
 
 /*Mongo*/
-var MongoClient = require('mongodb').MongoClient;
+ var MongoClient = require('mongodb').MongoClient;
 var mongo_database = "";
 MongoClient.connect('mongodb://ytb_user_mlab149:ytb_mlab_pwd12@ds247439.mlab.com:47439/ytb_test', function(err,database) {
   if(err){
       mongo_database="";
       console.log(err);
   }else{
-    console.log("Remote Mongodb connect...");
+      console.log("Remote Mongodb connect...");
       mongo_database = database.db('ytb_test');
+
   }
 });
+
+  /*Node-cron*/
+
+        var cron = require('node-cron');
+        cron.schedule('* 05 * * *', function(){
+        //cron.schedule('* * * * * *', function(){
+          console.log("Auto-mongo init");
+            /*Get last version of youtube*/
+
+            /*Get this ids from mongodb and iterate one by one document*/
+
+            /*Store One large query and execute it*/
+            // {video_id:,time.urls:,erc.....}
+
+            async.waterfall([
+               function(recall){
+                  /*Get last chunk of version-system*/
+                      var dir = process.cwd()+"/public/json_obj/ytb";
+                      var file_list=[];
+                      fs.readdir( dir, function(err, list) {
+                        if(err){
+                          async_recall(null,{version_history:[],version:version,lot:JSON.parse(data)});
+                        }else{
+                          var regex = new RegExp("ytb_video_list-");
+                          list.forEach( function(item) {
+                            if( regex.test(item) ){ 
+                                //console.log(item);
+                                item =  item.substring(item.indexOf("-")+1,item.indexOf("."));
+                                file_list.push(item);
+                            }
+                          });
+                          var last_version = file_list[file_list.length-1];
+                          var last_version_file = "ytb_video_list-"+last_version+".json";
+                          //console.log("last_version_file = "+last_version_file);
+                          fs.readFile(dir+"/"+last_version_file,"utf-8",function(err,data){
+                            recall(null,{obj:JSON.parse(data)});
+                          });
+                          
+                          //var current_version = parseInt(data,10);
+                          //res1.send({status:1,current_version:current_version,version:version,version_history:file_list});                                                       
+                        }
+                      });
+               },
+               function(args,recall){
+                  var obj = args.obj;
+
+                  var  ids=[];
+                  ids=Object.keys(obj);
+
+                  //console.log(ids);
+                  mongo_database.collection('ytb').find({ytb_code:{$in:ids}}).toArray(function(err,doc) {
+                    //console.log(doc.length);
+
+                    /*ierate*/
+                    recall(null,{doc:doc});
+
+                  //mongo_database.collection('ytb').find({}).toArray(function(err,doc) {
+                      /*Iterate each data*/
+                  });
+                  /*Get mongodb data according this ids*/
+               },
+               function(args,recall){
+                var doc = args.doc;
+                /**/
+
+                async.eachLimit(doc,1,function(doc_item,each_recall){
+                    /*Scrape from YouTube*/
+
+                    try{
+
+                        scrape_from_youtube(doc_item.ytb_code,function(format_obj){
+
+                              var expire_link_timstamp_regex=/expire=\d{10}/gmi;
+                              var expire_timestamp = expire_link_timstamp_regex.exec(format_obj.format[Object.keys(format_obj.format)[0]].link);
+                              //console.log(expire_timestamp[0].toString());
+                              //console.log(expire_timestamp[0].toString().split("=")[1]);
+                              var expire_time=expire_timestamp[0].toString().split("=")[1];
+
+                              var links_url = {};
+                              //console.log("expire_time = "+expire_time);
+
+                              for(i in format_obj.format){
+                                  links_url[i]=format_obj.format[i].link;
+                              }
+
+                              if(!expire_time){
+                                expire_time=0;
+                              }
+
+                              //console.log(links_url);
+
+                              /*Push into mongodb*/
+                                  mongo_database.collection('ytb').update({"ytb_code":doc_item.ytb_code},{"ytb_code":doc_item.ytb_code,full_date:new Date(),add_date:Date.now(),url:links_url,expire:parseInt(expire_time,expire_time)},{upsert: true },function(err,doc){
+                                     if(err){
+                                       console.log("Fail to push into mongodb "+doc_item.ytb_code);
+                                       console.log(err);
+                                       each_recall();
+                                     }else{
+                                       //console.log("okay auto pushed");
+                                       each_recall();
+                                     }
+                                  });
+
+                      });
+
+                    }catch(err){
+                      console.log(err);
+                    }
+                  
+                    
+                },function(err){
+                    if(err){
+                      console.log(err);
+                      recall(err,{});
+                    }else{
+                      console.log("okay each_recall check database");
+                      recall(null,{});
+                    }
+                });
+                  /*UPdate new links in mongodb one by one iteratin*/
+               }
+            ],function(err,results){
+                if(err){
+                  /**/
+                  console.log("auto-mongo-fail");
+                }else{
+                  /**/
+                  console.log("auto-mongo-success");
+                }
+            });
+
+           
+
+            //mongo_database.collection('ytb').update({"ytb_code":video_id},{"ytb_code":video_id,add_date:Date.now(),url:links_url,expire:parseInt(expire_time,10)},{upsert: true },function(err,doc){
+
+
+//             db.cars.update({_id : {$in: cars}}, 
+//   {$set : {name : req.body[i].name}},
+//   {multi : true},
+//   function(err, docs) {
+//     console.log(docs);
+// });
+
+
+            /**/
+
+        });
+        /*Node-cron*/
+
 
   // var db = null;
   // MongoClient.connect('mongodb://ytb_user_mlab149:ytb_mlab_pwd12@ds247439.mlab.com:47439/ytb_test', function(err,database) {
