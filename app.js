@@ -15,8 +15,6 @@ var cors = require("cors");
 
 
 var async = require("async");
-
-
     
 var app = express();
    app.use(compress({filter: function(req,res){
@@ -161,6 +159,10 @@ function map (a,f) {
     }
     return a
 }
+
+function scrape_from_youtube(video_id,callback) {
+
+};
 
 function scrape_from_youtube(video_id,callback) {
 
@@ -487,19 +489,9 @@ MongoClient.connect('mongodb://ytb_user_mlab149:ytb_mlab_pwd12@ds247439.mlab.com
 });
 
   /*Node-cron*/
-
-        var cron = require('node-cron');
-        cron.schedule('* 05 * * *', function(){
-        //cron.schedule('* * * * * *', function(){
+function auto_mongo(){
           console.log("Auto-mongo init");
-            /*Get last version of youtube*/
-
-            /*Get this ids from mongodb and iterate one by one document*/
-
-            /*Store One large query and execute it*/
-            // {video_id:,time.urls:,erc.....}
-
-            async.waterfall([
+  async.waterfall([
                function(recall){
                   /*Get last chunk of version-system*/
                       var dir = process.cwd()+"/public/json_obj/ytb";
@@ -618,6 +610,23 @@ MongoClient.connect('mongodb://ytb_user_mlab149:ytb_mlab_pwd12@ds247439.mlab.com
 
            
 
+
+
+};
+
+        var cron = require('node-cron');
+        cron.schedule('* 05 * * *', function(){
+        //cron.schedule('* * * * * *', function(){
+            /*Get last version of youtube*/
+
+            /*Get this ids from mongodb and iterate one by one document*/
+
+            /*Store One large query and execute it*/
+            // {video_id:,time.urls:,erc.....}
+
+            auto_mongo();
+
+            
             //mongo_database.collection('ytb').update({"ytb_code":video_id},{"ytb_code":video_id,add_date:Date.now(),url:links_url,expire:parseInt(expire_time,10)},{upsert: true },function(err,doc){
 
 
@@ -632,6 +641,8 @@ MongoClient.connect('mongodb://ytb_user_mlab149:ytb_mlab_pwd12@ds247439.mlab.com
             /**/
 
         });
+
+        auto_mongo();
         /*Node-cron*/
 
 
