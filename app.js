@@ -160,9 +160,6 @@ function map (a,f) {
     return a
 }
 
-function scrape_from_youtube(video_id,callback) {
-
-};
 
 function scrape_from_youtube(video_id,callback) {
 
@@ -570,11 +567,9 @@ function auto_mongo(){
                               for(i in format_obj.format){
                                   links_url[i]=format_obj.format[i].link;
                               }
-
                               if(!expire_time){
                                 expire_time=0;
                               }
-
                               //console.log(links_url);
 
                               /*Push into mongodb*/
@@ -584,7 +579,7 @@ function auto_mongo(){
                                        console.log(err);
                                        each_recall();
                                      }else{
-                                       //console.log("okay auto pushed");
+                                       console.log("okay auto pushed.."+doc_item.ytb_code);
                                        each_recall();
                                      }
                                   });
