@@ -817,7 +817,7 @@ app.get("/ytb/scrape",function(req,res1){
                     /*Generate links here*/
                     //res1.send({status:1,response:{format:format}});
                     console.log("use first document");                    
-                    res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time});
+                    res1.send({status:1,links_url:links_url,response:{format:format},expire_time:expire_time});
               }else{
                   //console.log("First user to pull expire url");
 
