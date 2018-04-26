@@ -484,6 +484,7 @@ MongoClient.connect('mongodb://ytb_user_mlab149:ytb_mlab_pwd12@ds247439.mlab.com
   }else{
       console.log("Remote Mongodb connect...");
       mongo_database = database.db('ytb_test');
+      auto_mongo();
 
   }
 });
@@ -624,7 +625,10 @@ function auto_mongo(){
             /*Store One large query and execute it*/
             // {video_id:,time.urls:,erc.....}
 
-            auto_mongo();
+            if(mongo_database){
+              auto_mongo();  
+            }
+            
 
             
             //mongo_database.collection('ytb').update({"ytb_code":video_id},{"ytb_code":video_id,add_date:Date.now(),url:links_url,expire:parseInt(expire_time,10)},{upsert: true },function(err,doc){
@@ -642,7 +646,7 @@ function auto_mongo(){
 
         });
 
-        auto_mongo();
+        //auto_mongo();
         /*Node-cron*/
 
 
