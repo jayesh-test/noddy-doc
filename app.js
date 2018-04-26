@@ -619,7 +619,7 @@ function auto_mongo(){
 };
 
         var cron = require('node-cron');
-        cron.schedule('* 05 * * *', function(){
+        cron.schedule('* 5 * * *', function(){
         //cron.schedule('* * * * * *', function(){
             /*Get last version of youtube*/
 
