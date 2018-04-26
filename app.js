@@ -573,7 +573,7 @@ function auto_mongo(){
                               //console.log(links_url);
 
                               /*Push into mongodb*/
-                                  mongo_database.collection('ytb').update({"ytb_code":doc_item.ytb_code},{"ytb_code":doc_item.ytb_code,full_date:new Date(),add_date:Date.now(),url:links_url,expire:parseInt(expire_time,expire_time)},{upsert: true },function(err,doc){
+                                  mongo_database.collection('ytb').update({"ytb_code":doc_item.ytb_code},{"ytb_code":doc_item.ytb_code,full_date:new Date(),add_date:Date.now(),url:links_url,expire:parseInt(expire_time,10)},{upsert: true },function(err,doc){
                                      if(err){
                                        console.log("Fail to push into mongodb "+doc_item.ytb_code);
                                        console.log(err);
