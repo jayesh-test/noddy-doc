@@ -747,6 +747,8 @@ app.get("/ytb/check_version",function(req,res1){
 
 // });
 
+
+/*New scrapping-code*/
 app.get("/ytb/scrape",function(req,res1){
 
   var https = require('https');
@@ -755,31 +757,12 @@ app.get("/ytb/scrape",function(req,res1){
   var expire_time = req.query.expire_time;
 
   if(video_id){
-      
+        
+
       /*No:Scrape fresh and push into mongodb*/
-      mongo_database.collection('ytb').find({ytb_code:video_id,expire:{$gt:expire_time}}).toArray(function(err,doc){
+      mongo_database.collection('ytb').find({ytb_code:video_id}).toArray(function(err,doc){
          if(err){
-            scrape_from_youtube(video_id,function(format_obj){
-                //console.log(format_obj);
-                res1.send("Scrape and push");
-            });
-         }else{
-              //console.log(doc);
-
-              if(doc.length>0){
-                  /*Someone already push new epire date just use it*/
-                    console.log("use first document");
-                    //res1.send(JSON.stringify(doc));
-                    var format={};
-                    for(i in doc[0].url){
-                      format[i]={link:doc[0].url[i]};
-                    }
-
-                    /*Generate links here*/
-                    res1.send({status:1,response:{format:format}});
-              }else{
-                  //console.log("First user to pull expire url");
-                  scrape_from_youtube(video_id,function(format_obj){
+             scrape_from_youtube(video_id,function(format_obj){
 
                     console.log(format_obj);
                     //var expire_time = format_obj.format[Object.keys(format_obj.format)[0]].link;
@@ -808,6 +791,53 @@ app.get("/ytb/scrape",function(req,res1){
                     });
                     res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time});
                   });
+         }else{
+              //console.log(doc);
+
+              if(doc.length>0){
+                  /*Someone already push new epire date just use it*/
+                    console.log("use first document");
+                    //res1.send(JSON.stringify(doc));
+                    var format={};
+                    for(i in doc[0].url){
+                      format[i]={link:doc[0].url[i]};
+                    }
+
+                    /*Generate links here*/
+                    res1.send({status:1,response:{format:format}});
+              }else{
+                  //console.log("First user to pull expire url");
+
+                   scrape_from_youtube(video_id,function(format_obj){
+
+                    console.log(format_obj);
+                    //var expire_time = format_obj.format[Object.keys(format_obj.format)[0]].link;
+
+                    var expire_link_timstamp_regex=/expire=\d{10}/gmi;
+                    var expire_timestamp = expire_link_timstamp_regex.exec(format_obj.format[Object.keys(format_obj.format)[0]].link);
+                    //console.log(expire_timestamp[0].toString());
+                    //console.log(expire_timestamp[0].toString().split("=")[1]);
+                    var expire_time=expire_timestamp[0].toString().split("=")[1];
+
+                    var links_url = {};
+                    //console.log("expire_time = "+expire_time);
+
+                    for(i in format_obj.format){
+                        links_url[i]=format_obj.format[i].link;
+                    }
+
+                    /*Push into mongodb*/
+                    mongo_database.collection('ytb').update({"ytb_code":video_id},{"ytb_code":video_id,add_date:Date.now(),url:links_url,expire:parseInt(expire_time,10)},{upsert: true },function(err,doc){
+                       if(err){
+                         console.log("Fail to push into mongodb");
+                         console.log(err);
+                       }else{
+                         console.log("okay pushed");
+                       }
+                    });
+                    res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time});
+                  });
+                 
 
 
                   
@@ -822,7 +852,86 @@ app.get("/ytb/scrape",function(req,res1){
      res1.send({status:0,err:"Video id not passed"});
    }
 });
+/*New scrapping-code*/
 
+/*Old-Scrapping-code*/
+// app.get("/ytb/scrape",function(req,res1){
+
+//   var https = require('https');
+//   var fs = require('fs')
+//   var video_id = req.query.id;
+//   var expire_time = req.query.expire_time;
+
+//   if(video_id){
+        
+
+//       /*No:Scrape fresh and push into mongodb*/
+//       mongo_database.collection('ytb').find({ytb_code:video_id,expire:{$gt:expire_time}}).toArray(function(err,doc){
+//          if(err){
+//             scrape_from_youtube(video_id,function(format_obj){
+//                 //console.log(format_obj);
+//                 res1.send("Scrape and push");
+//             });
+//          }else{
+//               //console.log(doc);
+
+//               if(doc.length>0){
+//                   /*Someone already push new epire date just use it*/
+//                     console.log("use first document");
+//                     //res1.send(JSON.stringify(doc));
+//                     var format={};
+//                     for(i in doc[0].url){
+//                       format[i]={link:doc[0].url[i]};
+//                     }
+
+//                     /*Generate links here*/
+//                     res1.send({status:1,response:{format:format}});
+//               }else{
+//                   //console.log("First user to pull expire url");
+//                   scrape_from_youtube(video_id,function(format_obj){
+
+//                     console.log(format_obj);
+//                     //var expire_time = format_obj.format[Object.keys(format_obj.format)[0]].link;
+
+//                     var expire_link_timstamp_regex=/expire=\d{10}/gmi;
+//                     var expire_timestamp = expire_link_timstamp_regex.exec(format_obj.format[Object.keys(format_obj.format)[0]].link);
+//                     //console.log(expire_timestamp[0].toString());
+//                     //console.log(expire_timestamp[0].toString().split("=")[1]);
+//                     var expire_time=expire_timestamp[0].toString().split("=")[1];
+
+//                     var links_url = {};
+//                     //console.log("expire_time = "+expire_time);
+
+//                     for(i in format_obj.format){
+//                         links_url[i]=format_obj.format[i].link;
+//                     }
+
+//                     /*Push into mongodb*/
+//                     mongo_database.collection('ytb').update({"ytb_code":video_id},{"ytb_code":video_id,add_date:Date.now(),url:links_url,expire:parseInt(expire_time,10)},{upsert: true },function(err,doc){
+//                        if(err){
+//                          console.log("Fail to push into mongodb");
+//                          console.log(err);
+//                        }else{
+//                          console.log("okay pushed");
+//                        }
+//                     });
+//                     res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time});
+//                   });
+
+
+                  
+//                   //res1.send("Scrape and push");
+//                   /*Use*/
+//                   // scrape_from_youtube(ytb_code,function(format_obj){
+//                   // });
+//               }
+//          }
+//       });
+//    }else{
+//      res1.send({status:0,err:"Video id not passed"});
+//    }
+// });
+/*Old scrapping code*/
 
 // app.get("/ytb/scrape",function(req,res1){
 
