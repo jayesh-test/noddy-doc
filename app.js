@@ -886,7 +886,7 @@ app.get("/ytb/scrape",function(req,res1){
 
       /*No:Scrape fresh and push into mongodb*/
 
-      mongo_database.collection('ytb').find({ytb_code:video_id,}).toArray(function(err,doc){
+      mongo_database.collection('ytb').find({ytb_code:video_id}).toArray(function(err,doc){
         //mongo_database.collection('ytb').find({ytb_code:video_id}).toArray(function(err,doc){
          if(err){
              scrape_from_youtube(video_id,function(format_obj){
