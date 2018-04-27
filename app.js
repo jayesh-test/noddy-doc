@@ -620,26 +620,26 @@ function auto_mongo(){
 
 };
 
-        var cron = require('node-cron');
-        cron.schedule('* 5 * * *', function(){
-        //cron.schedule('* * * * * *', function(){
-            /*Get last version of youtube*/
+        // var cron = require('node-cron');
+        // cron.schedule('* 5 * * *', function(){
+        // //cron.schedule('* * * * * *', function(){
+        //     /*Get last version of youtube*/
 
-            /*Get this ids from mongodb and iterate one by one document*/
+        //     /*Get this ids from mongodb and iterate one by one document*/
 
-            /*Store One large query and execute it*/
-            // {video_id:,time.urls:,erc.....}
+        //     /*Store One large query and execute it*/
+        //     // {video_id:,time.urls:,erc.....}
 
-            if(mongo_database){
+        //     if(mongo_database){
 
-              if(auto_mongo_init==1){
-              /*Not allow*/
-                  console.log("Auto mongo init already fired");
-               }else{
-                  auto_mongo();  
-               }
+        //       if(auto_mongo_init==1){
+        //       /*Not allow*/
+        //           console.log("Auto mongo init already fired");
+        //        }else{
+        //           auto_mongo();  
+        //        }
               
-            }
+        //     }
             
 
             
@@ -656,7 +656,7 @@ function auto_mongo(){
 
             /**/
 
-        });
+        //});
 
         //auto_mongo();
         /*Node-cron*/
