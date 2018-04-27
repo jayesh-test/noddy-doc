@@ -225,7 +225,7 @@ function scrape_from_youtube(video_id,callback) {
       }
 
       format['360p']={expire:0,link:p360,format:"mp4"};
-      callback({format:format});
+      callback({status:1,format:format});
 
     });
 
