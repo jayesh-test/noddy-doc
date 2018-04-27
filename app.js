@@ -611,10 +611,7 @@ function auto_mongo(){
                   console.log("auto-mongo-success");
                 }
             });
-
-           
-
-
+          
 
 };
 
@@ -764,7 +761,7 @@ app.get("/ytb/scrape",function(req,res1){
          if(err){
              scrape_from_youtube(video_id,function(format_obj){
 
-                    console.log(format_obj);
+                    //console.log(format_obj);
                     //var expire_time = format_obj.format[Object.keys(format_obj.format)[0]].link;
 
                     var expire_link_timstamp_regex=/expire=\d{10}/gmi;
@@ -783,10 +780,10 @@ app.get("/ytb/scrape",function(req,res1){
                     /*Push into mongodb*/
                     mongo_database.collection('ytb').update({"ytb_code":video_id},{"ytb_code":video_id,add_date:Date.now(),url:links_url,expire:parseInt(expire_time,10)},{upsert: true },function(err,doc){
                        if(err){
-                         console.log("Fail to push into mongodb");
+                         //console.log("Fail to push into mongodb");
                          console.log(err);
                        }else{
-                         console.log("okay pushed");
+                         //console.log("okay pushed");
                        }
                     });
                     res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time});
@@ -816,14 +813,14 @@ app.get("/ytb/scrape",function(req,res1){
 
                     /*Generate links here*/
                     //res1.send({status:1,response:{format:format}});
-                    console.log("use first document");                    
+                    //console.log("use first document");                    
                     res1.send({status:1,links_url:links_url,response:{format:format},expire_time:expire_time});
               }else{
                   //console.log("First user to pull expire url");
 
                    scrape_from_youtube(video_id,function(format_obj){
 
-                    console.log(format_obj);
+                    //console.log(format_obj);
                     //var expire_time = format_obj.format[Object.keys(format_obj.format)[0]].link;
 
                     var expire_link_timstamp_regex=/expire=\d{10}/gmi;
@@ -845,7 +842,7 @@ app.get("/ytb/scrape",function(req,res1){
                          console.log("Fail to push into mongodb");
                          console.log(err);
                        }else{
-                         console.log("okay pushed");
+                         //console.log("okay pushed");
                        }
                     });
                     res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time});
