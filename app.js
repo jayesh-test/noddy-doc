@@ -108,10 +108,7 @@ function parseVideoInfo(videoInfo) {
       var urls = urlmap.match(rxUrlG)
       urls = map(urls, function(s) {return s.match(rxUrl)[1]} )
       urls = map(urls, unescape)
-      
       var rxTitle  = /title=([\]\[!"#$%'()*+,.\/:;<=>?@\^_`{|}~-\w]*)/
-      //var title = argv.o ? argv.o : videoInfo.match(rxTitle)[1]
-      
       return { title: videoInfo.match(rxTitle)[1], urls: urls }
     }else{
       return { title:"-", urls: [] }
@@ -161,110 +158,190 @@ function map (a,f) {
 }
 
 
+app.get("/ytb/test_ytb_scrap",function(req,res1){
+
+var video_id= req.query.video_id;
+
+  var http = require('https');
+  var fs = require('fs');
+
+
+        http.get("https://www.youtube.com/get_video_info?video_id="+video_id, function(res) {
+          var chunks = []
+          res.on('data', function(chunk){chunks.push(chunk)
+          }).on('end', function(){
+            var data = Buffer.concat(chunks).toString()
+            var videoInfo = parseVideoInfo(data)
+
+            var urls = videoInfo.urls;
+
+      //console.log(urls);
+
+
+      var format = {};
+      var p360 = "";
+
+
+
+      for(i in urls){
+          if(urls[i].indexOf("itag=18")>-1){
+              p360=urls[i];
+          }
+      }
+
+      format['360p']={expire:0,link:p360,format:"mp4"};
+      
+      res1.send("<video src='"+p360+"' autoplay ></video>");
+
+    });
+  });
+
+});
+
 function scrape_from_youtube(video_id,callback) {
-  console.log("scrape_from_youtube");
+  var http = require('https');
+  var fs = require('fs');
 
-var http = require('https');
-var fs = require('fs');
+
+        http.get("https://www.youtube.com/get_video_info?video_id="+video_id, function(res) {
+          var chunks = []
+          res.on('data', function(chunk){chunks.push(chunk)
+          }).on('end', function(){
+            var data = Buffer.concat(chunks).toString()
+            var videoInfo = parseVideoInfo(data)
+
+
+            var urls = videoInfo.urls;
+
+      //console.log(urls);
+
+      var format = {};
+      var p360 = "";
+
+
+
+      for(i in urls){
+          if(urls[i].indexOf("itag=18")>-1){
+              p360=urls[i];
+          }
+      }
+
+      format['360p']={expire:0,link:p360,format:"mp4"};
+      callback({format:format});
+
+    });
+
+  });
+
+
+}
+
+// function scrape_from_youtube(video_id,callback) {
+//   console.log("scrape_from_youtube");
+
+// var http = require('https');
+// var fs = require('fs');
+
+
   
-  https.get("https://video.genyoutube.net/"+video_id,function(res) {
-    var chunks = [];
-    res.on('data', function(chunk){
-      chunks.push(chunk);
-    }).on('end', function(){
+//   https.get("https://video.genyoutube.net/"+video_id,function(res) {
+//     var chunks = [];
+//     res.on('data', function(chunk){
+//       chunks.push(chunk);
+//     }).on('end', function(){
 
 
-              var data = Buffer.concat(chunks).toString();
+//               var data = Buffer.concat(chunks).toString();
 
 
-              // fs.writeFile(process.cwd()+"/test.html",data,function(err,data){
-              //   //res1.send(data);
-              //   callback(data);
-              // });
+//               // fs.writeFile(process.cwd()+"/test.html",data,function(err,data){
+//               //   //res1.send(data);
+//               //   callback(data);
+//               // });
               
-               var cheerio = require('cheerio');
-               var $ = cheerio.load(data);
-               var format = {};
+//                var cheerio = require('cheerio');
+//                var $ = cheerio.load(data);
+//                var format = {};
 
-               /*360p*/
-               var p360 = $(".downbuttonstyle[data-itag='18']").attr("href");
-               //console.log(p360);
+//                /*360p*/
+//                var p360 = $(".downbuttonstyle[data-itag='18']").attr("href");
+//                //console.log(p360);
 
               
 
-               /*Also check for header*/
+//                /*Also check for header*/
 
-               var options = {
-                  url: p360,
-                  method: 'HEAD'
-               };
+//                var options = {
+//                   url: p360,
+//                   method: 'HEAD'
+//                };
 
-               request(options,function (error, response, body) {
-                  if(error){
-                     if(p360){
-                      format['360p']={expire:0,link:p360,format:"mp4"};                  
-                     }
-                    callback({status:0,format:format});
-                  }else{
-                    if(p360){
-                      format['360p']={expire:0,link:response.request.uri.href,format:"mp4"};                  
-                     }
-                    callback({status:1,format:format}); 
-                  }
-               });
+//                request(options,function (error, response, body) {
+//                   if(error){
+//                      if(p360){
+//                       format['360p']={expire:0,link:p360,format:"mp4"};                  
+//                      }
+//                     callback({status:0,format:format});
+//                   }else{
+//                     if(p360){
+//                       format['360p']={expire:0,link:response.request.uri.href,format:"mp4"};                  
+//                      }
+//                     callback({status:1,format:format}); 
+//                   }
+//                });
 
-               //var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
-               //console.log(p720);
-               // if(p720){
-               //    format['720p']={expire:0,link:p720,format:"mp4"};
-               // }
+//                //var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
+//                //console.log(p720);
+//                // if(p720){
+//                //    format['720p']={expire:0,link:p720,format:"mp4"};
+//                // }
 
                
 
 
 
-               //var dom = $(".downloadsTable").first().find("tr td:first-child");
+//                //var dom = $(".downloadsTable").first().find("tr td:first-child");
 
-              // //var expire_link_timstamp_regex=/(?<=expire=)(.*)\d{10}/gmi;
-              // //var expire_link_timstamp_regex=/expire=\d{10}/gmi;
-
-
-              //     dom.each(function(i,val){
-
-              //        //var expire_timestamp_val = $(val).next().next().next().find("a").attr("href");
-
-              //         //console.log(expire_timestamp[0]);
-
-              //         format[$(val).html()]={link:$(val).next().next().next().find("a").attr("href"),size:$(val).next().next().html(),format:$(val).next().html()} 
+//               // //var expire_link_timstamp_regex=/(?<=expire=)(.*)\d{10}/gmi;
+//               // //var expire_link_timstamp_regex=/expire=\d{10}/gmi;
 
 
-              //        // if(expire_timestamp[0]){
-              //        //  expire_timestamp=expire_timestamp[0].split("=")[1];
-              //        //  format[$(val).html()]={expire:expire_timestamp[0],link:$(val).next().next().next().find("a").attr("href"),size:$(val).next().next().html(),format:$(val).next().html()}
-              //        // }else{
-              //        //  format[$(val).html()]={expire:0,link:$(val).next().next().next().find("a").attr("href"),size:$(val).next().next().html(),format:$(val).next().html()} 
-              //        // }
+//               //     dom.each(function(i,val){
+
+//               //        //var expire_timestamp_val = $(val).next().next().next().find("a").attr("href");
+
+//               //         //console.log(expire_timestamp[0]);
+
+//               //         format[$(val).html()]={link:$(val).next().next().next().find("a").attr("href"),size:$(val).next().next().html(),format:$(val).next().html()} 
+
+
+//               //        // if(expire_timestamp[0]){
+//               //        //  expire_timestamp=expire_timestamp[0].split("=")[1];
+//               //        //  format[$(val).html()]={expire:expire_timestamp[0],link:$(val).next().next().next().find("a").attr("href"),size:$(val).next().next().html(),format:$(val).next().html()}
+//               //        // }else{
+//               //        //  format[$(val).html()]={expire:0,link:$(val).next().next().next().find("a").attr("href"),size:$(val).next().next().html(),format:$(val).next().html()} 
+//               //        // }
                      
-              //     });
+//               //     });
 
-                    // var expire_timestamp = expire_link_timstamp_regex.exec(format[Object.keys(format)[0]].link);
-                    // console.log(expire_timestamp);
-                    // console.log(format[Object.keys(format)[0]].link);
-
-
-                  //console.log(data);
-                  //callback({format:format});
-                  /*Send*/
-
-              /*Search for dom*/
-              //res1.send(data);
-              //res1.json({response:format});
-              /*Searh dom for 720p*/
-          });
-       });
+//                     // var expire_timestamp = expire_link_timstamp_regex.exec(format[Object.keys(format)[0]].link);
+//                     // console.log(expire_timestamp);
+//                     // console.log(format[Object.keys(format)[0]].link);
 
 
-};
+//                   //console.log(data);
+//                   //callback({format:format});
+//                   /*Send*/
+
+//               /*Search for dom*/
+//               //res1.send(data);
+//               //res1.json({response:format});
+//               /*Searh dom for 720p*/
+//           });
+//        });
+
+
+// };
 
 
 
@@ -528,7 +605,7 @@ function auto_mongo(){
                           async_recall(null,{version_history:[],version:version,lot:JSON.parse(data)});
                         }else{
                           var regex = new RegExp("ytb_video_list-");
-                          list.forEach( function(item) {
+                          list.forEach(function(item) {
                             if( regex.test(item) ){ 
                                 //console.log(item);
                                 item =  item.substring(item.indexOf("-")+1,item.indexOf("."));
@@ -567,8 +644,6 @@ function auto_mongo(){
                },
                function(args,recall){
                 var doc = args.doc;
-                /**/
-
                 async.eachLimit(doc,1,function(doc_item,each_recall){
                     /*Scrape from YouTube*/
 
@@ -973,7 +1048,7 @@ app.get("/ytb/scrape",function(req,res1){
                          //console.log("okay pushed");
                        }
                     });
-                      
+
                     }
                     
 
