@@ -588,6 +588,46 @@ MongoClient.connect('mongodb://ytb_user_mlab149:ytb_mlab_pwd12@ds247439.mlab.com
   }
 });
 
+
+        var cron = require('node-cron');
+        cron.schedule('10,20,30 * * * *', function(){
+          console.log("Cron working....");
+        //cron.schedule('* * * * * *', function(){
+            /*Get last version of youtube*/
+
+            /*Get this ids from mongodb and iterate one by one document*/
+
+            /*Store One large query and execute it*/
+            // {video_id:,time.urls:,erc.....}
+
+            // if(mongo_database){
+
+            //   if(auto_mongo_init==1){
+            //   /*Not allow*/
+            //       console.log("Auto mongo init already fired");
+            //    }else{
+            //       auto_mongo();  
+            //    }
+              
+            // }
+            
+
+            
+            //mongo_database.collection('ytb').update({"ytb_code":video_id},{"ytb_code":video_id,add_date:Date.now(),url:links_url,expire:parseInt(expire_time,10)},{upsert: true },function(err,doc){
+
+
+//             db.cars.update({_id : {$in: cars}}, 
+//   {$set : {name : req.body[i].name}},
+//   {multi : true},
+//   function(err, docs) {
+//     console.log(docs);
+// });
+
+
+            /**/
+
+        });
+
   /*Node-cron*/
 function auto_mongo(){
 
@@ -721,44 +761,6 @@ function auto_mongo(){
 
 };
 
-        var cron = require('node-cron');
-        cron.schedule('10,20,30 * * * *', function(){
-          console.log("Cron working....");
-        //cron.schedule('* * * * * *', function(){
-            /*Get last version of youtube*/
-
-            /*Get this ids from mongodb and iterate one by one document*/
-
-            /*Store One large query and execute it*/
-            // {video_id:,time.urls:,erc.....}
-
-            // if(mongo_database){
-
-            //   if(auto_mongo_init==1){
-            //   /*Not allow*/
-            //       console.log("Auto mongo init already fired");
-            //    }else{
-            //       auto_mongo();  
-            //    }
-              
-            // }
-            
-
-            
-            //mongo_database.collection('ytb').update({"ytb_code":video_id},{"ytb_code":video_id,add_date:Date.now(),url:links_url,expire:parseInt(expire_time,10)},{upsert: true },function(err,doc){
-
-
-//             db.cars.update({_id : {$in: cars}}, 
-//   {$set : {name : req.body[i].name}},
-//   {multi : true},
-//   function(err, docs) {
-//     console.log(docs);
-// });
-
-
-            /**/
-
-        });
 
         //auto_mongo();
         /*Node-cron*/
