@@ -162,6 +162,7 @@ function map (a,f) {
 
 
 function scrape_from_youtube(video_id,callback) {
+  console.log("scrape_from_youtube");
 
 var http = require('https');
 var fs = require('fs');
@@ -483,11 +484,11 @@ MongoClient.connect('mongodb://ytb_user_mlab149:ytb_mlab_pwd12@ds247439.mlab.com
   }else{
       console.log("Remote Mongodb connect...");
       mongo_database = database.db('ytb_test');
-      if(auto_mongo_init==0){
-        auto_mongo_init=1;
-        auto_mongo();
+      // if(auto_mongo_init==0){
+      //   auto_mongo_init=1;
+      //   auto_mongo();
 
-      }
+      // }
 
       //
 
@@ -496,6 +497,8 @@ MongoClient.connect('mongodb://ytb_user_mlab149:ytb_mlab_pwd12@ds247439.mlab.com
 
   /*Node-cron*/
 function auto_mongo(){
+
+  auto_mongo_init=1;
           console.log("Auto-mongo init");
   async.waterfall([
                function(recall){
@@ -605,9 +608,11 @@ function auto_mongo(){
             ],function(err,results){
                 if(err){
                   /**/
+                  auto_mongo_init=0;
                   console.log("auto-mongo-fail");
                 }else{
                   /**/
+                  auto_mongo_init=0;
                   console.log("auto-mongo-success");
                 }
             });
@@ -626,7 +631,14 @@ function auto_mongo(){
             // {video_id:,time.urls:,erc.....}
 
             if(mongo_database){
-              auto_mongo();  
+
+              if(auto_mongo_init==1){
+              /*Not allow*/
+                  console.log("Auto mongo init already fired");
+               }else{
+                  auto_mongo();  
+               }
+              
             }
             
 
@@ -813,12 +825,15 @@ app.get("/ytb/scrape",function(req,res1){
 
                     /*Generate links here*/
                     //res1.send({status:1,response:{format:format}});
-                    //console.log("use first document");                    
+                    console.log("use first document");                    
                     res1.send({status:1,links_url:links_url,response:{format:format},expire_time:expire_time});
               }else{
-                  //console.log("First user to pull expire url");
+                  console.log("First user to pull expire url");
 
                    scrape_from_youtube(video_id,function(format_obj){
+
+
+                     
 
                     //console.log(format_obj);
                     //var expire_time = format_obj.format[Object.keys(format_obj.format)[0]].link;
@@ -845,11 +860,17 @@ app.get("/ytb/scrape",function(req,res1){
                          //console.log("okay pushed");
                        }
                     });
+
+
+                     if(auto_mongo_init==1){
+                        /*Not allow*/
+                        console.log("Auto mongo init already fired");
+                     }else{
+                        auto_mongo();
+                     }
+
                     res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time});
                   });
-                 
-
-
                   
                   //res1.send("Scrape and push");
                   /*Use*/
