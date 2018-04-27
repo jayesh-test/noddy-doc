@@ -770,7 +770,8 @@ app.get("/ytb/scrape",function(req,res1){
 
       /*No:Scrape fresh and push into mongodb*/
 
-      mongo_database.collection('ytb').find({ytb_code:video_id,expire:{$gt:expire_time}}).toArray(function(err,doc){
+      //mongo_database.collection('ytb').find({ytb_code:video_id,expire:{$gt:expire_time}}).toArray(function(err,doc){
+        mongo_database.collection('ytb').find({ytb_code:video_id}).toArray(function(err,doc){
          if(err){
              scrape_from_youtube(video_id,function(format_obj){
 
@@ -805,11 +806,11 @@ app.get("/ytb/scrape",function(req,res1){
 
               console.log("video_id = "+video_id+" expire = "+expire_time);
 
-              console.log(doc);
-              if(doc.length>0){
+              /*Check is this document expire or not */
+              /*Expire time is greather than parsed expire time */
+              if(doc[0].expire > expire_time){
+                  console.log("Yes Already found the document use it..");
 
-                  /*Someone already push new epire date just use it*/
-                    //res1.send(JSON.stringify(doc));
                      var format={};
                      for(i in doc[0].url){
                        format[i]={link:doc[0].url[i]};
@@ -831,8 +832,14 @@ app.get("/ytb/scrape",function(req,res1){
                     //res1.send({status:1,response:{format:format}});
                     console.log("use first document");                    
                     res1.send({status:1,links_url:links_url,response:{format:format},expire_time:expire_time});
+
+
+
               }else{
-                  console.log("First user to pull expire url");
+                /**/
+                console.log("Nope not found...just fetch and start mongo process");;
+
+                console.log("First user to pull expire url");
 
                    scrape_from_youtube(video_id,function(format_obj){
 
@@ -874,13 +881,85 @@ app.get("/ytb/scrape",function(req,res1){
                      }
 
                     res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time});
-                  });
-                  
-                  //res1.send("Scrape and push");
-                  /*Use*/
-                  // scrape_from_youtube(ytb_code,function(format_obj){
-                  // });
+                    
               }
+
+              // console.log(doc);
+              // if(doc.length>0){
+
+              //     /*Someone already push new epire date just use it*/
+              //       //res1.send(JSON.stringify(doc));
+              //        var format={};
+              //        for(i in doc[0].url){
+              //          format[i]={link:doc[0].url[i]};
+              //        }
+
+              //       var expire_link_timstamp_regex=/expire=\d{10}/gmi;
+              //       var expire_timestamp = expire_link_timstamp_regex.exec(format[Object.keys(format)[0]].link);
+              //       var expire_time=expire_timestamp[0].toString().split("=")[1];
+
+              //       var links_url = {};
+              //       //console.log("expire_time = "+expire_time);
+
+              //       for(i in format){
+              //           links_url[i]=format[i].link;
+              //       }
+
+
+              //       /*Generate links here*/
+              //       //res1.send({status:1,response:{format:format}});
+              //       console.log("use first document");                    
+              //       res1.send({status:1,links_url:links_url,response:{format:format},expire_time:expire_time});
+              // }else{
+              //     console.log("First user to pull expire url");
+
+              //      scrape_from_youtube(video_id,function(format_obj){
+
+
+                     
+
+              //       //console.log(format_obj);
+              //       //var expire_time = format_obj.format[Object.keys(format_obj.format)[0]].link;
+
+              //       var expire_link_timstamp_regex=/expire=\d{10}/gmi;
+              //       var expire_timestamp = expire_link_timstamp_regex.exec(format_obj.format[Object.keys(format_obj.format)[0]].link);
+              //       //console.log(expire_timestamp[0].toString());
+              //       //console.log(expire_timestamp[0].toString().split("=")[1]);
+              //       var expire_time=expire_timestamp[0].toString().split("=")[1];
+
+              //       var links_url = {};
+              //       //console.log("expire_time = "+expire_time);
+
+              //       for(i in format_obj.format){
+              //           links_url[i]=format_obj.format[i].link;
+              //       }
+
+              //       /*Push into mongodb*/
+              //       mongo_database.collection('ytb').update({"ytb_code":video_id},{"ytb_code":video_id,add_date:Date.now(),url:links_url,expire:parseInt(expire_time,10)},{upsert: true },function(err,doc){
+              //          if(err){
+              //            console.log("Fail to push into mongodb");
+              //            console.log(err);
+              //          }else{
+              //            //console.log("okay pushed");
+              //          }
+              //       });
+
+              //         console.log("auto_mongo_init = "+auto_mongo_init);
+              //        if(auto_mongo_init==1){
+              //           /*Not allow*/
+              //           console.log("Auto mongo init already fired");
+              //        }else{
+              //           auto_mongo();
+              //        }
+
+              //       res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time});
+              //     });
+                  
+              //     //res1.send("Scrape and push");
+              //     /*Use*/
+              //     // scrape_from_youtube(ytb_code,function(format_obj){
+              //     // });
+              // }
          }
       });
    }else{
