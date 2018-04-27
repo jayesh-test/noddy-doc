@@ -722,7 +722,7 @@ function auto_mongo(){
 };
 
         var cron = require('node-cron');
-        cron.schedule('10 * * * *', function(){
+        cron.schedule('10,20,30 * * * *', function(){
           console.log("Cron working....");
         //cron.schedule('* * * * * *', function(){
             /*Get last version of youtube*/
