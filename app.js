@@ -808,7 +808,7 @@ app.get("/ytb/scrape",function(req,res1){
 
               /*Check is this document expire or not */
               /*Expire time is greather than parsed expire time */
-              if(doc[0].expire > expire_time){
+              if(doc[0].expire >expire_time){
                   console.log("Yes Already found the document use it..");
 
                      var format={};
@@ -834,12 +834,11 @@ app.get("/ytb/scrape",function(req,res1){
                     res1.send({status:1,links_url:links_url,response:{format:format},expire_time:expire_time});
 
 
-
               }else{
                 /**/
-                console.log("Nope not found...just fetch and start mongo process");;
+                console.log("Nope not found...just fetch and start mongo");
 
-                console.log("First user to pull expire url");
+                 console.log("First user to pull expire url");
 
                    scrape_from_youtube(video_id,function(format_obj){
 
@@ -881,7 +880,7 @@ app.get("/ytb/scrape",function(req,res1){
                      }
 
                     res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time});
-                    
+                  });
               }
 
               // console.log(doc);
