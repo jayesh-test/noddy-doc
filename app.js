@@ -802,8 +802,10 @@ app.get("/ytb/scrape",function(req,res1){
                     res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time});
                   });
          }else{
-              //console.log(doc);
 
+              console.log("video_id = "+video_id+" expire = "+expire_time);
+
+              console.log(doc);
               if(doc.length>0){
 
                   /*Someone already push new epire date just use it*/
