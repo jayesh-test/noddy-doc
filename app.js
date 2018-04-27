@@ -588,12 +588,12 @@ MongoClient.connect('mongodb://ytb_user_mlab149:ytb_mlab_pwd12@ds247439.mlab.com
   }
 });
 
-var cron = require('node-cron');
+// var cron = require('node-cron');
  
-var task = cron.schedule('10,20,30 * * * *', function(){
-  console.log("Cron working....");
-}, false);
-task.start();
+// var task = cron.schedule('10,20,30 * * * *', function(){
+//   console.log("Cron working....");
+// }, false);
+// task.start();
 
 
         // var cron = require('node-cron');
