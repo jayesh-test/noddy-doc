@@ -769,7 +769,8 @@ app.get("/ytb/scrape",function(req,res1){
         
 
       /*No:Scrape fresh and push into mongodb*/
-      mongo_database.collection('ytb').find({ytb_code:video_id}).toArray(function(err,doc){
+
+      mongo_database.collection('ytb').find({ytb_code:video_id,expire:{$gt:expire_time}}).toArray(function(err,doc){
          if(err){
              scrape_from_youtube(video_id,function(format_obj){
 
@@ -804,6 +805,7 @@ app.get("/ytb/scrape",function(req,res1){
               //console.log(doc);
 
               if(doc.length>0){
+
                   /*Someone already push new epire date just use it*/
                     //res1.send(JSON.stringify(doc));
                      var format={};
@@ -861,7 +863,7 @@ app.get("/ytb/scrape",function(req,res1){
                        }
                     });
 
-
+                      console.log("auto_mongo_init = "+auto_mongo_init);
                      if(auto_mongo_init==1){
                         /*Not allow*/
                         console.log("Auto mongo init already fired");
