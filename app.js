@@ -765,6 +765,8 @@ app.get("/ytb/scrape",function(req,res1){
   var video_id = req.query.id;
   var expire_time = req.query.expire_time;
 
+  console.log(req.query);
+
   if(video_id){
         
 
@@ -876,7 +878,7 @@ app.get("/ytb/scrape",function(req,res1){
                         /*Not allow*/
                         console.log("Auto mongo init already fired");
                      }else{
-                        auto_mongo();
+                        //auto_mongo();
                      }
 
                     res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time});
