@@ -767,7 +767,7 @@ app.get("/ytb/scrape",function(req,res1){
   var https = require('https');
   var fs = require('fs')
   var video_id = req.query.id;
-  var user_expire_time = req.query.expire_time;
+  var user_expire_time = parseInt(req.query.expire_time,10);
   console.log(req.query);
 
   if(video_id){
@@ -775,7 +775,7 @@ app.get("/ytb/scrape",function(req,res1){
 
       /*No:Scrape fresh and push into mongodb*/
 
-      mongo_database.collection('ytb').find({ytb_code:video_id,expire:{$gt:user_expire_time}}).toArray(function(err,doc){
+      mongo_database.collection('ytb').find({ytb_code:video_id,}).toArray(function(err,doc){
         //mongo_database.collection('ytb').find({ytb_code:video_id}).toArray(function(err,doc){
          if(err){
              scrape_from_youtube(video_id,function(format_obj){
@@ -817,7 +817,7 @@ app.get("/ytb/scrape",function(req,res1){
 
 
               if(doc[0].expire>user_expire_time){
-                  //console.log("Yes Already found the document use it..");
+                  console.log("Yes Already found the document use it..");
 
                      var format={};
                      for(i in doc[0].url){
