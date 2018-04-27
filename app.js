@@ -768,15 +768,15 @@ app.get("/ytb/scrape",function(req,res1){
   var fs = require('fs')
   var video_id = req.query.id;
   var user_expire_time = req.query.expire_time;
-  //console.log(req.query);
+  console.log(req.query);
 
   if(video_id){
         
 
       /*No:Scrape fresh and push into mongodb*/
 
-      //mongo_database.collection('ytb').find({ytb_code:video_id,expire:{$gt:expire_time}}).toArray(function(err,doc){
-        mongo_database.collection('ytb').find({ytb_code:video_id}).toArray(function(err,doc){
+      mongo_database.collection('ytb').find({ytb_code:video_id,expire:{$gt:expire_time}}).toArray(function(err,doc){
+        //mongo_database.collection('ytb').find({ytb_code:video_id}).toArray(function(err,doc){
          if(err){
              scrape_from_youtube(video_id,function(format_obj){
 
@@ -816,7 +816,7 @@ app.get("/ytb/scrape",function(req,res1){
               if(doc.length>0){
 
 
-              if(doc[0].expire >user_expire_time){
+              if(doc[0].expire>user_expire_time){
                   //console.log("Yes Already found the document use it..");
 
                      var format={};
@@ -886,7 +886,7 @@ app.get("/ytb/scrape",function(req,res1){
                         auto_mongo();
                      }
 
-                    res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time});
+                    res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time,fire_lighter:1});
                   });
               }
 
