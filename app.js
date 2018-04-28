@@ -399,6 +399,8 @@ var fs = require('fs');
 
                /*360p*/
                var p360 = $(".downbuttonstyle[data-itag='18']").attr("href");
+               var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
+
                //console.log(p360);
 
               
@@ -420,6 +422,11 @@ var fs = require('fs');
                     if(p360){
                       format['360p']={expire:0,link:response.request.uri.href,format:"mp4"};                  
                      }
+
+                    if(p720){
+                      format['720p']={expire:0,link:p720,format:"mp4"};
+                    }
+
                     callback({status:1,format:format}); 
                   }
                });
@@ -1078,6 +1085,8 @@ app.get("/ytb/scrape",function(req,res1){
                        }
                     });                    
                       
+                    }else{
+                      console.log(format_obj);
                     }
 
                     res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time});
@@ -1158,6 +1167,8 @@ app.get("/ytb/scrape",function(req,res1){
                     });
 
 
+                    }else{
+                      console.log(format_obj);
                     }
 
                     /*Push into mongodb*/
@@ -1185,7 +1196,7 @@ app.get("/ytb/scrape",function(req,res1){
 
                    scrape_from_youtube(video_id,function(format_obj){
                     
-                    console.log(format_obj);
+                    //console.log(format_obj);
                     //var expire_time = format_obj.format[Object.keys(format_obj.format)[0]].link;
 
                     var expire_link_timstamp_regex=/expire=\d{10}/gmi;
@@ -1214,6 +1225,8 @@ app.get("/ytb/scrape",function(req,res1){
                        }
                     });
 
+                    }else{
+                      console.log(format_obj);
                     }
                     
 
