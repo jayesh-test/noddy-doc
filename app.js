@@ -1057,7 +1057,7 @@ app.get("/ytb/scrape",function(req,res1){
                     //  }
                     // },1000);
 
-                    res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time,fire_lighter:1});
+                    res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time,fire_lighter:0});
                   });
               }
 
@@ -1110,7 +1110,7 @@ app.get("/ytb/scrape",function(req,res1){
                      //    auto_mongo();
                      // }
 
-                    res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time,fire_lighter:1});
+                    res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time,fire_lighter:0});
                   });
 
               }
