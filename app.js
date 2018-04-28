@@ -213,7 +213,7 @@ function scrape_from_youtube(video_id,callback) {
 
             var urls = videoInfo.urls;
 
-      //console.log(urls);
+      console.log(urls);
 
       var format = {};
       var p360 = "";
@@ -223,6 +223,8 @@ function scrape_from_youtube(video_id,callback) {
               p360=urls[i];
           }
       }
+      console.log(format);
+      
 
       format['360p']={expire:0,link:p360,format:"mp4"};
       callback({status:1,format:format});
