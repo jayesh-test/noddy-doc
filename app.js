@@ -213,7 +213,7 @@ function scrape_from_youtube(video_id,callback) {
 
             var urls = videoInfo.urls;
 
-      console.log(urls);
+      //console.log(urls);
 
       var format = {};
       var p360 = "";
@@ -223,11 +223,18 @@ function scrape_from_youtube(video_id,callback) {
               p360=urls[i];
           }
       }
-      console.log(format);
-      
 
-      format['360p']={expire:0,link:p360,format:"mp4"};
-      callback({status:1,format:format});
+
+
+      //console.log(format);
+
+      if(p360.length>0){
+        format['360p']={expire:0,link:p360,format:"mp4"};
+        callback({status:0,format:format});
+      }else{
+        callback({status:1,format:format});  
+      }
+      
 
     });
 
@@ -699,7 +706,7 @@ function auto_mongo(){
 
                         scrape_from_youtube(doc_item.ytb_code,function(format_obj){
 
-                              if(format_obj.status==1){
+                              
 
                                 var expire_link_timstamp_regex=/expire=\d{10}/gmi;
                               var expire_timestamp = expire_link_timstamp_regex.exec(format_obj.format[Object.keys(format_obj.format)[0]].link);
@@ -719,6 +726,7 @@ function auto_mongo(){
                               //console.log(links_url);
 
                               /*Push into mongodb*/
+                              if(format_obj.status==1){
                                   mongo_database.collection('ytb').update({"ytb_code":doc_item.ytb_code},{"ytb_code":doc_item.ytb_code,full_date:new Date(),add_date:Date.now(),url:links_url,expire:parseInt(expire_time,10)},{upsert: true },function(err,doc){
                                      if(err){
                                        console.log("Fail to push into mongodb "+doc_item.ytb_code);
