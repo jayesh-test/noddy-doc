@@ -226,7 +226,7 @@ function scrape_from_youtube(video_id,callback) {
 
 
 
-      //console.log(format);
+      console.log("p360 = "+p360);
 
       if(p360.length>0){
         format['360p']={expire:0,link:p360,format:"mp4"};
