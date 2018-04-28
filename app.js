@@ -669,27 +669,28 @@ function auto_mongo(){
                         }
                       });
                },
+               // function(args,recall){
+               //    var obj = args.obj;
+
+               //    var  ids=[];
+               //    ids=Object.keys(obj);
+
+               //    //console.log(ids);
+               //    mongo_database.collection('ytb').find({ytb_code:{$in:ids}}).toArray(function(err,doc) {
+               //      //console.log(doc.length);
+
+               //      /*ierate*/
+               //      recall(null,{doc:doc});
+
+               //    //mongo_database.collection('ytb').find({}).toArray(function(err,doc) {
+               //        /*Iterate each data*/
+               //    });
+               //    /*Get mongodb data according this ids*/
+               // },
                function(args,recall){
-                  var obj = args.obj;
-
-                  var  ids=[];
-                  ids=Object.keys(obj);
-
-                  //console.log(ids);
-                  mongo_database.collection('ytb').find({ytb_code:{$in:ids}}).toArray(function(err,doc) {
-                    //console.log(doc.length);
-
-                    /*ierate*/
-                    recall(null,{doc:doc});
-
-                  //mongo_database.collection('ytb').find({}).toArray(function(err,doc) {
-                      /*Iterate each data*/
-                  });
-                  /*Get mongodb data according this ids*/
-               },
-               function(args,recall){
-                var doc = args.doc;
-                async.eachLimit(doc,1,function(doc_item,each_recall){
+                
+                var obj = args.obj;
+                async.eachLimit(obj,1,function(doc_item,each_recall){
                     /*Scrape from YouTube*/
 
                     try{
