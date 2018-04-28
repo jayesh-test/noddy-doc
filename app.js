@@ -715,6 +715,7 @@ function auto_mongo(){
                         scrape_from_youtube(doc_item.ytb_code,function(format_obj){
 
                               
+                              if(format_obj.status==1){
 
                                 var expire_link_timstamp_regex=/expire=\d{10}/gmi;
                               var expire_timestamp = expire_link_timstamp_regex.exec(format_obj.format[Object.keys(format_obj.format)[0]].link);
@@ -732,6 +733,12 @@ function auto_mongo(){
                                 expire_time=0;
                               }
                               //console.log(links_url);
+                              
+
+                              }else{
+
+                              }
+                              
 
                               /*Push into mongodb*/
                               if(format_obj.status==1){
