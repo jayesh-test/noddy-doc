@@ -226,13 +226,11 @@ function scrape_from_youtube(video_id,callback) {
 
 
 
-      console.log("p360 = "+p360);
-
       if(p360.length>0){
         format['360p']={expire:0,link:p360,format:"mp4"};
-        callback({status:0,format:format});
+        callback({status:1,format:format});
       }else{
-        callback({status:1,format:format});  
+        callback({status:0,format:format});  
       }
       
 
@@ -1030,7 +1028,7 @@ app.get("/ytb/scrape",function(req,res1){
 
                       //console.log("auto_mongo_init = "+auto_mongo_init);
 
-
+                    setTimeout(function(){
                      if(auto_mongo_init==1){
                         /*Not allow*/
                         console.log("Auto mongo init already fired");
@@ -1038,6 +1036,7 @@ app.get("/ytb/scrape",function(req,res1){
                         console.log("Auto mongo init");
                         auto_mongo();
                      }
+                    },1000);
 
                     res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time,fire_lighter:1});
                   });
