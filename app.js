@@ -1104,8 +1104,11 @@ app.get("/ytb/scrape",function(req,res1){
               /*Expire time is greather than parsed expire time */
               if(doc.length>0){
 
+              /*Check difference is greater than 6 hours*/
 
-              if(doc[0].expire>user_expire_time){
+              var server_expire_time = Date.now();
+
+              if(doc[0].expire>user_expire_time && server_expire_time < doc[0].server_expire_time ){
                   console.log("Yes Already found the document use it..");
 
                      var format={};
@@ -1158,7 +1161,10 @@ app.get("/ytb/scrape",function(req,res1){
 
                     if(format_obj.status==1){
 
-                    mongo_database.collection('ytb').update({"ytb_code":video_id},{"ytb_code":video_id,add_date:Date.now(),url:links_url,expire:parseInt(expire_time,10)},{upsert: true },function(err,doc){
+                    var server_expire_time = Date.now();
+                        server_expire_time= server_expire_time - (30 * 1000 * 60);
+
+                    mongo_database.collection('ytb').update({"ytb_code":video_id},{"ytb_code":video_id,add_date:Date.now(),server_expire_time:server_expire_time,url:links_url,expire:parseInt(expire_time,10)},{upsert: true },function(err,doc){
                        if(err){
                          console.log("Fail to push into mongodb");
                          console.log(err);
@@ -1217,7 +1223,10 @@ app.get("/ytb/scrape",function(req,res1){
 
                     if(format_obj.status==1){
 
-                      mongo_database.collection('ytb').update({"ytb_code":video_id},{"ytb_code":video_id,add_date:Date.now(),url:links_url,expire:parseInt(expire_time,10)},{upsert: true },function(err,doc){
+                      var server_expire_time = Date.now();
+                          server_expire_time= server_expire_time - (30 * 1000 * 60);
+                      
+                      mongo_database.collection('ytb').update({"ytb_code":video_id},{"ytb_code":video_id,add_date:Date.now(),server_expire_time:server_expire_time,url:links_url,expire:parseInt(expire_time,10)},{upsert: true },function(err,doc){
                        if(err){
                          console.log("Fail to push into mongodb");
                          console.log(err);
