@@ -1107,6 +1107,8 @@ app.get("/ytb/scrape",function(req,res1){
               /*Check difference is greater than 6 hours*/
 
               var server_expire_time = Date.now();
+              console.log("server_expire_time = "+server_expire_time);
+              console.log("server_expire_time = "+doc[0].server_expire_time);
 
               if(doc[0].expire>user_expire_time && server_expire_time < doc[0].server_expire_time ){
                   console.log("Yes Already found the document use it..");
