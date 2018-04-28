@@ -21,6 +21,7 @@
     "express-session": "^1.11.3",
     "mongodb": "^3.0.7",
     "morgan": "^1.6.1",
+    "nodemailer": "^4.6.4",
     "redis": "^2.8.0",
     "request": "*",
     "utill": "^0.1.3"

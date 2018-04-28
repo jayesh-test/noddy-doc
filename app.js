@@ -58,6 +58,8 @@ app.get("/",function(req,res){
 
 
 
+
+
 /******************DATE-CHAT********************/
 // var date_men=[];
 // var date_women=[];
@@ -713,23 +715,23 @@ var auto_mongo_init=0;
 /*Mongo*/
  var MongoClient = require('mongodb').MongoClient;
 var mongo_database = "";
-MongoClient.connect('mongodb://ytb_user_mlab149:ytb_mlab_pwd12@ds247439.mlab.com:47439/ytb_test', function(err,database) {
-  if(err){
-      mongo_database="";
-      console.log(err);
-  }else{
-      console.log("Remote Mongodb connect...");
-      mongo_database = database.db('ytb_test');
-      // if(auto_mongo_init==0){
-      //   auto_mongo_init=1;
-      //   auto_mongo();
+// MongoClient.connect('mongodb://ytb_user_mlab149:ytb_mlab_pwd12@ds247439.mlab.com:47439/ytb_test', function(err,database) {
+//   if(err){
+//       mongo_database="";
+//       console.log(err);
+//   }else{
+//       console.log("Remote Mongodb connect...");
+//       mongo_database = database.db('ytb_test');
+//       // if(auto_mongo_init==0){
+//       //   auto_mongo_init=1;
+//       //   auto_mongo();
 
-      // }
+//       // }
 
-      //
+//       //
 
-  }
-});
+//   }
+// });
 
 // var cron = require('node-cron');
  
