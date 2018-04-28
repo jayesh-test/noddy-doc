@@ -241,6 +241,7 @@ function scrape_from_youtube(video_id,callback) {
 
 
             }else{
+              console.log(chunk);
               callback({status:0,format:format});  
             }
 
@@ -733,7 +734,7 @@ function auto_mongo(){
                                 expire_time=0;
                               }
                               //console.log(links_url);
-                              
+
 
                               }else{
 
@@ -757,6 +758,7 @@ function auto_mongo(){
                               }else{
                                 /**/
                                 console.log("Href not found....while scrape ytb "+doc_item.ytb_code);
+                                each_recall();
                               }
 
                               
