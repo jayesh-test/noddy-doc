@@ -688,7 +688,7 @@ function auto_mongo(){
                //    /*Get mongodb data according this ids*/
                // },
                function(args,recall){
-                
+
                 var obj = args.obj;
                 async.eachLimit(obj,1,function(doc_item,each_recall){
                     /*Scrape from YouTube*/
@@ -1073,14 +1073,14 @@ app.get("/ytb/scrape",function(req,res1){
 
                       //console.log("auto_mongo_init = "+auto_mongo_init);
 
-                      console.log("No auto mongo for not found document");
-                     // if(auto_mongo_init==1){
-                     //    /*Not allow*/
-                     //    console.log("Auto mongo init already fired");
-                     // }else{
-                     //    console.log("Auto mongo init");
-                     //    auto_mongo();
-                     // }
+                     //console.log("No auto mongo for not found document");
+                     if(auto_mongo_init==1){
+                        /*Not allow*/
+                        console.log("Auto mongo init already fired");
+                     }else{
+                        console.log("Auto mongo init");
+                        auto_mongo();
+                     }
 
                     res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time});
                   });
