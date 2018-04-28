@@ -192,7 +192,7 @@ var video_id= req.query.video_id;
       }
 
       console.log(p360);
-      
+
 
       format['360p']={expire:0,link:p360,format:"mp4"};
       
@@ -255,6 +255,8 @@ var video_id= req.query.video_id;
 
 // }
 
+
+/*https://y2mate.com/youtube*/
 function scrape_from_youtube(video_id,callback) {
   console.log("scrape_from_youtube");
 
@@ -263,7 +265,7 @@ var fs = require('fs');
 
 
   
-  https.get("https://video.genyoutube.net/"+video_id,function(res) {
+  https.get("https://y2mate.com/youtube/"+video_id,function(res) {
     var chunks = [];
     res.on('data', function(chunk){
       chunks.push(chunk);
@@ -283,7 +285,8 @@ var fs = require('fs');
                var format = {};
 
                /*360p*/
-               var p360 = $(".downbuttonstyle[data-itag='18']").attr("href");
+               //var p360 = $(".downbuttonstyle[data-itag='18']").attr("href");
+               var p360 = $("a:contains(360p)").attr("data-vlink");
                //console.log(p360);
 
               
@@ -361,6 +364,118 @@ var fs = require('fs');
 
 
 };
+
+
+
+
+
+/*https://video.genyoutube.net*/
+// function scrape_from_youtube(video_id,callback) {
+//   console.log("scrape_from_youtube");
+
+// var http = require('https');
+// var fs = require('fs');
+
+
+  
+//   https.get("https://video.genyoutube.net/"+video_id,function(res) {
+//     var chunks = [];
+//     res.on('data', function(chunk){
+//       chunks.push(chunk);
+//     }).on('end', function(){
+
+
+//               var data = Buffer.concat(chunks).toString();
+
+
+//               // fs.writeFile(process.cwd()+"/test.html",data,function(err,data){
+//               //   //res1.send(data);
+//               //   callback(data);
+//               // });
+              
+//                var cheerio = require('cheerio');
+//                var $ = cheerio.load(data);
+//                var format = {};
+
+//                /*360p*/
+//                var p360 = $(".downbuttonstyle[data-itag='18']").attr("href");
+//                //console.log(p360);
+
+              
+
+//                /*Also check for header*/
+
+//                var options = {
+//                   url: p360,
+//                   method: 'HEAD'
+//                };
+
+//                request(options,function (error, response, body) {
+//                   if(error){
+//                      if(p360){
+//                       format['360p']={expire:0,link:p360,format:"mp4"};                  
+//                      }
+//                     callback({status:0,format:format});
+//                   }else{
+//                     if(p360){
+//                       format['360p']={expire:0,link:response.request.uri.href,format:"mp4"};                  
+//                      }
+//                     callback({status:1,format:format}); 
+//                   }
+//                });
+
+//                //var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
+//                //console.log(p720);
+//                // if(p720){
+//                //    format['720p']={expire:0,link:p720,format:"mp4"};
+//                // }
+
+               
+
+
+
+//                //var dom = $(".downloadsTable").first().find("tr td:first-child");
+
+//               // //var expire_link_timstamp_regex=/(?<=expire=)(.*)\d{10}/gmi;
+//               // //var expire_link_timstamp_regex=/expire=\d{10}/gmi;
+
+
+//               //     dom.each(function(i,val){
+
+//               //        //var expire_timestamp_val = $(val).next().next().next().find("a").attr("href");
+
+//               //         //console.log(expire_timestamp[0]);
+
+//               //         format[$(val).html()]={link:$(val).next().next().next().find("a").attr("href"),size:$(val).next().next().html(),format:$(val).next().html()} 
+
+
+//               //        // if(expire_timestamp[0]){
+//               //        //  expire_timestamp=expire_timestamp[0].split("=")[1];
+//               //        //  format[$(val).html()]={expire:expire_timestamp[0],link:$(val).next().next().next().find("a").attr("href"),size:$(val).next().next().html(),format:$(val).next().html()}
+//               //        // }else{
+//               //        //  format[$(val).html()]={expire:0,link:$(val).next().next().next().find("a").attr("href"),size:$(val).next().next().html(),format:$(val).next().html()} 
+//               //        // }
+                     
+//               //     });
+
+//                     // var expire_timestamp = expire_link_timstamp_regex.exec(format[Object.keys(format)[0]].link);
+//                     // console.log(expire_timestamp);
+//                     // console.log(format[Object.keys(format)[0]].link);
+
+
+//                   //console.log(data);
+//                   //callback({format:format});
+//                   /*Send*/
+
+//               /*Search for dom*/
+//               //res1.send(data);
+//               //res1.json({response:format});
+//               /*Searh dom for 720p*/
+//           });
+//        });
+
+
+// };
 
 
 
