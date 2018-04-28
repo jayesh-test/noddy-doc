@@ -741,7 +741,7 @@ function auto_mongo(){
 
                               }else{
                                 /**/
-                                console.log("Href not found....while scrape ytb");
+                                console.log("Href not found....while scrape ytb "+doc_item.ytb_code);
                               }
 
                               
