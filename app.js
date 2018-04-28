@@ -399,7 +399,7 @@ var fs = require('fs');
 
                /*360p*/
                var p360 = $(".downbuttonstyle[data-itag='18']").attr("href");
-               var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
+               //var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
 
                //console.log(p360);
 
@@ -423,9 +423,9 @@ var fs = require('fs');
                       format['360p']={expire:0,link:response.request.uri.href,format:"mp4"};                  
                      }
 
-                    if(p720){
-                      format['720p']={expire:0,link:p720,format:"mp4"};
-                    }
+                    // if(p720){
+                    //   format['720p']={expire:0,link:p720,format:"mp4"};
+                    // }
 
                     callback({status:1,format:format}); 
                   }
