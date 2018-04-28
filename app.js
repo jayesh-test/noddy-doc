@@ -1047,15 +1047,15 @@ app.get("/ytb/scrape",function(req,res1){
 
                       //console.log("auto_mongo_init = "+auto_mongo_init);
 
-                    setTimeout(function(){
-                     if(auto_mongo_init==1){
-                        /*Not allow*/
-                        console.log("Auto mongo init already fired");
-                     }else{
-                        console.log("Auto mongo init");
-                        auto_mongo();
-                     }
-                    },1000);
+                    // setTimeout(function(){
+                    //  if(auto_mongo_init==1){
+                    //     /*Not allow*/
+                    //     console.log("Auto mongo init already fired");
+                    //  }else{
+                    //     console.log("Auto mongo init");
+                    //     auto_mongo();
+                    //  }
+                    // },1000);
 
                     res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time,fire_lighter:1});
                   });
@@ -1102,13 +1102,13 @@ app.get("/ytb/scrape",function(req,res1){
                       //console.log("auto_mongo_init = "+auto_mongo_init);
 
                      //console.log("No auto mongo for not found document");
-                     if(auto_mongo_init==1){
-                        /*Not allow*/
-                        console.log("Auto mongo init already fired");
-                     }else{
-                        console.log("Auto mongo init");
-                        auto_mongo();
-                     }
+                     // if(auto_mongo_init==1){
+                     //    /*Not allow*/
+                     //    console.log("Auto mongo init already fired");
+                     // }else{
+                     //    console.log("Auto mongo init");
+                     //    auto_mongo();
+                     // }
 
                     res1.send({status:1,links_url:links_url,response:format_obj,expire_time:expire_time});
                   });
