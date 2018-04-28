@@ -170,6 +170,8 @@ var video_id= req.query.video_id;
           var chunks = []
           res.on('data', function(chunk){chunks.push(chunk)
           }).on('end', function(){
+
+
             var data = Buffer.concat(chunks).toString()
             var videoInfo = parseVideoInfo(data)
 
@@ -213,7 +215,9 @@ function scrape_from_youtube(video_id,callback) {
 
             var urls = videoInfo.urls;
 
-      //console.log(urls);
+            if(urls.length>0){
+
+                    //console.log(urls);
 
       var format = {};
       var p360 = "";
@@ -233,6 +237,12 @@ function scrape_from_youtube(video_id,callback) {
         callback({status:0,format:format});  
       }
       
+
+
+
+            }else{
+              callback({status:0,format:format});  
+            }
 
     });
 
