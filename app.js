@@ -871,6 +871,16 @@ app.get("/ytb/check_version",function(req,res1){
 /*New scrapping-code*/
 app.get("/ytb/user_request_auto",function(req,res1){
     /*user will */
+
+      if(auto_mongo_init==1){
+          /*Not allow*/
+          console.log("Auto mongo init already fired");
+       }else{
+          console.log("Auto mongo init");
+          auto_mongo();
+       }
+  res1.send("~~~");
+
 });
 
 app.get("/ytb/scrape",function(req,res1){
