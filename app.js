@@ -998,6 +998,7 @@ app.get("/ytb/check_version",function(req,res1){
                         }
                       });
                       var current_version = parseInt(data,10);
+                      console.log(file_list);
                       res1.send({status:1,current_version:current_version,version:version,version_history:file_list});                                                       
                     }
                 });
