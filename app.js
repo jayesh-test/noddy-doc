@@ -972,12 +972,15 @@ function auto_mongo(){
 app.get("/ytb/check_version",function(req,res1){
     /*Check which*/
 
+console.log("$$$$$$$$$$$$$");
     var fs = require('fs')
     var version = req.query.version;
 
     var path = process.cwd()+"/public/json_obj/ytb";
     fs.readFile(path+"/ytb_version.txt","utf-8",function(err,data){
                 if(err){
+
+                  console.log(err);
                    res1.send({status:1,current_version:1,version:0,version_history:[]});
                 }else{
 
@@ -987,6 +990,7 @@ app.get("/ytb/check_version",function(req,res1){
 
                   fs.readdir( dir, function(err, list) {
                     if(err){
+                      console.log(err);
                       async_recall(null,{version_history:[],version:version,lot:JSON.parse(data)});
                     }else{
                       var regex = new RegExp("ytb_video_list-");
