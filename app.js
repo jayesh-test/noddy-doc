@@ -1027,29 +1027,30 @@ app.get("/ytb/download",function(req,res1){
                /*mp3*/              
                var mp3 = $(".downbuttonstyle[data-itag='mp3']").attr("href");
                var mp3_size = $(".downbuttonstyle[data-itag='mp3']").find(".labelw").html();
-               console.log("mp3 = "+mp3);
+               //console.log("mp3 = "+mp3);
                /*3gp(140p) : itag=36*/
                var gp3_140p = $(".downbuttonstyle[data-itag='17']").attr("href");
                var gp3_140p_size = $(".downbuttonstyle[data-itag='17']").find(".labelw").html();
-               console.log("gp3_140p = "+gp3_140p);
+               //console.log("gp3_140p = "+gp3_140p);
 
                /*3gp(240p) : itag=36*/
                var gp3_240p = $(".downbuttonstyle[data-itag='36']").attr("href");
                var gp3_240p_size = $(".downbuttonstyle[data-itag='36']").find(".labelw").html();
-               console.log("gp3_240p = "+gp3_240p);
+               //console.log("gp3_240p = "+gp3_240p);
 
                /*mp4(360): itag=18*/
                var p360 = $(".downbuttonstyle[data-itag='18']").attr("href");
                var p360_size = $(".downbuttonstyle[data-itag='18']").find(".labelw").html();
                console.log("p360 = "+p360);
+               console.log("p360_size = "+p360_size);
 
                /*mp4(720p): itag=22*/
                var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
-               var p720_size = 0;
-               console.log("p720 = "+p720);
+               var p720_size = $(".downbuttonstyle[data-itag='22']").find(".labelw").html();
+               //console.log("p720 = "+p720);
 
                //var link={'mp3':mp3,'3gp(140p)':gp3_140p,'3gp(240p)':gp3_240p,'MP4(360)':p360,'MP4p(720)':p720};
-               var link={'mp3':{tag:"mp3",link:mp3},'3gp_140':{tag:'3gp(140)',link:gp3_140p},'gp3_240p':{tag:'3gp(140p)',link:gp3_240p},'mp4_360p':{tag:'MP4(360)',link:p360},'mp4_720p':{tag:'MP4(720)',link:p720}};
+               var link={'mp3':{tag:"mp3",link:mp3,size:mp3_size},'3gp_140':{tag:'3gp(140)',link:gp3_140p,size:gp3_140p_size},'gp3_240p':{tag:'3gp(240p)',link:gp3_240p,size:gp3_240p_size},'mp4_360p':{tag:'MP4(360)',link:p360,size:p360_size},'mp4_720p':{tag:'MP4(720)',link:p720,size:p720_size}};
 
                res1.send(link);
                //var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
