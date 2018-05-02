@@ -979,6 +979,9 @@ app.get("/ytb/download",function(req,res1){
   var http = require('https');
   var fs = require('fs');
   
+  var video_id=req.query.video_id;
+  console.log("video_id = "+video_id);
+
   https.get("https://video.genyoutube.net/"+video_id,function(res) {
     var chunks = [];
     res.on('data', function(chunk){
