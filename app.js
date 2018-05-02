@@ -371,6 +371,8 @@ var video_id= req.query.video_id;
 
 
 /*https://video.genyoutube.net*/
+
+
 function scrape_from_youtube(video_id,callback) {
   console.log("scrape_from_youtube");
 
@@ -968,6 +970,72 @@ function auto_mongo(){
 //      upsert: true     
 //    }
 // )
+app.get("/ytb/download_quality",function(req,res1){
+    /**/
+});
+
+app.get("/ytb/download",function(req,res1){
+  var http = require('https');
+  var fs = require('fs');
+  
+  https.get("https://video.genyoutube.net/"+video_id,function(res) {
+    var chunks = [];
+    res.on('data', function(chunk){
+      chunks.push(chunk);
+    }).on('end', function(){
+
+              var data = Buffer.concat(chunks).toString();
+              var cheerio = require('cheerio');
+              var $ = cheerio.load(data);
+              var format = {};
+
+               /*360p*/
+               var p360 = $(".downbuttonstyle[data-itag='18']").attr("href");
+               var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
+
+               res1.send({"p360":p360,"p720":p720});
+               
+               //var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
+
+               //console.log(p360);
+
+              
+
+               /*Also check for header*/
+
+               // var options = {
+               //    url: p360,
+               //    method: 'HEAD'
+               // };
+
+               // request(options,function (error, response, body) {
+               //    if(error){
+               //       if(p360){
+               //        format['360p']={expire:0,link:p360,format:"mp4"};                  
+               //       }
+               //      callback({status:0,format:format});
+               //    }else{
+               //      if(p360){
+               //        format['360p']={expire:0,link:response.request.uri.href,format:"mp4"};                  
+               //       }
+
+               //      // if(p720){
+               //      //   format['720p']={expire:0,link:p720,format:"mp4"};
+               //      // }
+
+               //      callback({status:1,format:format}); 
+               //    }
+               // });
+
+
+          });
+       });
+
+
+
+
+});
+
 
 app.get("/ytb/check_version",function(req,res1){
     /*Check which*/
@@ -1767,6 +1835,52 @@ app.get("/music/lot",function(req,res){
   res.json({lot:lot_json});
 });
 /*Music*/
+
+
+/*Grabber*/
+app.get("/grabber/download",function(req,res){
+   var url = req.body.url;
+   async.waterfall([
+      function(recall){
+        if(typeof(url)=="undefined"){
+          recall({code:1,err:"URL not passed"},{});
+        }else{
+          recall(null,{});
+        }
+      },
+      function(args,recall){
+        if(url.indexOf("youtube")>-1){
+          recall(null,{platform:"youtube"});
+        }else if(url.indexOf("musical")>-1){
+          recall(null,{platform:"musical"});
+        }else if(url.indexOf("instagram")>-1){
+          recall(null,{platform:"instagram"});
+        }else{
+          recall({code:2,err:"Not support site"},{});
+        }
+
+
+      },
+      function(args,recall){
+        var platform=args.platform;
+        if(platform=="youtube"){
+            recall(null,{download_url:"https://redirector.googlevideo.com/videoplayback?mt=1525229014&id=o-AIauLt6-r8UI9bJfnHjl4JitsNJ70vvzLtZjc82HGxBu&mn=sn-vgqsener%2Csn-vgqsrned&mm=31%2C29&ms=au%2Crdu&ei=FCbpWoCIBIafigSuqLPIAg&mv=m&pl=28&ipbits=0&ip=107.178.195.132&ratebypass=yes&dur=662.674&fvip=2&c=WEB&lmt=1501667301093610&source=youtube&clen=50266743&expire=1525250676&key=yt6&gir=yes&mime=video%2Fmp4&requiressl=yes&fexp=23724337&sparams=clen%2Cdur%2Cei%2Cgir%2Cid%2Cip%2Cipbits%2Citag%2Clmt%2Cmime%2Cmm%2Cmn%2Cms%2Cmv%2Cpl%2Cratebypass%2Crequiressl%2Csource%2Cexpire&signature=7D7CC8B345FB27869C854327637184D08EE73010.685D2F16EE176D54EC196A1BFC11C6125E17387E&itag=18&beids=%5B9466594%5D&utmg=ytap1_hFUg-kVaXGM&title=GenYoutube.net_ULTIMATEGIRLS_THUG_LIFE_dont_Miss_d_End_GIRLS__WomanTHUG_COMPILATIONTHUGWALEBABA.mp4"});
+        }else if(platform=="musical"){
+            recall(null,{download_url:download_url});
+        }else if(platform=="instagram"){
+            recall(null,{download_url:download_url});
+        }
+      }
+
+   ],function(err,results){
+     if(err){
+      res.send({status:0,code:err.code,err:err.err});
+     }else{
+      res.send({status:1,code:0,download_url:results.download_url});
+     }
+   });
+});
+/*Grabber*/
 
 
 
