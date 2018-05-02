@@ -714,25 +714,26 @@ var auto_mongo_init=0;
 
 
 /*Mongo*/
- var MongoClient = require('mongodb').MongoClient;
 var mongo_database = "";
-MongoClient.connect('mongodb://ytb_user_mlab149:ytb_mlab_pwd12@ds247439.mlab.com:47439/ytb_test', function(err,database) {
-  if(err){
-      mongo_database="";
-      console.log(err);
-  }else{
-      console.log("Remote Mongodb connect...");
-      mongo_database = database.db('ytb_test');
-      // if(auto_mongo_init==0){
-      //   auto_mongo_init=1;
-      //   auto_mongo();
+//  var MongoClient = require('mongodb').MongoClient;
+// var mongo_database = "";
+// MongoClient.connect('mongodb://ytb_user_mlab149:ytb_mlab_pwd12@ds247439.mlab.com:47439/ytb_test', function(err,database) {
+//   if(err){
+//       mongo_database="";
+//       console.log(err);
+//   }else{
+//       console.log("Remote Mongodb connect...");
+//       mongo_database = database.db('ytb_test');
+//       // if(auto_mongo_init==0){
+//       //   auto_mongo_init=1;
+//       //   auto_mongo();
 
-      // }
+//       // }
 
-      //
+//       //
 
-  }
-});
+//   }
+// });
 
 // var cron = require('node-cron');
  
@@ -994,7 +995,7 @@ app.get("/ytb/download",function(req,res1){
                var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
 
                res1.send({"p360":p360,"p720":p720});
-               
+
                //var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
 
                //console.log(p360);
