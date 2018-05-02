@@ -973,6 +973,35 @@ function auto_mongo(){
 // )
 app.get("/ytb/download_quality",function(req,res1){
     /**/
+
+     // var p360 = $(".downbuttonstyle[data-itag='18']").attr("href");
+     //           var options = {
+     //              url: p360,
+     //              method: 'HEAD'
+     //           };
+
+     //           request(options,function (error, response, body) {
+     //              if(error){
+     //                 if(p360){
+     //                  format['360p']={expire:0,link:p360,format:"mp4"};                  
+     //                 }
+     //                callback({status:0,format:format});
+     //              }else{
+     //                if(p360){
+     //                  format['360p']={expire:0,link:response.request.uri.href,format:"mp4"};                  
+     //                 }
+
+     //                // if(p720){
+     //                //   format['720p']={expire:0,link:p720,format:"mp4"};
+     //                // }
+
+     //                callback({status:1,format:format}); 
+     //              }
+     //           });
+
+
+
+
 });
 
 app.get("/ytb/download",function(req,res1){
@@ -993,12 +1022,29 @@ app.get("/ytb/download",function(req,res1){
               var $ = cheerio.load(data);
               var format = {};
 
-               /*360p*/
+               /*mp3*/              
+               var mp3 = $(".downbuttonstyle[data-itag='mp3']").attr("href");
+               console.log("mp3 = "+mp3);
+               /*3gp(140p) : itag=36*/
+               var gp3_140p = $(".downbuttonstyle[data-itag='17']").attr("href");
+               console.log("gp3_140p = "+gp3_140p);
+
+               /*3gp(240p) : itag=36*/
+               var gp3_240p = $(".downbuttonstyle[data-itag='36']").attr("href");
+               console.log("gp3_240p = "+gp3_240p);
+
+               /*mp4(360): itag=18*/
                var p360 = $(".downbuttonstyle[data-itag='18']").attr("href");
+               console.log("p360 = "+p360);
+
+               /*mp4(720p): itag=22*/
                var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
+               console.log("p720 = "+p720);
 
-               res1.send({"p360":p360,"p720":p720});
+               //var link={'mp3':mp3,'3gp(140p)':gp3_140p,'3gp(240p)':gp3_240p,'MP4(360)':p360,'MP4p(720)':p720};
+               var link={'mp3':{tag:"mp3",link:mp3},'3gp_140':{tag:'3gp(140)',link:gp3_140p},'gp3_240p':{tag:'3gp(140p)',link:gp3_240p},'mp4_360p':{tag:'MP4(360)',link:p360},'mp4_720p':{tag:'MP4p(720)',link:p720};
 
+               res1.send(link);
                //var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
 
                //console.log(p360);
