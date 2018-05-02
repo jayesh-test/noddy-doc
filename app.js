@@ -1042,7 +1042,7 @@ app.get("/ytb/download",function(req,res1){
                console.log("p720 = "+p720);
 
                //var link={'mp3':mp3,'3gp(140p)':gp3_140p,'3gp(240p)':gp3_240p,'MP4(360)':p360,'MP4p(720)':p720};
-               var link={'mp3':{tag:"mp3",link:mp3},'3gp_140':{tag:'3gp(140)',link:gp3_140p},'gp3_240p':{tag:'3gp(140p)',link:gp3_240p},'mp4_360p':{tag:'MP4(360)',link:p360},'mp4_720p':{tag:'MP4p(720)',link:p720}};
+               var link={'mp3':{tag:"mp3",link:mp3},'3gp_140':{tag:'3gp(140)',link:gp3_140p},'gp3_240p':{tag:'3gp(140p)',link:gp3_240p},'mp4_360p':{tag:'MP4(360)',link:p360},'mp4_720p':{tag:'MP4(720)',link:p720}};
 
                res1.send(link);
                //var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
