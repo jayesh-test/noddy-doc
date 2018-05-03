@@ -1016,12 +1016,12 @@ app.get("/ytb/fetch_link",function(req,res1){
 
                request(options,function (error, response, body) {
                   if(error){
-                     callback({status:0});
+                     res1({status:0});
                   }else{
                      if(response.request.uri.href){
-                      callback({status:1,href:response.request.uri.href});
+                      res1({status:1,href:response.request.uri.href});
                      }else{
-                      callback({status:0,href:""});
+                      res1({status:0,href:""});
                      }
                   }
                });
