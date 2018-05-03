@@ -1004,10 +1004,33 @@ app.get("/ytb/download_quality",function(req,res1){
 
 });
 
+app.get("/ytb/fetch_link",function(req,res1){
+  var http = require('https');
+  var fs = require('fs');
+  var url_link = req.query.url_link;
+
+  var options = {
+                  url: url_link,
+                  method: 'HEAD'
+               };
+
+               request(options,function (error, response, body) {
+                  if(error){
+                     callback({status:0});
+                  }else{
+                     if(response.request.uri.href){
+                      callback({status:1,href:response.request.uri.href});
+                     }else{
+                      callback({status:0,href:""});
+                     }
+                  }
+               });
+
+});
+
 app.get("/ytb/download",function(req,res1){
   var http = require('https');
   var fs = require('fs');
-  
   var video_id=req.query.video_id;
   console.log("video_id = "+video_id);
 
