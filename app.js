@@ -1020,7 +1020,7 @@ app.get("/ytb/fetch_link",function(req,res1){
                   if(error){
                      res1.send({status:0});
                   }else{
-                    console.log(response.request);
+                    //console.log(response.request);
                      if(response.request.uri.href){
                       res1.send({status:1,href:response.request.uri.href});
                      }else{
@@ -1051,8 +1051,8 @@ app.get("/ytb/download",function(req,res1){
 
 
                /*mp3*/              
-               var mp3 = $(".downbuttonstyle[data-itag='mp3']").attr("href");
-               var mp3_size = $(".downbuttonstyle[data-itag='mp3']").find(".labelw").html();
+               //var mp3 = $(".downbuttonstyle[data-itag='mp3']").attr("href");
+               //var mp3_size = $(".downbuttonstyle[data-itag='mp3']").find(".labelw").html();
                //console.log("mp3 = "+mp3);
                /*3gp(140p) : itag=36*/
                //var gp3_140p = $(".downbuttonstyle[data-itag='17']").attr("href");
@@ -1078,7 +1078,8 @@ app.get("/ytb/download",function(req,res1){
 
                //var link={'mp3':mp3,'3gp(140p)':gp3_140p,'3gp(240p)':gp3_240p,'MP4(360)':p360,'MP4p(720)':p720};
                //var link={'mp3':{tag:"mp3",link:mp3,size:mp3_size},'3gp_140':{tag:'3gp(140)',link:gp3_140p,size:gp3_140p_size},'gp3_240p':{tag:'3gp(240p)',link:gp3_240p,size:gp3_240p_size},'mp4_360p':{tag:'MP4(360)',link:p360,size:p360_size},'mp4_720p':{tag:'MP4(720)',link:p720,size:p720_size}};
-               var link={'mp3':{tag:"mp3",link:mp3,size:mp3_size},'mp4_360p':{tag:'MP4(360)',link:p360,size:p360_size},'mp4_720p':{tag:'MP4(720)',link:p720,size:p720_size}};
+               //var link={'mp3':{tag:"mp3",link:mp3,size:mp3_size},'mp4_360p':{tag:'MP4(360)',link:p360,size:p360_size},'mp4_720p':{tag:'MP4(720)',link:p720,size:p720_size}};
+               var link={'mp4_360p':{tag:'MP4(360)',link:p360,size:p360_size},'mp4_720p':{tag:'MP4(720)',link:p720,size:p720_size}};
 
                res1.send(link);
                //var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
