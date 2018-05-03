@@ -1009,6 +1009,8 @@ app.get("/ytb/fetch_link",function(req,res1){
   var fs = require('fs');
   var url_link = req.query.url_link;
 
+  console.log(url_link);
+
   var options = {
                   url: url_link,
                   method: 'HEAD'
@@ -1018,6 +1020,7 @@ app.get("/ytb/fetch_link",function(req,res1){
                   if(error){
                      res1.send({status:0});
                   }else{
+                    console.log(response.request);
                      if(response.request.uri.href){
                       res1.send({status:1,href:response.request.uri.href});
                      }else{
