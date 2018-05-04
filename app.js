@@ -1086,7 +1086,7 @@ app.get("/ytb/download",function(req,res1){
                var img="";
                request.get("https://img.youtube.com/vi/"+video_id+"/0.jpg", function(err, res, body){
 
-                  if (!error && res.statusCode == 200) {
+                  if (!err && res.statusCode == 200) {
                     img = "data:" + res.headers["content-type"] + ";base64," + new Buffer(body).toString('base64');
                     console.log(img);
                   }
