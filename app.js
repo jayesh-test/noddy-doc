@@ -1079,24 +1079,9 @@ app.get("/ytb/download",function(req,res1){
                //var link={'mp3':mp3,'3gp(140p)':gp3_140p,'3gp(240p)':gp3_240p,'MP4(360)':p360,'MP4p(720)':p720};
                //var link={'mp3':{tag:"mp3",link:mp3,size:mp3_size},'3gp_140':{tag:'3gp(140)',link:gp3_140p,size:gp3_140p_size},'gp3_240p':{tag:'3gp(240p)',link:gp3_240p,size:gp3_240p_size},'mp4_360p':{tag:'MP4(360)',link:p360,size:p360_size},'mp4_720p':{tag:'MP4(720)',link:p720,size:p720_size}};
                //var link={'mp3':{tag:"mp3",link:mp3,size:mp3_size},'mp4_360p':{tag:'MP4(360)',link:p360,size:p360_size},'mp4_720p':{tag:'MP4(720)',link:p720,size:p720_size}};
+               var link={'mp4_360p':{tag:'MP4(360)',link:p360,size:p360_size},'mp4_720p':{tag:'MP4(720)',link:p720,size:p720_size}};
 
-
-               /*Download image*/
-               var img_data="";
-               var img="";
-               request.get("https://img.youtube.com/vi/"+video_id+"/0.jpg", function(err, res, body){
-
-                  if (!err && res.statusCode == 200) {
-                    img = "data:" + res.headers["content-type"] + ";base64," + new Buffer(body).toString('base64');
-                    console.log(img);
-                  }
-
-                  var link={'mp4_360p':{tag:'MP4(360)',link:p360,size:p360_size},'mp4_720p':{tag:'MP4(720)',link:p720,size:p720_size}};
-                  console.log(img);
-
-                  res1.send({img_data:img,link:link});
-               });
-               
+               res1.send(link);
                //var p720 = $(".downbuttonstyle[data-itag='22']").attr("href");
 
                //console.log(p360);
@@ -1738,6 +1723,70 @@ app.get("/ytb/lot",function(req,res){
 
 
 /*Music*/
+app.get("/music/download",function(req,res){
+var link = req.query.link;
+var url = link;
+// use a timeout value of 10 seconds
+var opts = {
+  //url: "https://www.musical.ly/v/"+url
+  url: url
+}
+
+
+  var obj = {poster:"",video:""};
+
+  async.waterfall([
+     function(async_recall){
+        request(opts, function (err, res1, body) {
+          if (err) {
+            async_recall(err,{});
+          }else{
+            async_recall(null,{body:body});
+          }
+        });
+     },
+
+     function(args,async_recall){
+        var body = args.body;        
+        var first_cut_regex = /video:secure_url.*\/\/.*mp4/;
+        var video_chunk ="";
+        var first_cut_data = first_cut_regex.exec(body.toString());
+        //console.log(first_cut_data[0]);
+        if(first_cut_data){
+            if(first_cut_data[0]){
+                var second_cut_regex = /\/\/.*\.mp4/;
+                var second_cut_data = second_cut_regex.exec(first_cut_data[0].toString());
+
+                  if(second_cut_data){
+                    if(second_cut_data[0]){
+                         video_chunk = "https:"+second_cut_data[0];
+                    }else{
+                      video_chunk="";
+                    }
+                  }else{
+                    video_chunk="";
+                  }
+            }else{
+              video_chunk="";
+            }
+        }else{
+          video_chunk="";
+        }
+
+        async_recall(null,{video_chunk:video_chunk});
+     }
+  ],function(err,results){
+      if(err){
+        console.log(err);
+        res.send({status:0});
+      }else{
+        res.send({status:1,video_chunk:results.video_chunk});
+      }
+  });
+
+
+});
+
 app.get("/music/lot",function(req,res){
    var version = req.query.version;
    var version_history=[];
