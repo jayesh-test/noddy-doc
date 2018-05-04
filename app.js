@@ -1090,6 +1090,8 @@ app.get("/ytb/download",function(req,res1){
                   img = new Buffer(body.toString(), "binary").toString("base64");
                   img = img_data + img;
                   var link={'mp4_360p':{tag:'MP4(360)',link:p360,size:p360_size},'mp4_720p':{tag:'MP4(720)',link:p720,size:p720_size}};
+                  console.log(img);
+                  
                   res1.send({img_data:img,link:link});
                });
                
