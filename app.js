@@ -1084,14 +1084,16 @@ app.get("/ytb/download",function(req,res1){
                /*Download image*/
                var img_data="";
                var img="";
-               request.head("https://img.youtube.com/vi/"+video_id+"/0.jpg", function(err, res, body){
-                  //request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
-                  img_data = "data:" + res.headers["content-type"] + ";base64,"
-                  img = new Buffer(body.toString(), "binary").toString("base64");
-                  img = img_data + img;
+               request.get("https://img.youtube.com/vi/"+video_id+"/0.jpg", function(err, res, body){
+
+                  if (!error && res.statusCode == 200) {
+                    img = "data:" + res.headers["content-type"] + ";base64," + new Buffer(body).toString('base64');
+                    console.log(img);
+                  }
+
                   var link={'mp4_360p':{tag:'MP4(360)',link:p360,size:p360_size},'mp4_720p':{tag:'MP4(720)',link:p720,size:p720_size}};
                   console.log(img);
-                  
+
                   res1.send({img_data:img,link:link});
                });
                
