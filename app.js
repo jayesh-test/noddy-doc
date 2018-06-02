@@ -172,10 +172,10 @@ io.on('connection', function(client){
 
   client.on("disconnect",function(data,callback){
 
-    console.log(client.id);
-     var csocket_id = client.id;
-     if(csocket_id.indexOf("/")>-1){
-       csocket_id=csocket_id.substr(0);
+    var csocket_id = client.id;
+     if(csocket_id.indexOf("/")==-1){
+       //csocket_id=csocket_id.substr(0);
+       csocket_id="/#"+csocket_id;
      }
 
      console.log("disconnect");
@@ -196,8 +196,9 @@ io.on('connection', function(client){
   client.on("leave_session",function(data,callback){
 
      var csocket_id = client.id;
-     if(csocket_id.indexOf("/")>-1){
-       csocket_id=csocket_id.substr(0);
+     if(csocket_id.indexOf("/")==-1){
+       //csocket_id=csocket_id.substr(0);
+       csocket_id="/#"+csocket_id;
      }
 
 
@@ -220,8 +221,9 @@ io.on('connection', function(client){
   client.on("chat",function(data,callback){
 
      var csocket_id = client.id;
-     if(csocket_id.indexOf("/")>-1){
-       csocket_id=csocket_id.substr(0);
+     if(csocket_id.indexOf("/")==-1){
+       //csocket_id=csocket_id.substr(0);
+       csocket_id="/#"+csocket_id;
      }
 
       /*check parameters*/
@@ -278,8 +280,9 @@ io.on('connection', function(client){
      var mate_id = data.mate_id;
 
      var csocket_id = client.id;
-     if(csocket_id.indexOf("/")>-1){
-       csocket_id=csocket_id.substr(0);
+     if(csocket_id.indexOf("/")==-1){
+       //csocket_id=csocket_id.substr(0);
+       csocket_id="/#"+csocket_id;
      }
      
      io.to(mate_id).emit("leave_current_mate",{});
@@ -303,8 +306,9 @@ io.on('connection', function(client){
   client.on("search",function(data,callback){
 
     var csocket_id = client.id;
-     if(csocket_id.indexOf("/")>-1){
-       csocket_id=csocket_id.substr(0);
+     if(csocket_id.indexOf("/")==-1){
+       //csocket_id=csocket_id.substr(0);
+       csocket_id="/#"+csocket_id;
      }
 
 
@@ -485,9 +489,11 @@ io.on('connection', function(client){
     console.log("Register");
 
     var csocket_id = client.id;
-    if(csocket_id.indexOf("/")>-1){
-      csocket_id=csocket_id.substr(0);
-    }
+    console.log(csocket_id);
+     if(csocket_id.indexOf("/")==-1){
+       //csocket_id=csocket_id.substr(0);
+       csocket_id="/#"+csocket_id;
+     }
 
     
 
