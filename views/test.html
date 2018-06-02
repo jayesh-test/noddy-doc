@@ -6,11 +6,11 @@
 	<script type="text/javascript">
 		var socket = io.connect("http://noddy-doc.herokuapp.com");
 
-                    socket_obj.socket.on("connect",function(){
+                    socket.on("connect",function(){
                         alert("Connect");
                     });
 
-                    socket_obj.socket.on("disconnect",function(){
+                    socket.on("disconnect",function(){
                         alert("DisConnect");
                     });
 	</script>
