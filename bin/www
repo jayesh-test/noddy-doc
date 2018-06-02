@@ -29,7 +29,7 @@ var server = http.createServer(app);
 // });
 // io.listen(server);
 
-var io = require('socket.io').listen(app,{log: 10,"transport":['websocket','xhr-polling'],"polling duration":10,'origins':'*:*'});
+var io = require('socket.io').listen(server,{log: 10,"transport":['websocket','xhr-polling'],"polling duration":10,'origins':'*:*'});
 
 
 
