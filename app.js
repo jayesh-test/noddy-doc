@@ -198,8 +198,8 @@ io.on('connection', function(client){
     var live_user_count =  Object.keys(io.sockets.connected).length;
     var female_count = FEMALE_BOX.length;
     var male_count = MALE_BOX.length;
-    
-    callback({status:1,live_user_count:results.live_user_count,male_count:results.male_count,female_count:results.female_count});      
+
+    callback({status:1,live_user_count:live_user_count,male_count:male_count,female_count:female_count});      
 
   });
 
