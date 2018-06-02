@@ -162,6 +162,7 @@ var io = require('socket.io').listen(server,{log: 10,"transport":['websocket','x
 
 
 var _ALONE_={
+  "all":{}
 };
 
 var MALE_BOX=[];
@@ -441,25 +442,9 @@ io.on('connection', function(client){
         }else{
            if(data.preference=="female"){
 
-             if(_ALONE_[data.region]){
-              if(_ALONE_[data.region]['male']){
-                _ALONE_[data.region]['male'][client.id]={socket_id:client.id,did:data.did,name:data.username,bio:data.bio}; 
-              }else{
-                _ALONE_[data.region]['male']={};
-                _ALONE_[data.region]['male'][client.id]={socket_id:client.id,did:data.did,name:data.username,bio:data.bio}; 
-              }
+             _ALONE_["all"]['male']={};
+             _ALONE_["all"]['male'][client.id]={socket_id:client.id,did:data.did,name:data.username,bio:data.bio}; 
 
-             }else{
-              _ALONE_[data.region]={};
-
-              if(_ALONE_[data.region]['male']){
-                
-                _ALONE_[data.region]['male'][client.id]={socket_id:client.id,did:data.did,name:data.username,bio:data.bio}; 
-              }else{
-                _ALONE_[data.region]['male']={};
-                _ALONE_[data.region]['male'][client.id]={socket_id:client.id,did:data.did,name:data.username,bio:data.bio}; 
-              }
-             }
 
              /*Push into*/
              //if(data.region=="india"){
@@ -473,25 +458,10 @@ io.on('connection', function(client){
              //}
             
            }else{
-             if(_ALONE_[data.region]){
-              if(_ALONE_[data.region]['female']){
-                _ALONE_[data.region]['female'][client.id]={socket_id:client.id,did:data.did,name:data.username,bio:data.bio}; 
-              }else{
-                _ALONE_[data.region]['female']={};
-                _ALONE_[data.region]['female'][client.id]={socket_id:client.id,did:data.did,name:data.username,bio:data.bio}; 
-              }
-             }else{
-              _ALONE_[data.region]={};
-
-              if(_ALONE_[data.region]['female']){
-                
-                _ALONE_[data.region]['female'][client.id]={socket_id:client.id,did:data.did,name:data.username,bio:data.bio}; 
-              }else{
-                _ALONE_[data.region]['female']={};
-                _ALONE_[data.region]['female'][client.id]={socket_id:client.id,did:data.did,name:data.username,bio:data.bio}; 
-              }
-             }  
-
+              
+              _ALONE_["all"]['female']={};
+              _ALONE_["all"]['female'][client.id]={socket_id:client.id,did:data.did,name:data.username,bio:data.bio}; 
+ 
              //if(data.region=="india"){
               //console.log("PUSH into india");
               //console.log("Female pushed");
