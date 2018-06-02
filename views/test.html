@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="/javascripts/socket_io_1.3.3.js"></script>   
+	<script type="text/javascript">
+		var socket = io.connect("http://noddy-doc.herokuapp.com");
+
+                    socket_obj.socket.on("connect",function(){
+                        alert("Connect");
+                    });
+
+                    socket_obj.socket.on("disconnect",function(){
+                        alert("DisConnect");
+                    });
+	</script>
+</head>
+<body>
+<%-port%>
+</body>
+</html>
