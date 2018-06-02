@@ -172,9 +172,10 @@ io.on('connection', function(client){
 
   client.on("disconnect",function(data,callback){
 
+    console.log(client.id);
      var csocket_id = client.id;
      if(csocket_id.indexOf("/")>-1){
-       csocket_id=csocket_id.substr(2);
+       csocket_id=csocket_id.substr(0);
      }
 
      console.log("disconnect");
@@ -196,7 +197,7 @@ io.on('connection', function(client){
 
      var csocket_id = client.id;
      if(csocket_id.indexOf("/")>-1){
-       csocket_id=csocket_id.substr(2);
+       csocket_id=csocket_id.substr(0);
      }
 
 
@@ -220,7 +221,7 @@ io.on('connection', function(client){
 
      var csocket_id = client.id;
      if(csocket_id.indexOf("/")>-1){
-       csocket_id=csocket_id.substr(2);
+       csocket_id=csocket_id.substr(0);
      }
 
       /*check parameters*/
@@ -278,7 +279,7 @@ io.on('connection', function(client){
 
      var csocket_id = client.id;
      if(csocket_id.indexOf("/")>-1){
-       csocket_id=csocket_id.substr(2);
+       csocket_id=csocket_id.substr(0);
      }
      
      io.to(mate_id).emit("leave_current_mate",{});
@@ -303,7 +304,7 @@ io.on('connection', function(client){
 
     var csocket_id = client.id;
      if(csocket_id.indexOf("/")>-1){
-       csocket_id=csocket_id.substr(2);
+       csocket_id=csocket_id.substr(0);
      }
 
 
@@ -485,7 +486,7 @@ io.on('connection', function(client){
 
     var csocket_id = client.id;
     if(csocket_id.indexOf("/")>-1){
-      csocket_id=csocket_id.substr(2);
+      csocket_id=csocket_id.substr(0);
     }
 
     
