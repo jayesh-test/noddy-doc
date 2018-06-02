@@ -337,6 +337,13 @@ io.on('connection', function(client){
 
 
               io.to(pop_female).emit("stranger_found",data);
+
+              console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+              console.log(pop_female);
+              console.log(_ALONE_['all']['female']);
+              console.log(_ALONE_['all']);
+              console.log(_ALONE_);
+
               client.emit("stranger_found_confirm",_ALONE_['all']['female'][pop_female]);
 
 
