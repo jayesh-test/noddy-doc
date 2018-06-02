@@ -465,7 +465,6 @@ io.on('connection', function(client){
              _ALONE_["all"]['male']={};
              _ALONE_["all"]['male'][client.id]={socket_id:client.id,did:data.did,name:data.username,bio:data.bio}; 
 
-
              /*Push into*/
              //if(data.region=="india"){
               //console.log("PUSH into india");
