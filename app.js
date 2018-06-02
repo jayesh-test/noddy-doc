@@ -302,6 +302,8 @@ io.on('connection', function(client){
 
             /*Check is this female found*/
             var pop_female=-1;
+
+            console.log("FEMALE_BOX.length = "+FEMALE_BOX.length);
             while(FEMALE_BOX.length>0){
                pop_female = FEMALE_BOX.shift();
                console.log("%%%%");
@@ -313,52 +315,49 @@ io.on('connection', function(client){
                  break;
                }
             }
+            if(pop_female!=-1){
+              console.log("Female found");
 
-            if(pop_female>-1){
-
-                  console.log("^^^^^^^^^^^^^^^^^^^^^^^");
-                  console.log(pop_female);
-                  console.log("^^^^^^^^^^^^^^^^^^^^^^^");
-
-
-                  if(io.sockets.sockets[pop_female]!=undefined){
+              console.log("^^^^^^^^^^^^^^^^^^^^^^^");
+            console.log(pop_female);
+            console.log("^^^^^^^^^^^^^^^^^^^^^^^");
 
 
-                    //MALE_BOX.splice(MALE_BOX[client.id], 1);
-                    MALE_BOX.splice(MALE_BOX.indexOf(client.id), 1);
-                    //delete MALE_BOX[client.id];
-                    //delete FEMALE_BOX[client.id];
-
-                    console.log("Female Found..........");
+            if(io.sockets.sockets[pop_female]!=undefined){
 
 
-                    console.log("^&&&&&&&&&&&&");
-                    console.log(MALE_BOX);
-                    console.log(FEMALE_BOX);
-                    console.log("^&&&&&&&&&&&&");
+              //MALE_BOX.splice(MALE_BOX[client.id], 1);
+              
+              //delete MALE_BOX[client.id];
+              //delete FEMALE_BOX[client.id];
+
+              console.log("Female Found..........");
 
 
-                    io.to(pop_female).emit("stranger_found",data);
-
-                    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-                    console.log(pop_female);
-                    console.log(_ALONE_['all']['female']);
-                    console.log(_ALONE_['all']);
-                    console.log(_ALONE_);
-
-                    client.emit("stranger_found_confirm",_ALONE_['all']['female'][pop_female]);
+              console.log("^&&&&&&&&&&&&");
+              console.log(MALE_BOX);
+              console.log(FEMALE_BOX);
+              console.log("^&&&&&&&&&&&&");
 
 
-                  }else{
-                    console.log("Socket not connected "+Object.keys(io.sockets.connected).length);
-                  }
+              io.to(pop_female).emit("stranger_found",data);
+              MALE_BOX.splice(MALE_BOX.indexOf(client.id), 1);
 
-                  recall(null,{entry:pop_female});
+              client.emit("stranger_found_confirm",_ALONE_['all']['female'][pop_female]);
 
 
             }else{
+              console.log("Socket not connected "+Object.keys(io.sockets.connected).length);
+            }
+
+            recall(null,{entry:pop_female});
+
+            }else{
+              console.log("No female found");
               recall(null,{entry:0});
             }
+
+            
             
            }else{
             
@@ -369,8 +368,8 @@ io.on('connection', function(client){
             /*Check is this female found*/
             
             var pop_male=-1;
+            console.log("MALE_BOX.length = "+MALE_BOX.length);
             while(MALE_BOX.length>0){
-
 
                pop_male = MALE_BOX.shift();
 
@@ -380,18 +379,15 @@ io.on('connection', function(client){
 
                if(pop_male){
                  console.log("Pop male");
-
                  break;
                }
             }
 
-            if(pop_male>-1){
+            if(pop_male!=1){              
 
-
-
-            console.log("^^^^^^^^^^^^^^^^^^^^^^^");
-            console.log(pop_male);
-            console.log("^^^^^^^^^^^^^^^^^^^^^^^");
+              console.log("^^^^^^^^^^^^^^^^^^^^^^^");
+              console.log(pop_male);
+              console.log("^^^^^^^^^^^^^^^^^^^^^^^");
 
             if(io.sockets.sockets[pop_male]!=undefined){
                 
@@ -425,15 +421,17 @@ io.on('connection', function(client){
 
             /*Pop from array female*/
 
+
             
 
             //FEMALE_BOX.splice(FEMALE_BOX[client.id], 1);
             recall(null,{entry:pop_male});
 
             }else{
-              recall(null,{entry:0});
-            }
+             recall(null,{entry:0});              
 
+            }
+            
            }
            
         }
