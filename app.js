@@ -171,14 +171,20 @@ var FEMALE_BOX=[];
 io.on('connection', function(client){
 
   client.on("disconnect",function(data,callback){
+
+     var csocket_id = client.id;
+     if(csocket_id.indexOf("/")>-1){
+       csocket_id=csocket_id.substr(2);
+     }
+
      console.log("disconnect");
      try{
-      delete _ALONE_['all']['male'][client.id];
-      delete _ALONE_['all']['female'][client.id];
+      delete _ALONE_['all']['male'][csocket_id];
+      delete _ALONE_['all']['female'][csocket_id];
       
 
-      MALE_BOX.splice(MALE_BOX.indexOf(client.id), 1);
-      FEMALE_BOX.splice(FEMALE_BOX.indexOf(client.id), 1);
+      MALE_BOX.splice(MALE_BOX.indexOf(csocket_id), 1);
+      FEMALE_BOX.splice(FEMALE_BOX.indexOf(csocket_id), 1);
 
      }catch(err){
 
@@ -187,14 +193,21 @@ io.on('connection', function(client){
   });
 
   client.on("leave_session",function(data,callback){
+
+     var csocket_id = client.id;
+     if(csocket_id.indexOf("/")>-1){
+       csocket_id=csocket_id.substr(2);
+     }
+
+
     console.log("Leave session");
     try{
-      delete _ALONE_['all']['male'][client.id];
-      delete _ALONE_['all']['female'][client.id];
+      delete _ALONE_['all']['male'][csocket_id];
+      delete _ALONE_['all']['female'][csocket_id];
       
 
-      MALE_BOX.splice(MALE_BOX.indexOf(client.id), 1);
-      FEMALE_BOX.splice(FEMALE_BOX.indexOf(client.id), 1);
+      MALE_BOX.splice(MALE_BOX.indexOf(csocket_id), 1);
+      FEMALE_BOX.splice(FEMALE_BOX.indexOf(csocket_id), 1);
 
      }catch(err){
 
@@ -204,6 +217,12 @@ io.on('connection', function(client){
 
   //console.log(client.id);
   client.on("chat",function(data,callback){
+
+     var csocket_id = client.id;
+     if(csocket_id.indexOf("/")>-1){
+       csocket_id=csocket_id.substr(2);
+     }
+
       /*check parameters*/
       async.waterfall([
          function(recall){
@@ -257,12 +276,16 @@ io.on('connection', function(client){
   client.on("leave_current_mate",function(data,callback){
      var mate_id = data.mate_id;
 
+     var csocket_id = client.id;
+     if(csocket_id.indexOf("/")>-1){
+       csocket_id=csocket_id.substr(2);
+     }
      
      io.to(mate_id).emit("leave_current_mate",{});
 
      try{
-      delete _ALONE_['all']['male'][client.id];
-      delete _ALONE_['all']['female'][client.id];
+      delete _ALONE_['all']['male'][csocket_id];
+      delete _ALONE_['all']['female'][csocket_id];
 
 
       
@@ -277,6 +300,13 @@ io.on('connection', function(client){
   });
 
   client.on("search",function(data,callback){
+
+    var csocket_id = client.id;
+     if(csocket_id.indexOf("/")>-1){
+       csocket_id=csocket_id.substr(2);
+     }
+
+
     /*search by preference who inside pool and waiting*/
     async.waterfall([
       function(recall){
@@ -341,7 +371,7 @@ io.on('connection', function(client){
 
 
               io.to(pop_female).emit("stranger_found",data);
-              MALE_BOX.splice(MALE_BOX.indexOf(client.id), 1);
+              MALE_BOX.splice(MALE_BOX.indexOf(csocket_id), 1);
 
               client.emit("stranger_found_confirm",_ALONE_['all']['female'][pop_female]);
 
@@ -404,7 +434,7 @@ io.on('connection', function(client){
               
 
 
-              FEMALE_BOX.splice(FEMALE_BOX.indexOf(client.id), 1);
+              FEMALE_BOX.splice(FEMALE_BOX.indexOf(csocket_id), 1);
 
               console.log("^&&&&&&&&&&&&");
               console.log(MALE_BOX);
@@ -452,6 +482,12 @@ io.on('connection', function(client){
 
   client.on("register",function(data,callback){
     console.log("Register");
+
+    var csocket_id = client.id;
+    if(csocket_id.indexOf("/")>-1){
+      csocket_id=csocket_id.substr(2);
+    }
+
     
 
     async.waterfall([
@@ -463,12 +499,12 @@ io.on('connection', function(client){
            if(data.preference=="female"){
 
              _ALONE_["all"]['male']={};
-             _ALONE_["all"]['male'][client.id]={socket_id:client.id,did:data.did,name:data.username,bio:data.bio}; 
+             _ALONE_["all"]['male'][csocket_id]={socket_id:csocket_id,did:data.did,name:data.username,bio:data.bio}; 
 
              /*Push into*/
              //if(data.region=="india"){
               //console.log("PUSH into india");
-              MALE_BOX.push(client.id);
+              MALE_BOX.push(csocket_id);
               console.log("Male pushed");
               console.log(MALE_BOX);
 
@@ -479,12 +515,12 @@ io.on('connection', function(client){
            }else{
               
               _ALONE_["all"]['female']={};
-              _ALONE_["all"]['female'][client.id]={socket_id:client.id,did:data.did,name:data.username,bio:data.bio}; 
+              _ALONE_["all"]['female'][csocket_id]={socket_id:csocket_id,did:data.did,name:data.username,bio:data.bio}; 
  
              //if(data.region=="india"){
               //console.log("PUSH into india");
               //console.log("Female pushed");
-              FEMALE_BOX.push(client.id); 
+              FEMALE_BOX.push(csocket_id); 
               console.log("Female pushed");
               console.log(FEMALE_BOX);
              //}else{
