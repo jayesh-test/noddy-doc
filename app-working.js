@@ -42,7 +42,7 @@ var app = express();
     // app.set('port', process.env.PORT);
     // var server = require("http").createServer(app);
     //  server.listen(80,function(){
-    ////         console.log('Express server listening on port 80');
+    //         console.log('Express server listening on port 80');
     // }); 
 
 
@@ -97,8 +97,8 @@ app.get("/",function(req,res){
 
 /*#process_uncaught*/
 process.on('uncaughtException', function (err) {
-  //console.log("Uncaught error");
-  //console.log(err);
+  console.log("Uncaught error");
+  console.log(err);
 });
 /*#process_uncaught*/
 
@@ -108,7 +108,7 @@ app.use(function(req, res, next){
   var err = new Error(req.url),user_id=-1;
       err.status = 404;  
       console.log("404 error");
-      console.log(req.url); 
+      console.log(err); 
       next();  
  });
 /*#404_error*/
@@ -178,7 +178,7 @@ io.on('connection', function(client){
        csocket_id="/#"+csocket_id;
      }
 
-     //console.log("disconnect");
+     console.log("disconnect");
      try{
       delete _ALONE_['all']['male'][csocket_id];
       delete _ALONE_['all']['female'][csocket_id];
@@ -190,7 +190,7 @@ io.on('connection', function(client){
      }catch(err){
 
      }
-     ////console.log(_ALONE_);
+     //console.log(_ALONE_);
   });
 
   client.on("leave_session",function(data,callback){
@@ -202,7 +202,7 @@ io.on('connection', function(client){
      }
 
 
-    //console.log("Leave session");
+    console.log("Leave session");
     try{
       delete _ALONE_['all']['male'][csocket_id];
       delete _ALONE_['all']['female'][csocket_id];
@@ -217,7 +217,7 @@ io.on('connection', function(client){
 
   });
 
-  ////console.log(client.id);
+  //console.log(client.id);
   client.on("chat",function(data,callback){
 
      var csocket_id = client.id;
@@ -243,7 +243,7 @@ io.on('connection', function(client){
          }         
       ],function(err,results){
          if(err){
-           //console.log(err);
+           console.log(err);
          }
       });
   });
@@ -257,15 +257,15 @@ io.on('connection', function(client){
   });
 
   client.on("match_accept",function(data,callback){
-    //console.log("Accept....");
-    //console.log(data);
+    console.log("Accept....");
+    console.log(data);
     io.to(data.socket_id).emit("match_accept",data);
   });
 
 
   client.on("match_reject",function(data,callback){
-    //console.log("Accept....");
-    //console.log(data);
+    console.log("Accept....");
+    console.log(data);
 
     io.to(data.socket_id).emit("match_reject",data);
     // if(data.preference=="male"){
@@ -298,7 +298,7 @@ io.on('connection', function(client){
 
      }
 
-     //console.log(_ALONE_);
+     console.log(_ALONE_);
      callback({});
      
   });
@@ -316,20 +316,20 @@ io.on('connection', function(client){
     async.waterfall([
       function(recall){
         /*check*/
-        //console.log("search == =");
-        //console.log(data);
+        console.log("search == =");
+        console.log(data);
         if(typeof(data.my_id)=="undefined" ||  typeof(data.did)=="undefined" || typeof(data.region)=="undefined" || typeof(data.username)=="undefined" || typeof(data.bio)=="undefined" || typeof(data.preference)=="undefined"){
           recall("Parameter Missing",{});
         }else{
 
-           //console.log("Alone");
-           //console.log(_ALONE_);
+           console.log("Alone");
+           console.log(_ALONE_);
 
-           //console.log("Male");
-           //console.log(MALE_BOX);
+           console.log("Male");
+           console.log(MALE_BOX);
 
-           //console.log("FeMale");
-           //console.log(FEMALE_BOX);
+           console.log("FeMale");
+           console.log(FEMALE_BOX);
 
            if(data.preference=="female"){
             var flag=0;
@@ -338,24 +338,24 @@ io.on('connection', function(client){
             /*Check is this female found*/
             var pop_female=-1;
 
-            //console.log("FEMALE_BOX.length = "+FEMALE_BOX.length);
+            console.log("FEMALE_BOX.length = "+FEMALE_BOX.length);
             while(FEMALE_BOX.length>0){
                pop_female = FEMALE_BOX.shift();
-               //console.log("%%%%");
-               //console.log(pop_female);
-               //console.log("%%%%");
+               console.log("%%%%");
+               console.log(pop_female);
+               console.log("%%%%");
 
                if(pop_female){
-                 //console.log("Female pop");
+                 console.log("Female pop");
                  break;
                }
             }
             if(pop_female!=-1){
-              //console.log("Female found");
+              console.log("Female found");
 
-              //console.log("^^^^^^^^^^^^^^^^^^^^^^^");
-            //console.log(pop_female);
-            //console.log("^^^^^^^^^^^^^^^^^^^^^^^");
+              console.log("^^^^^^^^^^^^^^^^^^^^^^^");
+            console.log(pop_female);
+            console.log("^^^^^^^^^^^^^^^^^^^^^^^");
 
 
             if(io.sockets.sockets[pop_female]!=undefined){
@@ -366,13 +366,13 @@ io.on('connection', function(client){
               //delete MALE_BOX[client.id];
               //delete FEMALE_BOX[client.id];
 
-              //console.log("Female Found..........");
+              console.log("Female Found..........");
 
 
-              //console.log("^&&&&&&&&&&&&");
-              //console.log(MALE_BOX);
-              //console.log(FEMALE_BOX);
-              //console.log("^&&&&&&&&&&&&");
+              console.log("^&&&&&&&&&&&&");
+              console.log(MALE_BOX);
+              console.log(FEMALE_BOX);
+              console.log("^&&&&&&&&&&&&");
 
 
               io.to(pop_female).emit("stranger_found",data);
@@ -382,13 +382,13 @@ io.on('connection', function(client){
 
 
             }else{
-              //console.log("Socket not connected "+Object.keys(io.sockets.connected).length);
+              console.log("Socket not connected "+Object.keys(io.sockets.connected).length);
             }
 
             recall(null,{entry:pop_female});
 
             }else{
-              //console.log("No female found");
+              console.log("No female found");
               recall(null,{entry:0});
             }
 
@@ -403,31 +403,31 @@ io.on('connection', function(client){
             /*Check is this female found*/
             
             var pop_male=-1;
-            //console.log("MALE_BOX.length = "+MALE_BOX.length);
+            console.log("MALE_BOX.length = "+MALE_BOX.length);
             while(MALE_BOX.length>0){
 
                pop_male = MALE_BOX.shift();
 
-               //console.log("%%%%");
-               //console.log(pop_male);
-               //console.log("%%%%");
+               console.log("%%%%");
+               console.log(pop_male);
+               console.log("%%%%");
 
                if(pop_male){
-                 //console.log("Pop male");
+                 console.log("Pop male");
                  break;
                }
             }
 
             if(pop_male!=1){              
 
-              //console.log("^^^^^^^^^^^^^^^^^^^^^^^");
-              //console.log(pop_male);
-              //console.log("^^^^^^^^^^^^^^^^^^^^^^^");
+              console.log("^^^^^^^^^^^^^^^^^^^^^^^");
+              console.log(pop_male);
+              console.log("^^^^^^^^^^^^^^^^^^^^^^^");
 
             if(io.sockets.sockets[pop_male]!=undefined){
                 
 
-                //console.log("MALE Found..........");
+                console.log("MALE Found..........");
               io.to(pop_male).emit("stranger_found",data);
 
 
@@ -441,16 +441,16 @@ io.on('connection', function(client){
 
               FEMALE_BOX.splice(FEMALE_BOX.indexOf(csocket_id), 1);
 
-              //console.log("^&&&&&&&&&&&&");
-              //console.log(MALE_BOX);
-              //console.log(FEMALE_BOX);
-              //console.log("^&&&&&&&&&&&&");
+              console.log("^&&&&&&&&&&&&");
+              console.log(MALE_BOX);
+              console.log(FEMALE_BOX);
+              console.log("^&&&&&&&&&&&&");
 
               client.emit("stranger_found_confirm",_ALONE_['all']['male'][pop_male]);
 
 
             }else{
-              //console.log("Socket not connected "+Object.keys(io.sockets.connected).length);
+              console.log("Socket not connected "+Object.keys(io.sockets.connected).length);
             }
 
 
@@ -486,10 +486,10 @@ io.on('connection', function(client){
   });
 
   client.on("register",function(data,callback){
-    //console.log("Register");
+    console.log("Register");
 
     var csocket_id = client.id;
-    //console.log(csocket_id);
+    console.log(csocket_id);
      if(csocket_id.indexOf("/")==-1){
        //csocket_id=csocket_id.substr(0);
        csocket_id="/#"+csocket_id;
@@ -510,13 +510,13 @@ io.on('connection', function(client){
 
              /*Push into*/
              //if(data.region=="india"){
-              ////console.log("PUSH into india");
+              //console.log("PUSH into india");
               MALE_BOX.push(csocket_id);
-              //console.log("Male pushed");
-              //console.log(MALE_BOX);
+              console.log("Male pushed");
+              console.log(MALE_BOX);
 
              //}else{
-              ////console.log("Rest country not allow");
+              //console.log("Rest country not allow");
              //}
             
            }else{
@@ -525,13 +525,13 @@ io.on('connection', function(client){
               _ALONE_["all"]['female'][csocket_id]={socket_id:csocket_id,did:data.did,name:data.username,bio:data.bio}; 
  
              //if(data.region=="india"){
-              ////console.log("PUSH into india");
-              ////console.log("Female pushed");
-              FEMALE_BOX.push(csocket_id); 
+              //console.log("PUSH into india");
               //console.log("Female pushed");
-              //console.log(FEMALE_BOX);
+              FEMALE_BOX.push(csocket_id); 
+              console.log("Female pushed");
+              console.log(FEMALE_BOX);
              //}else{
-              ////console.log("Rest country not allow");
+              //console.log("Rest country not allow");
              //}
            }
 
@@ -552,8 +552,8 @@ io.on('connection', function(client){
         callback({status:0,err:err});
        }else{
 
-        ////console.log(MALE_BOX);
-        ////console.log(FEMALE_BOX);
+        //console.log(MALE_BOX);
+        //console.log(FEMALE_BOX);
         callback({status:1,live_user_count:results.live_user_count,male_count:results.male_count,female_count:results.female_count});
        }
     });
@@ -627,7 +627,7 @@ function onListening() {
 
 
 // for(var i =0;i<array.length;i++){
-////   console.log("i = "+array[i]);
+//   console.log("i = "+array[i]);
 
 
 // var file = fs.createWriteStream("file.jpg");
