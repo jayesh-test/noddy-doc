@@ -24,6 +24,7 @@
     "nodemailer": "^4.6.4",
     "redis": "^2.8.0",
     "request": "*",
+    "socket.io": "^2.1.0",
     "utill": "^0.1.3"
   }
 }
