@@ -301,7 +301,7 @@ io.on('connection', function(client){
 
 
             /*Check is this female found*/
-            var pop_female=0;
+            var pop_female=-1;
             while(FEMALE_BOX.length>0){
                pop_female = FEMALE_BOX.shift();
                console.log("%%%%");
@@ -309,49 +309,56 @@ io.on('connection', function(client){
                console.log("%%%%");
 
                if(pop_female){
-                console.log("Female pop");
+                 console.log("Female pop");
                  break;
                }
             }
 
-            console.log("^^^^^^^^^^^^^^^^^^^^^^^");
-            console.log(pop_female);
-            console.log("^^^^^^^^^^^^^^^^^^^^^^^");
+            if(pop_female>-1){
+
+                  console.log("^^^^^^^^^^^^^^^^^^^^^^^");
+                  console.log(pop_female);
+                  console.log("^^^^^^^^^^^^^^^^^^^^^^^");
 
 
-            if(io.sockets.sockets[pop_female]!=undefined){
+                  if(io.sockets.sockets[pop_female]!=undefined){
 
 
-              //MALE_BOX.splice(MALE_BOX[client.id], 1);
-              MALE_BOX.splice(MALE_BOX.indexOf(client.id), 1);
-              //delete MALE_BOX[client.id];
-              //delete FEMALE_BOX[client.id];
+                    //MALE_BOX.splice(MALE_BOX[client.id], 1);
+                    MALE_BOX.splice(MALE_BOX.indexOf(client.id), 1);
+                    //delete MALE_BOX[client.id];
+                    //delete FEMALE_BOX[client.id];
 
-              console.log("Female Found..........");
-
-
-              console.log("^&&&&&&&&&&&&");
-              console.log(MALE_BOX);
-              console.log(FEMALE_BOX);
-              console.log("^&&&&&&&&&&&&");
+                    console.log("Female Found..........");
 
 
-              io.to(pop_female).emit("stranger_found",data);
+                    console.log("^&&&&&&&&&&&&");
+                    console.log(MALE_BOX);
+                    console.log(FEMALE_BOX);
+                    console.log("^&&&&&&&&&&&&");
 
-              console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-              console.log(pop_female);
-              console.log(_ALONE_['all']['female']);
-              console.log(_ALONE_['all']);
-              console.log(_ALONE_);
 
-              client.emit("stranger_found_confirm",_ALONE_['all']['female'][pop_female]);
+                    io.to(pop_female).emit("stranger_found",data);
+
+                    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+                    console.log(pop_female);
+                    console.log(_ALONE_['all']['female']);
+                    console.log(_ALONE_['all']);
+                    console.log(_ALONE_);
+
+                    client.emit("stranger_found_confirm",_ALONE_['all']['female'][pop_female]);
+
+
+                  }else{
+                    console.log("Socket not connected "+Object.keys(io.sockets.connected).length);
+                  }
+
+                  recall(null,{entry:pop_female});
 
 
             }else{
-              console.log("Socket not connected "+Object.keys(io.sockets.connected).length);
+              recall(null,{entry:0});
             }
-
-            recall(null,{entry:pop_female});
             
            }else{
             
@@ -361,7 +368,7 @@ io.on('connection', function(client){
 
             /*Check is this female found*/
             
-            var pop_male=0;
+            var pop_male=-1;
             while(MALE_BOX.length>0){
 
 
@@ -377,6 +384,10 @@ io.on('connection', function(client){
                  break;
                }
             }
+
+            if(pop_male>-1){
+
+
 
             console.log("^^^^^^^^^^^^^^^^^^^^^^^");
             console.log(pop_male);
@@ -414,11 +425,15 @@ io.on('connection', function(client){
 
             /*Pop from array female*/
 
-
             
 
             //FEMALE_BOX.splice(FEMALE_BOX[client.id], 1);
             recall(null,{entry:pop_male});
+
+            }else{
+              recall(null,{entry:0});
+            }
+
            }
            
         }
