@@ -21,13 +21,16 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
-var io = require('socket.io')({
-    log: false,
-    agent: false,
-    origins: '*:*',
-    transports: ['websocket', 'htmlfile', 'xhr-polling', 'jsonp-polling', 'polling']
-});
-io.listen(server);
+// var io = require('socket.io')({
+//     log: false,
+//     agent: false,
+//     origins: '*:*',
+//     transports: ['websocket', 'htmlfile', 'xhr-polling', 'jsonp-polling', 'polling']
+// });
+// io.listen(server);
+
+var io = require('socket.io').listen(server,{log: 10,"transport":['websocket','xhr-polling'],"polling duration":10,'origins':'*:*'});
+
 
 
 var _ALONE_={
