@@ -193,6 +193,16 @@ io.on('connection', function(client){
      ////console.log(_ALONE_);
   });
 
+  client.on("stats",function(data,callback){
+
+    var live_user_count =  Object.keys(io.sockets.connected).length;
+    var female_count = FEMALE_BOX.length;
+    var male_count = MALE_BOX.length;
+    
+    callback({status:1,live_user_count:results.live_user_count,male_count:results.male_count,female_count:results.female_count});      
+
+  });
+
   client.on("leave_session",function(data,callback){
 
      var csocket_id = client.id;
@@ -540,11 +550,11 @@ io.on('connection', function(client){
            // var male_count = Object.keys(_ALONE_[data.region]['male']).length;
 
           
-           var live_user_count =  Object.keys(io.sockets.connected).length;
-           var female_count = FEMALE_BOX.length;
-           var male_count = MALE_BOX.length;
+           // var live_user_count =  Object.keys(io.sockets.connected).length;
+           // var female_count = FEMALE_BOX.length;
+           // var male_count = MALE_BOX.length;
 
-           recall(null,{live_user_count:live_user_count,female_count:female_count,male_count:male_count});
+           recall(null,{});
         }
       }
     ],function(err,results){
@@ -554,7 +564,8 @@ io.on('connection', function(client){
 
         ////console.log(MALE_BOX);
         ////console.log(FEMALE_BOX);
-        callback({status:1,live_user_count:results.live_user_count,male_count:results.male_count,female_count:results.female_count});
+        //callback({status:1,live_user_count:results.live_user_count,male_count:results.male_count,female_count:results.female_count});
+        callback({status:1});
        }
     });
   });
