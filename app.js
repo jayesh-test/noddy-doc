@@ -328,7 +328,7 @@ io.on('connection', function(client){
         /*check*/
         //console.log("search == =");
         //console.log(data);
-        if(typeof(data.my_id)=="undefined" ||  typeof(data.did)=="undefined" || typeof(data.region)=="undefined" || typeof(data.username)=="undefined" || typeof(data.bio)=="undefined" || typeof(data.preference)=="undefined"){
+        if(typeof(data.my_id)=="undefined" ||  typeof(data.region)=="undefined" || typeof(data.username)=="undefined" || typeof(data.bio)=="undefined" || typeof(data.preference)=="undefined"){
           recall("Parameter Missing",{});
         }else{
 
@@ -510,13 +510,16 @@ io.on('connection', function(client){
     async.waterfall([
       function(recall){
         /*check*/
-        if(typeof(data.did)=="undefined" || typeof(data.region)=="undefined" || typeof(data.username)=="undefined" || typeof(data.bio)=="undefined" || typeof(data.preference)=="undefined"){
+        //if(typeof(data.region)=="undefined" || typeof(data.username)=="undefined" || typeof(data.bio)=="undefined" || typeof(data.preference)=="undefined"){
+        if(typeof(csocket_id)=="undefined"){
           recall("Parameter Missing",{});
+          //recall(null,{});
         }else{
            if(data.preference=="female"){
 
              _ALONE_["all"]['male']={};
-             _ALONE_["all"]['male'][csocket_id]={socket_id:csocket_id,did:data.did,name:data.username,bio:data.bio}; 
+             //_ALONE_["all"]['male'][csocket_id]={socket_id:csocket_id,name:data.username,bio:data.bio}; 
+             _ALONE_["all"]['male'][csocket_id]={socket_id:csocket_id}; 
 
              /*Push into*/
              //if(data.region=="india"){
@@ -532,7 +535,8 @@ io.on('connection', function(client){
            }else{
               
               _ALONE_["all"]['female']={};
-              _ALONE_["all"]['female'][csocket_id]={socket_id:csocket_id,did:data.did,name:data.username,bio:data.bio}; 
+              //_ALONE_["all"]['female'][csocket_id]={socket_id:csocket_id,name:data.username,bio:data.bio}; 
+              _ALONE_["all"]['female'][csocket_id]={socket_id:csocket_id}; 
  
              //if(data.region=="india"){
               ////console.log("PUSH into india");
