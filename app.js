@@ -328,7 +328,8 @@ io.on('connection', function(client){
         /*check*/
         //console.log("search == =");
         //console.log(data);
-        if(typeof(data.my_id)=="undefined" ||  typeof(data.region)=="undefined" || typeof(data.username)=="undefined" || typeof(data.bio)=="undefined" || typeof(data.preference)=="undefined"){
+        //if(typeof(data.my_id)=="undefined" ||  typeof(data.region)=="undefined" || typeof(data.username)=="undefined" || typeof(data.bio)=="undefined" || typeof(data.preference)=="undefined"){
+        if(typeof(csocket_id)=="undefined"){
           recall("Parameter Missing",{});
         }else{
 
